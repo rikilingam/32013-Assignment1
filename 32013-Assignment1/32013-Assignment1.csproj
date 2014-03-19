@@ -66,6 +66,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Default.aspx" />
+    <Content Include="ExpenseForm.aspx" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Login.aspx" />
     <Content Include="packages.config" />
@@ -96,6 +97,13 @@
     </Compile>
     <Compile Include="EM_MasterPage.Master.designer.cs">
       <DependentUpon>EM_MasterPage.Master</DependentUpon>
+    </Compile>
+    <Compile Include="ExpenseForm.aspx.cs">
+      <DependentUpon>ExpenseForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ExpenseForm.aspx.designer.cs">
+      <DependentUpon>ExpenseForm.aspx</DependentUpon>
     </Compile>
     <Compile Include="Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>

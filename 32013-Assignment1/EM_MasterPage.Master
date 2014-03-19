@@ -2,6 +2,11 @@
 
 <!DOCTYPE html>
 
+<!--
+    --- References ---
+    1. Twitter Bootstrap http://getbootstrap.com 19/03/2014
+    
+    -->
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title></title>
@@ -13,12 +18,35 @@
     <link href="Content/bootstrap-theme.css" rel="stylesheet" />
 </head>
 <body>
-    <form id="form1" runat="server">
-    <div>
-        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
-        
-        </asp:ContentPlaceHolder>
-    </div>
+    <form id="form1" runat="server"  class="form-horizontal" role="form">
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="Default.aspx">Three Amigos | Expense Mangement</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="em_navbar">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="Default.aspx">Home</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">My Expenses<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="ExpenseForm.aspx">Create Report</a></li>
+                                <li><a href="#">View History</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p class="navbar-text navbar-right">Logged in as&nbsp
+                        <asp:LoginName ID="LoginName1" runat="server" />&nbsp|&nbsp<asp:LoginStatus ID="LoginStatus1" runat="server" />
+                    </p>
+                </div>
+                <!-- /.navbar-collapse -->
+            </div>
+            <!-- /.container-fluid -->
+        </nav>    
+        <div class="container-fluid">
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+            </asp:ContentPlaceHolder></div>
     </form>
 </body>
 </html>
