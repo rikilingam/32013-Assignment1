@@ -76,7 +76,6 @@
     </Compile>
     <Compile Include="EM_MasterPage.Master.cs">
       <DependentUpon>EM_MasterPage.Master</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="EM_MasterPage.Master.designer.cs">
       <DependentUpon>EM_MasterPage.Master</DependentUpon>
