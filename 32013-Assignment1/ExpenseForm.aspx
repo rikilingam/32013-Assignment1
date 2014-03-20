@@ -3,23 +3,37 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <div class="page-header">
-        <h2>Expense Form</h2>
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">Expense Form</h3>
+        </div>
+
+        <div class="panel-body">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-2">
+                        <div class="form-group">
+                            <label for="txtExpenseDate" class="control-label">Date</label>
+                            <asp:TextBox ID="txtExpenseDate" runat="server" placeholder="Date" CssClass="form-control" Enabled="false"></asp:TextBox>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-2">
+                        <div class="form-group">
+
+                            <asp:Button ID="btnSubmitExpense" runat="server" Text="Submit Report" CssClass="btn btn-primary" />
+                            <asp:Button ID="btnSaveExpense" runat="server" Text="Save Report" CssClass="btn btn-info" />
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
     </div>
 
-
-        <div class="form-group">
-            <label for="txtExpenseDate" class="col-sm-2 control-label">Date</label>
-            <div class="col-sm-10">
-                <asp:TextBox ID="txtExpenseDate" runat="server" placeholder="Date" CssClass="form-control" Enabled="false"></asp:TextBox>             
-            </div>
-        </div>
-        
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <asp:Button ID="btnSubmitExpense" runat="server" Text="Submit Report" CssClass="btn btn-primary" />
-                <asp:Button ID="btnSaveExpense" runat="server" Text="Save Report" CssClass="btn btn-info" />
-            </div>
-        </div>
 
 </asp:Content>
