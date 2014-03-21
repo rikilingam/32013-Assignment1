@@ -18,7 +18,7 @@
                 <asp:ListItem>Euro</asp:ListItem>
             </asp:DropDownList>
             <br />
-            AUD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :
+            AUD&nbsp;&nbsp;&nbsp;&nbsp&nbsp;&nbsp; :
             <asp:Label ID="lblAUD" runat="server" Text="0"></asp:Label>
             <br />
             <br />
@@ -31,10 +31,6 @@
             <br />
         </div>
     </form>
-    <form id="form1" runat="server">
-    <div>
     
-    </div>
-    </form>
 </body>
 </html>
