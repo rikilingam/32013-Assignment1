@@ -1,4 +1,4 @@
-﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="EM_MasterPage.master.cs" Inherits="_32013_Assignment1.EM_MasterPage" %>
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="EM_MasterPage.master.cs" Inherits="ThreeAmigos.ExpenseManagement.UserInterface.EM_MasterPage" %>
 
 <!DOCTYPE html>
 

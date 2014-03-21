@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/EM_MasterPage.Master" AutoEventWireup="true" CodeBehind="ExpenseForm.aspx.cs" Inherits="_32013_Assignment1.ExpenseForm" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/EM_MasterPage.Master" AutoEventWireup="true" CodeBehind="ExpenseForm.aspx.cs" Inherits="ThreeAmigos.ExpenseManagement.UserInterface.ExpenseForm" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
@@ -23,7 +23,7 @@
                     <div class="col-xs-2">
                         <div class="form-group">
 
-                            <asp:Button ID="btnSubmitExpense" runat="server" Text="Submit Report" CssClass="btn btn-primary" OnClick="btnSubmitExpense_Click" />
+                            <asp:Button ID="btnSubmitExpense" runat="server" Text="Submit Report" CssClass="btn btn-primary" />
                             <asp:Button ID="btnSaveExpense" runat="server" Text="Save Report" CssClass="btn btn-info" />
                         </div>
                     </div>

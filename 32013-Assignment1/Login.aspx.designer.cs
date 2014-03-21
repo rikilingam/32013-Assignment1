@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace _32013_Assignment1 {
+namespace ThreeAmigos.ExpenseManagement.UserInterface {
     
     
     public partial class Login {
