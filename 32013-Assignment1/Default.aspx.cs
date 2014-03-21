@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace _32013_Assignment1
+namespace ThreeAmigos.ExpenseManagement
 {
     public partial class Default : System.Web.UI.Page
     {

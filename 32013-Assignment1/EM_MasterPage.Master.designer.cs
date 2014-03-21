@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace _32013_Assignment1 {
+namespace ThreeAmigos.ExpenseManagement {
     
     
     public partial class EM_MasterPage {
