@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Test1.aspx.cs" Inherits="ThreeAmigos.ExpenseManagement.UserInterface.Test1" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Test1.aspx.cs" Inherits="ThreeAmigos.ExpenseManagement.Test1" %>
 
 <!DOCTYPE html>
 

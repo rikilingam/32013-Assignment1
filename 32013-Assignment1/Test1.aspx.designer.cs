@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ThreeAmigos.ExpenseManagement.UserInterface
+namespace ThreeAmigos.ExpenseManagement
 {
 
 

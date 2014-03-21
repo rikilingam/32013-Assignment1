@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/EM_MasterPage.Master" AutoEventWireup="true" CodeBehind="ExpenseForm.aspx.cs" Inherits="ThreeAmigos.ExpenseManagement.UserInterface.ExpenseForm" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/EM_MasterPage.Master" AutoEventWireup="true" CodeBehind="ExpenseForm.aspx.cs" Inherits="ThreeAmigos.ExpenseManagement.ExpenseForm" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>

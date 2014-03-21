@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ThreeAmigos.ExpenseManagement.UserInterface.Properties {
+namespace ThreeAmigos.ExpenseManagement.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

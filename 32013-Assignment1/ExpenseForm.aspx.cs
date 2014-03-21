@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace ThreeAmigos.ExpenseManagement.UserInterface
+namespace ThreeAmigos.ExpenseManagement
 {
     public partial class ExpenseForm : System.Web.UI.Page
     {
