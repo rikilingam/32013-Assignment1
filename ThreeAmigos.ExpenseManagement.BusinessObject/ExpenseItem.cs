@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ThreeAmigos.ExpenseManagement.BusinessObject
 {
-    public class Class1
+    class ExpenseItem
     {
     }
 }
