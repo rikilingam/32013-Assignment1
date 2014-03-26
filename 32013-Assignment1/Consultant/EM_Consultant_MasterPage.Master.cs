@@ -5,9 +5,9 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace ThreeAmigos.ExpenseManagement.UserInterface.UserInterface
+namespace ThreeAmigos.ExpenseManagement.UserInterface
 {
-    public partial class Test1 : System.Web.UI.Page
+    public partial class EM_MasterPage : System.Web.UI.MasterPage
     {
         protected void Page_Load(object sender, EventArgs e)
         {

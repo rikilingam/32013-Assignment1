@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThreeAmigos.ExpenseManagement", "32013-Assignment1\ThreeAmigos.ExpenseManagement.csproj", "{F75819BC-9E18-4067-B8F8-F451DA6CAE20}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThreeAmigos.ExpenseManagement.UserInterface", "32013-Assignment1\ThreeAmigos.ExpenseManagement.UserInterface.csproj", "{F75819BC-9E18-4067-B8F8-F451DA6CAE20}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThreeAmigos.ExpenseManagement.Test", "ThreeAmigos.ExpenseManagement.Test\ThreeAmigos.ExpenseManagement.Test.csproj", "{1EB58A7B-E5F7-4865-8966-E00A7666F465}"
 EndProject

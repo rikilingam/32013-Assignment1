@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="ThreeAmigos.ExpenseManagement.Login" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="ThreeAmigos.ExpenseManagement.UserInterface.Login" %>
 
 <!DOCTYPE html>
 

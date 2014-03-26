@@ -58,6 +58,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Accounts\Default.aspx" />
     <Content Include="App_Data\ExpenseManager.mdf" />
     <Content Include="App_Data\ExpenseManager_log.ldf">
       <DependentUpon>ExpenseManager.mdf</DependentUpon>
@@ -67,8 +68,8 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\EM_StyleSheet.css" />
-    <Content Include="Default.aspx" />
-    <Content Include="ExpenseForm.aspx" />
+    <Content Include="Consultant\Default.aspx" />
+    <Content Include="Consultant\ExpenseForm.aspx" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Login.aspx" />
     <Content Include="packages.config" />
@@ -77,34 +78,50 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Accounts\EM_Accounts_MasterPage.Master" />
     <None Include="Scripts\jquery-1.9.0.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-1.9.0.js" />
     <Content Include="Scripts\jquery-1.9.0.min.js" />
+    <Content Include="Supervisor\Default.aspx" />
     <Content Include="Test1.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Default.aspx.cs">
+    <Compile Include="Accounts\Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Default.aspx.designer.cs">
+    <Compile Include="Accounts\Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
-    <Compile Include="EM_MasterPage.Master.cs">
-      <DependentUpon>EM_MasterPage.Master</DependentUpon>
+    <Compile Include="Accounts\EM_Accounts_MasterPage.Master.cs">
+      <DependentUpon>EM_Accounts_MasterPage.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="EM_MasterPage.Master.designer.cs">
-      <DependentUpon>EM_MasterPage.Master</DependentUpon>
+    <Compile Include="Accounts\EM_Accounts_MasterPage.Master.designer.cs">
+      <DependentUpon>EM_Accounts_MasterPage.Master</DependentUpon>
     </Compile>
-    <Compile Include="ExpenseForm.aspx.cs">
+    <Compile Include="Consultant\Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Consultant\Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Consultant\EM_Consultant_MasterPage.Master.cs">
+      <DependentUpon>EM_Consultant_MasterPage.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Consultant\EM_Consultant_MasterPage.Master.designer.cs">
+      <DependentUpon>EM_Consultant_MasterPage.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Consultant\ExpenseForm.aspx.cs">
       <DependentUpon>ExpenseForm.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="ExpenseForm.aspx.designer.cs">
+    <Compile Include="Consultant\ExpenseForm.aspx.designer.cs">
       <DependentUpon>ExpenseForm.aspx</DependentUpon>
     </Compile>
     <Compile Include="Login.aspx.cs">
@@ -120,6 +137,20 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Supervisor\Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Supervisor\Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Supervisor\EM_Supervisor_MasterPage.Master.cs">
+      <DependentUpon>EM_Supervisor_MasterPage.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Supervisor\EM_Supervisor_MasterPage.Master.designer.cs">
+      <DependentUpon>EM_Supervisor_MasterPage.Master</DependentUpon>
+    </Compile>
     <Compile Include="Test1.aspx.cs">
       <DependentUpon>Test1.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -133,8 +164,9 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </Content>
-    <Content Include="EM_MasterPage.Master" />
+    <Content Include="Consultant\EM_Consultant_MasterPage.Master" />
     <Content Include="Scripts\jquery-1.9.0.min.map" />
+    <Content Include="Supervisor\EM_Supervisor_MasterPage.Master" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

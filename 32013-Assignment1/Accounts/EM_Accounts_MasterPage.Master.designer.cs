@@ -7,10 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ThreeAmigos.ExpenseManagement {
+namespace ThreeAmigos.ExpenseManagement.UserInterface.Accounts {
     
     
-    public partial class EM_MasterPage {
+    public partial class EM_Accounts_MasterPage {
         
         /// <summary>
         /// head control.

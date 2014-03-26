@@ -5,13 +5,13 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace ThreeAmigos.ExpenseManagement
+namespace ThreeAmigos.ExpenseManagement.UserInterface
 {
-    public partial class EM_MasterPage : System.Web.UI.MasterPage
+    public partial class ExpenseForm : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            txtExpenseDate.Text = DateTime.Now.ToString();
         }
     }
 }

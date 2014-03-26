@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ThreeAmigos.ExpenseManagement {
+namespace ThreeAmigos.ExpenseManagement.UserInterface {
     
     
     public partial class ExpenseForm {
