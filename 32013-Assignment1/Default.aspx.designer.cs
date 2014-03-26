@@ -10,24 +10,15 @@
 namespace ThreeAmigos.ExpenseManagement.UserInterface {
     
     
-    public partial class Login {
+    public partial class Default1 {
         
         /// <summary>
-        /// form1 control.
+        /// LoginName1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm form1;
-        
-        /// <summary>
-        /// loginMain control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Login loginMain;
+        protected global::System.Web.UI.WebControls.LoginName LoginName1;
     }
 }

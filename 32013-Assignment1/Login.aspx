@@ -16,7 +16,7 @@
     <form id="form1" runat="server" class="form-horizontal" role="form">
         <div class="login_main">
 
-            <asp:Login ID="Login1" runat="server">
+            <asp:Login ID="loginMain" runat="server" OnLoggingIn="loginMain_LoggingIn">
                 <LayoutTemplate>
                     <h4>Expense Management System</h4>
                     <div class="container-fluid">
@@ -40,6 +40,7 @@
                   
                 </LayoutTemplate>
             </asp:Login>
+
         </div>
 
     </form>
