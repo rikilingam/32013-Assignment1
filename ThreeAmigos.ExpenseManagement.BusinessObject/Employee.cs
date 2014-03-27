@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ThreeAmigos.ExpenseManagement.BusinessObject
 {
-    class Employee
+   public class Employee
     {
         public int employeeId { get; set; }
         public string firstName { get; set; }
