@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ThreeAmigos.ExpenseManagement.BusinessObject
 {
-    class ExpenseItem
+   public class ExpenseItem
     {
         public int itemId { get; set; }
         public DateTime expenseDate { get; set; }
