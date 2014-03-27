@@ -39,8 +39,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="addExpenseHeaderBusinessLogic.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ThreeAmigos.ExpenseManagement.BusinessObject\ThreeAmigos.ExpenseManagement.BusinessObject.csproj">
+      <Project>{e0c2e862-93fa-44f7-b4af-1b443f2949c9}</Project>
+      <Name>ThreeAmigos.ExpenseManagement.BusinessObject</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ThreeAmigos.ExpenseManagement.DataAccess\ThreeAmigos.ExpenseManagement.DataAccess.csproj">
+      <Project>{cacf448f-5f1d-4263-8fe9-68df067aa9c1}</Project>
+      <Name>ThreeAmigos.ExpenseManagement.DataAccess</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
