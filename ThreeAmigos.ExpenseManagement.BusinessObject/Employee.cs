@@ -6,9 +6,13 @@ using System.Threading.Tasks;
 
 namespace ThreeAmigos.ExpenseManagement.BusinessObject
 {
-    public abstract class Employee
+    public class Employee
     {
-        protected int employeeId;
-        protected string fullname;
+        public int employeeId { get; set; }
+        public string firstName { get; set; }
+        public string surName { get; set; }
+        public int departmentId { get; set; }
+        public string role { get; set; }
+        public int userId { get; set; }        
     }
 }
