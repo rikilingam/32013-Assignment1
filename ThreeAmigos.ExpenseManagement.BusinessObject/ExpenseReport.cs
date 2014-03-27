@@ -6,7 +6,18 @@ using System.Threading.Tasks;
 
 namespace ThreeAmigos.ExpenseManagement.BusinessObject
 {
-    class ExpenseReport
+    class ExpenseHeader
     {
+        public int ExpenseId { get; set; }
+        public DateTime CreateDate { get; set; }
+        public DateTime LastSaveDate { get; set; }
+        public DateTime SubmitDate { get; set; }
+        public DateTime ApprovedDate { get; set; }
+        public DateTime ProcessedDate { get; set; }
+        public int CreatedById { get; set; }
+        public int ApprovedById { get; set; }
+        public int ProcessesById { get; set; }
+        public string Status { get; set; }
+
     }
 }
