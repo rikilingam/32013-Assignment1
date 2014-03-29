@@ -16,7 +16,7 @@
     <form id="form1" runat="server" class="form-horizontal" role="form">
         <div class="login_main">
 
-            <asp:Login ID="loginMain" runat="server" OnLoggingIn="loginMain_LoggingIn">
+            <asp:Login ID="loginMain" runat="server">
                 <LayoutTemplate>
                     <h4>Expense Management System</h4>
                     <div class="container-fluid">

@@ -16,27 +16,6 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface
 
         }
 
-        /// <summary>
-        /// Checks the role of the user after authenication and redirects to appropriate page
-        /// </summary>
-        protected void loginMain_LoggingIn(object sender, LoginCancelEventArgs e)
-        {
-            if (User.IsInRole("Consultant"))
-            {
-                Response.Redirect("/Consultant/Default.aspx");
-            }
-            else if (User.IsInRole("Supervisor"))
-            {
-                Response.Redirect("/Supervisor/Default.aspx");
-            }
-            else if (User.IsInRole("Accounts"))
-            {
-                Response.Redirect("/Accounts/Default.aspx");
-            }
-            //else
-            //{
-            //    Response.Redirect("Default.aspx");
-            //}
-        }
+
     }
 }
