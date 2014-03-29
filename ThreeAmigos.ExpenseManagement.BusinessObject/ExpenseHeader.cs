@@ -18,7 +18,7 @@ namespace ThreeAmigos.ExpenseManagement.BusinessObject
         public DateTime ProcessedDate { get; set; }
         public int CreatedById { get; set; }
         public int ApprovedById { get; set; }
-        public int ProcessesById { get; set; }
+        public int ProcessedById { get; set; }
         public ReportStatus Status { get; set; }
 
     }

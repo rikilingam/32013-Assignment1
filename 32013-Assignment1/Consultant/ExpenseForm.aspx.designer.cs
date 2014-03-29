@@ -13,6 +13,24 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface {
     public partial class ExpenseForm {
         
         /// <summary>
+        /// txtEmployeeName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtEmployeeName;
+        
+        /// <summary>
+        /// txtDepartment control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtDepartment;
+        
+        /// <summary>
         /// txtExpenseDate control.
         /// </summary>
         /// <remarks>
@@ -20,6 +38,15 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtExpenseDate;
+        
+        /// <summary>
+        /// btnAddItem control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnAddItem;
         
         /// <summary>
         /// btnSubmitExpense control.
