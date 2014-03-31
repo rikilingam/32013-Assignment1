@@ -27,23 +27,32 @@
                     </div>
                     <div class="col-md-2 em-col-md-offset-2">
                         <div class="form-group">
-                            <label for="txtExpenseDate" class="control-label">Date</label>
+                            <label for="txtExpenseDate" class="control-label">Report Date</label>
                             <asp:TextBox ID="txtExpenseDate" runat="server" placeholder="Date" CssClass="form-control" Enabled="false"></asp:TextBox>
                         </div>
                     </div>
                 </div>
-
-                <!-- This row contains the expense items -->
                 
-                        <table class="table">
-                            <tr><td>Expense items to go here</td></tr>
-                        </table>
+                
+                <div class="row">
+                    <hr />
+                </div>
+                
+                <!-- This row contains the expense items -->
+
+                <div class="row">
+                    Expense items to go here...
+                </div>
+
+                <div class="row">
+                    <hr />
+                </div>
 
                 <!-- This row is the buttons -->
                 <div class="row">
                     <div class="col-md-3">
                         <div class="form-group">
-                            <asp:Button ID="btnAddItem" runat="server" Text="Add Item" CssClass="btn btn-primary" />
+                            <button type="button" data-toggle="modal" data-target="#myModal" class="btn btn-primary">Add Item</button>
                             <asp:Button ID="btnSubmitExpense" runat="server" Text="Submit Report" CssClass="btn btn-success" />
                             <asp:Button ID="btnSaveExpense" runat="server" Text="Save Report" CssClass="btn btn-info" />
                         </div>
@@ -52,9 +61,88 @@
                 </div>
 
             </div>
-
         </div>
     </div>
+    <!-- modal to add items -->
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Add Expense Item</h4>
+                </div>
+                <div class="modal-body">
+
+                    <!-- Expense items -->
+                    <div class="row">
+                        <div class="col-md-3 col-md-offset-1">
+                            <div class="form-group">
+                                <label for="txtItemDate" class="control-label">Date</label>
+                                <asp:TextBox ID="txtItemDate" runat="server" placeholder="Item date" CssClass="form-control" Enabled="true"></asp:TextBox>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 col-md-offset-1">
+                            <div class="form-group">
+                                <label for="txtItemLocation" class="control-label">Location</label>
+                                <asp:TextBox ID="txtItemLocation" runat="server" placeholder="Location" CssClass="form-control" Enabled="true"></asp:TextBox>
+                            </div>
+                        </div>
 
 
+                    </div>
+                    <div class="row">
+
+                        <div class="col-md-6 col-md-offset-1">
+                            <div class="form-group">
+                                <label for="txtItemDescription" class="control-label">Description</label>
+                                <asp:TextBox ID="txtItemDescription" runat="server" placeholder="Description" CssClass="form-control" Enabled="true"></asp:TextBox>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-3 col-md-offset-1">
+                            <div class="form-group">
+                                <label for="txtItemAmount" class="control-label">Amount</label>
+                                <asp:TextBox ID="txtItemAmount" runat="server" placeholder="Amount" CssClass="form-control" Enabled="true"></asp:TextBox>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 em-col-md-offset-2">
+                            <div class="form-group">
+                                <label for="ddlItemCurrency" class="control-label">Currency</label>
+                                <asp:DropDownList ID="ddlItemCurrency" runat="server" placeholder="Currency" CssClass="form-control" Enabled="true">
+                                    <asp:ListItem>AUD</asp:ListItem>
+                                    <asp:ListItem>CNY</asp:ListItem>
+                                    <asp:ListItem>EUR</asp:ListItem>
+                                </asp:DropDownList>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-md-offset-1">
+                            <div class="form-group">
+                                <label for="fileReceipt" class="control-label">Receipt</label>
+                                <asp:FileUpload ID="fileReceipt" runat="server" CssClass="form-control"></asp:FileUpload>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            
+            <div class="modal-footer">
+                <asp:Button ID="btnAddItem" runat="server" Text="Add to Report" CssClass="btn btn-primary" />
+                <asp:Button ID="btnItemClose" runat="server" Text="Close" CssClass="btn btn-default" />
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    </div>
 </asp:Content>
