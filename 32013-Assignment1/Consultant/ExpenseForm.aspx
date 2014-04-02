@@ -14,7 +14,10 @@
     <script type="text/javascript">
         $(document).ready(function () {
             var dp = $('#<%=txtItemDate.ClientID%>');
-            dp.datetimepicker({ pickTime: false, autoclose: true });
+            dp.datetimepicker({
+                pickTime: false,
+                autoclose: true
+            });
         });
 
     </script>
@@ -95,7 +98,7 @@
                         <div class="col-md-3 col-md-offset-1">
                             <div class="form-group">
                                 <label for="txtItemDate" class="control-label">Date</label>
-                                <asp:TextBox ID="txtItemDate" runat="server" placeholder="Item date" data-format="DD/MM/YYYY" CssClass="form-control" Enabled="true"></asp:TextBox>
+                                <asp:TextBox ID="txtItemDate" runat="server" placeholder="Item date" data-date-format="DD/MM/YYYY" CssClass="form-control" Enabled="true"></asp:TextBox>
                             </div>
                         </div>
 
