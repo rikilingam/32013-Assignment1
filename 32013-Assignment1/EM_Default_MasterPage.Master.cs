@@ -46,5 +46,10 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface
                 maincontent.InnerText = "User " + HttpContext.Current.User.Identity.Name  + " is not a member of any roles!";
             }
         }
+
+        protected void LoginStatus1_LoggedOut(object sender, EventArgs e)
+        {
+            Response.Redirect("/Login.aspx");
+        }
     }
 }

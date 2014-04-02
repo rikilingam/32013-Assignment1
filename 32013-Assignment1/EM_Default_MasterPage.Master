@@ -51,7 +51,7 @@
                     <p class="navbar-text navbar-right">
                         Logged in as&nbsp
                         <asp:LoginName ID="LoginName1" runat="server" />
-                        &nbsp|&nbsp<asp:LoginStatus ID="LoginStatus1" runat="server" />
+                        &nbsp|&nbsp<asp:LoginStatus ID="LoginStatus1" runat="server" OnLoggedOut="LoginStatus1_LoggedOut" />
                     </p>
                 </div>
                 <!-- /.navbar-collapse -->

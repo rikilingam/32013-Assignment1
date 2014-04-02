@@ -52,7 +52,7 @@
                 <div class="row">
                     <div class="col-md-3">
                         <div class="form-group">
-                            <button type="button" data-toggle="modal" data-target="#myModal" class="btn btn-primary">Add Item</button>
+                            <asp:Button ID="btnAddExpenseItem" runat="server" Text="Add Item" data-toggle="modal" data-target="#myModal" CssClass="btn btn-primary" />
                             <asp:Button ID="btnSubmitExpense" runat="server" Text="Submit Report" CssClass="btn btn-success" />
                             <asp:Button ID="btnSaveExpense" runat="server" Text="Save Report" CssClass="btn btn-info" />
                         </div>
