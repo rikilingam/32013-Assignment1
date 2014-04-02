@@ -14,7 +14,7 @@
     <script type="text/javascript">
         $(document).ready(function () {
             var dp = $('#<%=txtItemDate.ClientID%>');
-            dp.datetimepicker({ pickTime: false });
+            dp.datetimepicker({ pickTime: false, autoclose: true });
         });
 
     </script>
