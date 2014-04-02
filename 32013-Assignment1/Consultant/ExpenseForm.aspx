@@ -1,6 +1,26 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/EM_Default_MasterPage.Master" AutoEventWireup="true" CodeBehind="ExpenseForm.aspx.cs" Inherits="ThreeAmigos.ExpenseManagement.UserInterface.ExpenseForm" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <script type="text/javascript">
+        function ShowExpenseItemModal() {
+            $('#ExpenseItemModal').modal('show');
+        }
+
+        function HideExpenseItemModal() {
+            $('#ExpenseItemModal').modal('hide');
+        }
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var dp = $('#<%=txtItemDate.ClientID%>');
+            dp.datetimepicker({
+                pickTime: false,
+                autoclose: true
+            });
+        });
+
+    </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
@@ -32,12 +52,12 @@
                         </div>
                     </div>
                 </div>
-                
-                
+
+
                 <div class="row">
                     <hr />
                 </div>
-                
+
                 <!-- This row contains the expense items -->
 
                 <div class="row">
@@ -48,11 +68,11 @@
                     <hr />
                 </div>
 
-                <!-- This row is the buttons -->
+                <!-- This row is the buttons  data-toggle="modal" data-target="#myModal" -->
                 <div class="row">
                     <div class="col-md-3">
                         <div class="form-group">
-                            <button type="button" data-toggle="modal" data-target="#myModal" class="btn btn-primary">Add Item</button>
+                            <asp:Button ID="btnAddExpenseItem" runat="server" Text="Add Item" CssClass="btn btn-primary" OnClick="btnAddExpenseItem_Click" />
                             <asp:Button ID="btnSubmitExpense" runat="server" Text="Submit Report" CssClass="btn btn-success" />
                             <asp:Button ID="btnSaveExpense" runat="server" Text="Save Report" CssClass="btn btn-info" />
                         </div>
@@ -64,7 +84,7 @@
         </div>
     </div>
     <!-- modal to add items -->
-    <div class="modal fade" id="myModal">
+    <div class="modal fade" id="ExpenseItemModal">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -78,7 +98,7 @@
                         <div class="col-md-3 col-md-offset-1">
                             <div class="form-group">
                                 <label for="txtItemDate" class="control-label">Date</label>
-                                <asp:TextBox ID="txtItemDate" runat="server" placeholder="Item date" CssClass="form-control" Enabled="true"></asp:TextBox>
+                                <asp:TextBox ID="txtItemDate" runat="server" placeholder="Item date" data-date-format="DD/MM/YYYY" CssClass="form-control" Enabled="true"></asp:TextBox>
                             </div>
                         </div>
 
@@ -136,13 +156,13 @@
                     </div>
                 </div>
 
-            
-            <div class="modal-footer">
-                <asp:Button ID="btnAddItem" runat="server" Text="Add to Report" CssClass="btn btn-primary" />
-                <asp:Button ID="btnItemClose" runat="server" Text="Close" CssClass="btn btn-default" />
+
+                <div class="modal-footer">
+                    <asp:Button ID="btnAddItem" runat="server" Text="Add to Report" CssClass="btn btn-primary" />
+                    <asp:Button ID="btnItemClose" runat="server" Text="Close" CssClass="btn btn-default" />
+                </div>
             </div>
+            <!-- /.modal-content -->
         </div>
-        <!-- /.modal-content -->
-    </div>
     </div>
 </asp:Content>

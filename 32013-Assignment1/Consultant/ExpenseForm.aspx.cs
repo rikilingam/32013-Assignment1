@@ -13,5 +13,10 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface
         {
             txtExpenseDate.Text = DateTime.Now.ToString();
         }
+
+        protected void btnAddExpenseItem_Click(object sender, EventArgs e)
+        {
+            ClientScript.RegisterStartupScript(this.GetType(),"ExpenseItemModal","ShowExpenseItemModal();", true);
+        }
     }
 }
