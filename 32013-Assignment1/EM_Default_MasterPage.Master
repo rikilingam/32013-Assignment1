@@ -1,5 +1,10 @@
 ﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="EM_Default_MasterPage.Master.cs" Inherits="ThreeAmigos.ExpenseManagement.UserInterface.EM_NoMembership_MasterPage" %>
 
+<!--
+    There are references to sites used develop this application
+    1. Ramakrishna - DotNet Blog - http://ramakrishnapathuri.blogspot.com.au/2013/10/show-jquery-ui-dialog-popup-window-from.html
+    
+     -->
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -9,9 +14,12 @@
     </asp:ContentPlaceHolder>
     <script src="/Scripts/jquery-1.9.0.js"></script>
     <script src="/Scripts/bootstrap.js"></script>
+    <script src="/Scripts/bootstrap-datetimepicker.min.js"></script>
+
     <link href="/Content/bootstrap.css" rel="stylesheet" />
     <link href="/Content/bootstrap-theme.css" rel="stylesheet" />
-    <link href="Content/EM_StyleSheet.css" rel="stylesheet" />
+    <link href="/Content/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <link href="/Content/EM_StyleSheet.css" rel="stylesheet" />
 </head>
 <body>
     <form id="form1" runat="server" class="form-horizontal" role="form">
