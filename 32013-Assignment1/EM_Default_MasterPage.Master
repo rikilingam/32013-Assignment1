@@ -40,7 +40,7 @@
                             <a id="A2" href="#" class="dropdown-toggle" data-toggle="dropdown" runat="server">Consultant<b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li><a href="/Consultant/ExpenseForm.aspx">Create Expense</a></li>
-                                <li><a href="#">View History</a></li>
+                                <li><a href="/Consultant/ViewMyExpenses.aspx">View My Expenses</a></li>
                             </ul>
                         </li>
                         <li class="dropdown" runat="server" id="navSupervisor">
