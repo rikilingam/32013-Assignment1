@@ -16,6 +16,6 @@ namespace ThreeAmigos.ExpenseManagement.BusinessObject
         public string currency { get; set; }
         public double audAmount { get; set; }
         public string receiptFileName { get; set; }
-        public int ExpenseHeaderId { get; set; }
+        public int expenseHeaderId { get; set; }
     }
 }
