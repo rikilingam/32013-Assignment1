@@ -13,7 +13,7 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
 {
    public class ExpenseItem
     {
-        public void addExpenseItem(ExpenseItem expItem)
+        public void addExpenseItem(BusinessObject.ExpenseItem item)
         {
             string connection = ConfigurationManager.ConnectionStrings["localDatabase"].ConnectionString;
             SqlConnection con = new SqlConnection(connection);
@@ -21,17 +21,17 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
 
             SqlCommand cmd = new SqlCommand();
             cmd.Connection = con;
-            cmd.CommandText = "insert into ExpenseItem values(@expenseDate,@location,@description,@amount,@currency,@aud,@filename,@employeeId,@expenseHeaderId)";
+            cmd.CommandText = "AddExpenseItem";
+            cmd.CommandType = CommandType.StoredProcedure;
 
-            cmd.Parameters.Add("@expenseDate", SqlDbType.Date, 50).Value = expItem.expenseDate;
-            cmd.Parameters.Add("@location", SqlDbType.VarChar, 50).Value = expItem.location;
-            cmd.Parameters.Add("@description", SqlDbType.VarChar, 50).Value = expItem.description;
-            cmd.Parameters.Add("@amount", SqlDbType.Float).Value = expItem.amount;
-            cmd.Parameters.Add("@currency", SqlDbType.VarChar, 5).Value = expItem.currency;
-            cmd.Parameters.Add("@aud", SqlDbType.Float).Value = expItem.audAmount;
-            cmd.Parameters.Add("@filename", SqlDbType.VarChar, 50).Value = expItem.receiptFileName;
-            cmd.Parameters.Add("@employeeId", SqlDbType.Int).Value = System.Web.HttpContext.Current.Session["userid"]; // Will work to fetch the data directly instead of sessions
-            cmd.Parameters.Add("@expenseHeaderId", SqlDbType.Int).Value = expItem.ExpenseHeaderId;
+            cmd.Parameters.AddWithValue ("@expenseDate", item.expenseDate);
+            cmd.Parameters.AddWithValue ("@location",item.location);
+            cmd.Parameters.AddWithValue ("@description", item.description);
+            cmd.Parameters.AddWithValue ("@amount", item.amount);
+            cmd.Parameters.AddWithValue ("@currency", item.currency);
+            cmd.Parameters.AddWithValue ("@aud", item.audAmount);
+            cmd.Parameters.AddWithValue ("@filename",item.receiptFileName);
+            cmd.Parameters.AddWithValue ("@expenseHeaderId", item.expenseHeaderId);
 
             cmd.ExecuteNonQuery();
             cmd.Dispose();
