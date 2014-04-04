@@ -13,7 +13,7 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
 {
    public class ExpenseItem
     {
-        public void addExpenseItem(BusinessObject.ExpenseItem item)
+        public void AddExpenseItem(BusinessObject.ExpenseItem item)
         {
             string connection = ConfigurationManager.ConnectionStrings["localDatabase"].ConnectionString;
             SqlConnection con = new SqlConnection(connection);

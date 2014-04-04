@@ -10,7 +10,7 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
 {
    public class Employee
     {
-        public int fetchUserId(string username)
+        public int FetchUserId(string username)
          {
             
                  int employeeId;
@@ -24,11 +24,9 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
                  SqlCommand cmd = new SqlCommand();
                  cmd.Connection = con;
                  cmd.CommandText = "Select UserId from aspnet_Users where Username='" + username + "'";
-                 //    cmd.CommandText = "Select EmployeeId from employee where Username='" + username + "'";
                  userId = Guid.Parse(cmd.ExecuteScalar().ToString());
                  cmd.CommandText = "Select EmployeeId from employee where UserId='" + userId + "'";
                  employeeId = Convert.ToInt32(cmd.ExecuteScalar());
-                 //    con.Close();
                  return employeeId;
              }
              catch (Exception e)
