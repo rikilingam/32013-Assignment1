@@ -8,11 +8,11 @@ using ThreeAmigos.ExpenseManagement.DataAccess;
 
 namespace ThreeAmigos.ExpenseManagement.BusinessLogic
 {
-    class addExpenseItemBusinessLogic
+    class ExpenseItem
     {
         public void addExpenseItem(ExpenseItem expItem)
         {
-            addExpenseItemBusinessLogic item = new addExpenseItemBusinessLogic();
+            ExpenseItem item = new ExpenseItem();
             item.addExpenseItem(expItem);
         }
     }
