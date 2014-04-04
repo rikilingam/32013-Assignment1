@@ -10,10 +10,10 @@ namespace ThreeAmigos.ExpenseManagement.BusinessLogic
 {
     class ExpenseItem
     {
-        public void addExpenseItem(ExpenseItem expItem)
+        public void AddExpenseItem(BusinessObject.ExpenseItem expItem)
         {
-            ExpenseItem item = new ExpenseItem();
-            item.addExpenseItem(expItem);
+           DataAccess.ExpenseItem item = new DataAccess.ExpenseItem();
+           item.AddExpenseItem(expItem);
         }
     }
 }
