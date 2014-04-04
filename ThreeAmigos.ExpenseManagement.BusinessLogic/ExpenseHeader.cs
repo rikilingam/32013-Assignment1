@@ -10,10 +10,10 @@ namespace ThreeAmigos.ExpenseManagement.BusinessLogic
 {
     public class ExpenseHeader
     {
-        public void addExpenseHeader(ExpenseHeader header)
+        public void addExpenseHeader(BusinessObject.ExpenseHeader header)
         {
-            ExpenseHeader expheader = new ExpenseHeader();
-            expheader.addExpenseHeader(header);
+            DataAccess.ExpenseHeader expheader = new DataAccess.ExpenseHeader();
+            expheader.AddExpenseHeader(header);
         }
     }
 }
