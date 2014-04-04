@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using ThreeAmigos.ExpenseManagement.BusinessLogic;
+using ThreeAmigos.ExpenseManagement.BusinessObject;
 
 namespace ThreeAmigos.ExpenseManagement.UserInterface
 {
@@ -28,6 +30,8 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface
                 {
                     if (role == "Consultant")
                     {
+                        
+                        Session["userId"]=
                         navConsultant.Visible = true;
 
                     }
