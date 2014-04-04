@@ -10,7 +10,7 @@ using ThreeAmigos.ExpenseManagement.BusinessObject;
 
 namespace ThreeAmigos.ExpenseManagement.DataAccess
 {
-    public class addExpenseHeaderDataLogic
+    public class ExpenseHeader
     {
         public void addExpenseHeader(ExpenseHeader header)
         {
