@@ -23,7 +23,7 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
             cmd.CommandText = "AddExpenseHeader";
             cmd.CommandType = CommandType.StoredProcedure;
 
-            cmd.Parameters.AddWithValue("@CraetedById",header.CreatedById);
+            cmd.Parameters.AddWithValue("@CreatedById",header.CreatedById);
             cmd.Parameters.AddWithValue("@CreateDate",header.CreateDate);
             cmd.Parameters.AddWithValue("@SubmitDate",header.SubmitDate);
 
