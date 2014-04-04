@@ -12,25 +12,39 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
 {
     public class ExpenseHeader
     {
-        public void addExpenseHeader(ExpenseHeader header)
+        public void AddExpenseHeader(BusinessObject.ExpenseHeader header)
         {
-
             string connection = ConfigurationManager.ConnectionStrings["localDatabase"].ConnectionString;
             SqlConnection con = new SqlConnection(connection);
             con.Open();
 
             SqlCommand cmd = new SqlCommand();
             cmd.Connection = con;
-            cmd.CommandText = "insert into ExpenseHeader(CreatedById,CreateDate,SubmitDate) values(@CreatedById,@CreateDate,@SubmitDate)";
+            cmd.CommandText = "AddExpenseHeader";
+            cmd.CommandType = CommandType.StoredProcedure;
 
-            cmd.Parameters.Add("@CreatedById", SqlDbType.Int).Value = header.CreatedById;
-            cmd.Parameters.Add("@CreateDate", SqlDbType.Date).Value = header.CreateDate;
-            cmd.Parameters.Add("@SubmitDate", SqlDbType.Date).Value = header.SubmitDate;
+            cmd.Parameters.AddWithValue("@CraetedById",header.CreatedById);
+            cmd.Parameters.AddWithValue("@CreateDate",header.CreateDate);
+            cmd.Parameters.AddWithValue("@SubmitDate",header.SubmitDate);
 
             cmd.ExecuteNonQuery();
             cmd.Dispose();
             con.Close();
-
         }
+
+        public int FetchExpenseId()
+        {
+            int expenseId;
+            string connection = ConfigurationManager.ConnectionStrings["cn"].ConnectionString;
+            SqlConnection con = new SqlConnection(connection);
+            con.Open();
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = con;
+            cmd.CommandText = "select ExpenseId from ExpenseHeader where ExpenseId=Ident_Current('ExpenseHeader')";
+            expenseId = Convert.ToInt32(cmd.ExecuteScalar());
+            return expenseId;
+        }
+
     }
 }
