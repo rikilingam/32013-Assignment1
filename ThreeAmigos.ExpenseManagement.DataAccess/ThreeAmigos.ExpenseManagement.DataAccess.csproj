@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Employee.cs" />
     <Compile Include="ExpenseItem.cs" />
     <Compile Include="ExpenseHeader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
