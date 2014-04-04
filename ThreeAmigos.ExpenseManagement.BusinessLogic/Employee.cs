@@ -11,9 +11,9 @@ namespace ThreeAmigos.ExpenseManagement.BusinessLogic
     {
        DataAccess.Employee emp = new DataAccess.Employee();
 
-        public int fetchUserId(string username)
+        public int FetchUserId(string username)
         {
-            return emp.fetchUserId(username);
+            return emp.FetchUserId(username);
         }
     }
 }
