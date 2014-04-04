@@ -39,8 +39,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="addExpenseHeaderBusinessLogic.cs" />
-    <Compile Include="addExpenseItemBusinessLogic.cs" />
+    <Compile Include="CurrencyConverter.cs" />
+    <Compile Include="Employee.cs" />
+    <Compile Include="ExpenseHeader.cs" />
+    <Compile Include="ExpenseItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
