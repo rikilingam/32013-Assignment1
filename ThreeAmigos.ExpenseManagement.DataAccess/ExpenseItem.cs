@@ -11,7 +11,7 @@ using ThreeAmigos.ExpenseManagement.BusinessObject;
 
 namespace ThreeAmigos.ExpenseManagement.DataAccess
 {
-   public class addExenseItemDataLogic
+   public class ExpenseItem
     {
         public void addExpenseItem(ExpenseItem expItem)
         {
