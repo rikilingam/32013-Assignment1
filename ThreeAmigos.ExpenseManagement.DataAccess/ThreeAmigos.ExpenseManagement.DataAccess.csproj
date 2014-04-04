@@ -41,8 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="addExenseItemDataLogic.cs" />
-    <Compile Include="addExpenseHeaderDataLogic.cs" />
+    <Compile Include="ExpenseItem.cs" />
+    <Compile Include="ExpenseHeader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
