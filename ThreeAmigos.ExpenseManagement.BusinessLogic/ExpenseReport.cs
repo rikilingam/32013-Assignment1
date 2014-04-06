@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ThreeAmigos.ExpenseManagement.BusinessObject;
+//using ThreeAmigos.ExpenseManagement.BusinessObject;
 using ThreeAmigos.ExpenseManagement.DataAccess;
 
 namespace ThreeAmigos.ExpenseManagement.BusinessLogic
 {
-    public class ExpenseHeader
+    public enum ReportStatus { Submitted, RejectedBySupervisor, ApproveBySupervisor, RejectedByAccountant, ApprovedByAccountant }
+   
+    public class ExpenseReport:ExpenseItem
     {
         public int ExpenseId { get; set; }
         public DateTime CreateDate { get; set; }
@@ -21,17 +23,16 @@ namespace ThreeAmigos.ExpenseManagement.BusinessLogic
         public int ProcessedById { get; set; }
         public ReportStatus Status { get; set; }
 
-        DataAccess.ExpenseHeader expheader = new DataAccess.ExpenseHeader();
+       ExpenseReportDAL expReport = new ExpenseReportDAL();
         
-        //public void addExpenseHeader(BusinessObject.ExpenseHeader header)
-        public void addExpenseHeader(ExpenseHeader header)
+       public void AddExpenseReport(int createdById, DateTime createDate, DateTime submitDate)
         {
-            expheader.AddExpenseHeader(header);
+            expReport.AddExpenseReport(createdById, createDate,submitDate,ReportStatus.Submitted.ToString());
         }
 
         public int FetchExpenseId()
         {
-            return expheader.FetchExpenseId();
+            return expReport.FetchExpenseId();
         }
     }
 }
