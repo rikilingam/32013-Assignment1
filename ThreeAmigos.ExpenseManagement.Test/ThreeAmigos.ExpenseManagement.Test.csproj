@@ -43,6 +43,16 @@
     <Compile Include="ExpenseManagementTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ThreeAmigos.ExpenseManagement.BusinessLogic\ThreeAmigos.ExpenseManagement.BusinessLogic.csproj">
+      <Project>{d73571af-bc19-4546-b96d-5427cc762cc8}</Project>
+      <Name>ThreeAmigos.ExpenseManagement.BusinessLogic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ThreeAmigos.ExpenseManagement.DataAccess\ThreeAmigos.ExpenseManagement.DataAccess.csproj">
+      <Project>{cacf448f-5f1d-4263-8fe9-68df067aa9c1}</Project>
+      <Name>ThreeAmigos.ExpenseManagement.DataAccess</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

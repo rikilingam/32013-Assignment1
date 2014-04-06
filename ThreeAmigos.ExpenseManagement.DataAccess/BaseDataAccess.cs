@@ -8,8 +8,10 @@ using System.Threading.Tasks;
 
 namespace ThreeAmigos.ExpenseManagement.DataAccess
 {
-    class BaseDataAccess
+    public abstract class BaseDataAccess
     {
-         protected SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["localDatabase"].ConnectionString);
+        protected SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["localDatabase"].ConnectionString);
+        protected SqlCommand cmd;
+        protected SqlDataReader rdr;
     }
 }

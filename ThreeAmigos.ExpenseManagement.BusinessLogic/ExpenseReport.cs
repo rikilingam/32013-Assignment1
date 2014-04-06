@@ -13,14 +13,15 @@ namespace ThreeAmigos.ExpenseManagement.BusinessLogic
     public class ExpenseReport
     {
         public int ExpenseId { get; set; }
+        public int DepartmentId { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime LastSaveDate { get; set; }
         public DateTime SubmitDate { get; set; }
         public DateTime ApprovedDate { get; set; }
         public DateTime ProcessedDate { get; set; }
-        public int CreatedById { get; set; }
-        public int ApprovedById { get; set; }
-        public int ProcessedById { get; set; }
+        public Guid CreatedById { get; set; }
+        public Guid ApprovedById { get; set; }
+        public Guid ProcessedById { get; set; }
         public ReportStatus Status { get; set; }
         public List<ExpenseItem> expenseItems;
 

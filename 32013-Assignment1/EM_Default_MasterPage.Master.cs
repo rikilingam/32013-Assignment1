@@ -31,7 +31,7 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface
                     if (role == "Consultant")
                     {
                         BusinessLogic.Employee emp = new BusinessLogic.Employee();
-                        Session["userId"] = emp.FetchUserId(HttpContext.Current.User.Identity.Name);
+                        //Session["userId"] = emp.FetchUserId(HttpContext.Current.User.Identity.Name);
                         navConsultant.Visible = true;
                     }
                     else if (role == "Supervisor")
