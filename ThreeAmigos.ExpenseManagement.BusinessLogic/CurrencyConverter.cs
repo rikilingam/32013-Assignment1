@@ -3,31 +3,30 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Configuration;
 
 namespace ThreeAmigos.ExpenseManagement.BusinessLogic
 {
-  public class CurrencyConverter
+  public static class CurrencyConverter
     {
-        const double cny = 0.178;
-        const double euro = 1.52;
-        public string convertCurrency(string text, double value)
+      public static double ConvertCurrency(string text, double value,double cny,double eur)
         {
             if (text == "AUD")
             {
-                return value.ToString();
+                return value;
             }
             else if (text == "CNY")
             {
-                return (value * cny).ToString();
+                return (value *cny);
             }
-            else if (text == "Euro")
+            else if (text == "EUR")
             {
-                return (value * euro).ToString();
+                return (value * eur);
             }
             else
             {
-                return "0";
-            }
+                return 0;
+            }            
         }
     }
 }
