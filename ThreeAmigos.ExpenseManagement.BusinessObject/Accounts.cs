@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ThreeAmigos.ExpenseManagement.BusinessObject
 {
-    class Accounts:Employee
-    {
-    }
+    ////class Accounts:Employee
+    //{
+    //}
 }

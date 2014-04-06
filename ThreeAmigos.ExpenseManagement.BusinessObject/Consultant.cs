@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace ThreeAmigos.ExpenseManagement.BusinessObject
 {
-    class Consultant:Employee
-    {
-        private Department department;
-    }
+    //class Consultant:Employee
+    //{
+    //    private Department department;
+    //}
 }
