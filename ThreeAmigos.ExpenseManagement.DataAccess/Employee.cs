@@ -12,7 +12,6 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
     {
         public int FetchUserId(string username)
         {
-
             int employeeId;
             Guid userId;
             try
