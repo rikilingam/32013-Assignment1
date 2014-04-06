@@ -6,20 +6,24 @@ using System.Threading.Tasks;
 using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
-//using ThreeAmigos.ExpenseManagement.BusinessObject;
+
 
 namespace ThreeAmigos.ExpenseManagement.DataAccess
 {
-    public class ExpenseReportDAL
+    public class ExpenseReportDAL:BaseDataAccess
     {
+
+        // should pass the expense report object.
         public void AddExpenseReport(int createdById,DateTime createDate,DateTime submitDate,string status)
         {
-            string connection = ConfigurationManager.ConnectionStrings["localDatabase"].ConnectionString;
-            SqlConnection con = new SqlConnection(connection);
-            con.Open();
+           // string connection = ConfigurationManager.ConnectionStrings["localDatabase"].ConnectionString;
+            //SqlConnection con = new SqlConnection(connection);
+
+            // add try connection
+            conn.Open();
 
             SqlCommand cmd = new SqlCommand();
-            cmd.Connection = con;
+            cmd.Connection = conn;
             cmd.CommandText = "AddExpenseHeader";
             cmd.CommandType = CommandType.StoredProcedure;
 
@@ -29,19 +33,24 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
             cmd.Parameters.AddWithValue("@status", status);
             cmd.ExecuteNonQuery();
             cmd.Dispose();
-            con.Close();
-
+            conn.Close();
         }
+
+        // insert expense header return expense id
+         
+
+
+        // insert expense items need param expense id.
 
         public int FetchExpenseId()
         {
             int expenseId;
-            string connection = ConfigurationManager.ConnectionStrings["localDatabase"].ConnectionString;
-            SqlConnection con = new SqlConnection(connection);
-            con.Open();
+            //string connection = ConfigurationManager.ConnectionStrings["localDatabase"].ConnectionString;
+            //SqlConnection con = new SqlConnection(connection);
+            conn.Open();
 
             SqlCommand cmd = new SqlCommand();
-            cmd.Connection = con;
+            cmd.Connection = conn;
             cmd.CommandText = "select ExpenseId from ExpenseHeader where ExpenseId=Ident_Current('ExpenseHeader')";
             expenseId = Convert.ToInt32(cmd.ExecuteScalar());
             return expenseId;

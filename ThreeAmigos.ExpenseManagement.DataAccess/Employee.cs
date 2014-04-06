@@ -22,6 +22,7 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
 
                 SqlCommand cmd = new SqlCommand();
                 cmd.Connection = con;
+                // 
                 cmd.CommandText = "Select UserId from aspnet_Users where Username='" + username + "'";
                 userId = Guid.Parse(cmd.ExecuteScalar().ToString());
                 cmd.CommandText = "Select EmployeeId from employee where UserId='" + userId + "'";
