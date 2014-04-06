@@ -75,7 +75,7 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <asp:Button ID="btnAddExpenseItem" runat="server" Text="Add Item" CssClass="btn btn-primary" OnClick="btnAddExpenseItem_Click" />
-                            <asp:Button ID="btnSubmitExpense" runat="server" Text="Submit Report" CssClass="btn btn-success" />
+                            <asp:Button ID="btnSubmitExpense" runat="server" Text="Submit Report" CssClass="btn btn-success" OnClick="btnSubmitExpense_Click" />
                             <asp:Button ID="btnSaveExpense" runat="server" Text="Save Report" CssClass="btn btn-info" />
                         </div>
                     </div>
@@ -160,7 +160,7 @@
 
 
                 <div class="modal-footer">
-                    <asp:Button ID="btnAddItem" runat="server" Text="Add to Report" CssClass="btn btn-primary" />
+                    <asp:Button ID="btnAddItem" runat="server" Text="Add to Report" CssClass="btn btn-primary" OnClick="btnAddItem_Click" />
                     <asp:Button ID="btnItemClose" runat="server" Text="Close" CssClass="btn btn-default" />
                 </div>
             </div>
