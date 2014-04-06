@@ -6,7 +6,7 @@ using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using ThreeAmigos.ExpenseManagement.BusinessLogic;
-using ThreeAmigos.ExpenseManagement.BusinessObject;
+//using ThreeAmigos.ExpenseManagement.BusinessObject;
 
 namespace ThreeAmigos.ExpenseManagement.UserInterface
 {
@@ -30,10 +30,9 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface
                 {
                     if (role == "Consultant")
                     {
-                        
-                        Session["userId"]=
+                        BusinessLogic.Employee emp = new BusinessLogic.Employee();
+                        Session["userId"] = emp.FetchUserId(HttpContext.Current.User.Identity.Name);
                         navConsultant.Visible = true;
-
                     }
                     else if (role == "Supervisor")
                     {
@@ -53,6 +52,7 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface
 
         protected void LoginStatus1_LoggedOut(object sender, EventArgs e)
         {
+            Session.Abandon();
             Response.Redirect("/Login.aspx");
         }
     }
