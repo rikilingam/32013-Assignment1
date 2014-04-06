@@ -143,7 +143,9 @@
     <Content Include="WebForm1.aspx" />
     <Content Include="Supervisor\ApproveExpenses.aspx" />
     <Content Include="Test1.aspx" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Accounts\ProcessExpenses.aspx.cs">
@@ -231,6 +233,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Receipts\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ThreeAmigos.ExpenseManagement.BusinessLogic\ThreeAmigos.ExpenseManagement.BusinessLogic.csproj">
+      <Project>{d73571af-bc19-4546-b96d-5427cc762cc8}</Project>
+      <Name>ThreeAmigos.ExpenseManagement.BusinessLogic</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
