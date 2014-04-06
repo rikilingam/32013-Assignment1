@@ -41,7 +41,7 @@
   <ItemGroup>
     <Compile Include="CurrencyConverter.cs" />
     <Compile Include="Employee.cs" />
-    <Compile Include="ExpenseHeader.cs" />
+    <Compile Include="ExpenseReport.cs" />
     <Compile Include="ExpenseItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
