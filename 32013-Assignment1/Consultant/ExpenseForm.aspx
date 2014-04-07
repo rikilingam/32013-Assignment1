@@ -63,7 +63,7 @@
                 <!-- This row contains the expense items -->
 
                 <div class="row">
-                    Expense items to go here...
+                    <asp:GridView ID="gvExpenseItems" runat="server"></asp:GridView>
                 </div>
 
                 <div class="row">

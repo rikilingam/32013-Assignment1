@@ -12,8 +12,7 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface
 {
     public partial class ExpenseForm : System.Web.UI.Page
     {
-        //List<ExpenseItem> itemslist;
-      
+              
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -27,10 +26,9 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface
                 Session["expenseReport"] = expenseReport;
 
                 txtEmployeeName.Text = employee.FirstName + " " + employee.Surname;
-                txtDepartment.Text = employee.DepartmentId.ToString(); // need to change this to departmentname
+                txtDepartment.Text = employee.DepartmentName; 
                 txtExpenseDate.Text = expenseReport.CreateDate.ToString();
-
-                
+                               
             }
 
         }
@@ -44,10 +42,24 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface
         {
             ExpenseReport expenseReport = new ExpenseReport();
             expenseReport = (ExpenseReport)Session["expenseReport"];
+
+            ExpenseItem expenseItem = new ExpenseItem();
             
+            expenseItem.ExpenseDate = DateTime.Parse(txtExpenseDate.Text);
+            expenseItem.Location = txtItemLocation.Text;
+            expenseItem.Description = txtItemDescription.Text;
+            expenseItem.Amount = Double.Parse(txtItemAmount.Text);
+            expenseItem.Currency = ddlItemCurrency.SelectedValue;
+            expenseItem.ReceiptFileName = fileReceipt.FileName;
+
+            expenseReport.AddExpenseItem(expenseItem);
+
+            Session["expenseReport"] = expenseReport;
 
 
-            //expenseReport.
+            gvExpenseItems.DataSource = expenseReport.expenseItems;
+            gvExpenseItems.DataBind();
+
 
 
             //bool isNew = true;
@@ -83,6 +95,14 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface
 
         protected void btnSubmitExpense_Click(object sender, EventArgs e)
         {
+            ExpenseReport expenseReport = new ExpenseReport();
+            expenseReport = (ExpenseReport)Session["expenseReport"];
+
+            expenseReport.SubmitExpenseReport();
+
+
+
+
             //int CreatedById = (int)(Session["userId"]);
             //DateTime CreateDate = DateTime.Now;
             //DateTime SubmitDate = DateTime.Now;

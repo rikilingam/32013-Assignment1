@@ -10,9 +10,6 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
 {
     public class EmployeeDAL:BaseDataAccess
     {
-
-
-
         //public int FetchUserId(string username)
         //{
         //    int employeeId;
@@ -44,29 +41,26 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
         /// </summary>
         /// <param name="id">user id</param>
         /// <returns>array with employee profile</returns>
-        public List<string> GetEmployee(Guid id)
-        {
-            string[] employeeData = new string[5];
-
+        public List<string> GetEmployeeProfile(Guid id)
+        {            
             List<string> employeeProfile = new List<string>();
 
             try
             {
                 conn.Open();
                 
-                string query = String.Format("SELECT UserId, Firstname,Surname,DepartmentId, Role FROM Employee WHERE UserId='{0}'", id);
+                string query = String.Format("SELECT e.UserId, e.Firstname, e.Surname, e.DepartmentId, d.DepartmentName, e.Role FROM Employee e LEFT OUTER JOIN Department d on e.DepartmentId = d.DepartmentId  WHERE UserId='{0}'", id);
                 cmd = new SqlCommand(query, conn);
                 rdr = cmd.ExecuteReader();
 
 
                 while (rdr.Read())
                 {
-
-
-                    employeeProfile.Add(rdr.GetGuid(0).ToString());
+                    employeeProfile.Add(rdr.GetGuid(0).ToString()); // gets the unique identifier for the employee
                     employeeProfile.Add((string)rdr["Firstname"]);
                     employeeProfile.Add((string)rdr["Surname"]);
-                    employeeProfile.Add(rdr.GetInt32(3).ToString());
+                    employeeProfile.Add(rdr.GetInt32(3).ToString()); // reads the departmentId 
+                    employeeProfile.Add((string)rdr["DepartmentName"]);
                     employeeProfile.Add((string)rdr["Role"]);
                 }
 
@@ -82,7 +76,6 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
             }
 
             return employeeProfile;
-
         }
     }
 }

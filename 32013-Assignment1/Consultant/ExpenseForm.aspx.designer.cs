@@ -40,6 +40,15 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface {
         protected global::System.Web.UI.WebControls.TextBox txtExpenseDate;
         
         /// <summary>
+        /// gvExpenseItems control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView gvExpenseItems;
+        
+        /// <summary>
         /// btnAddExpenseItem control.
         /// </summary>
         /// <remarks>

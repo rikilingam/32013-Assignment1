@@ -15,8 +15,8 @@ namespace ThreeAmigos.ExpenseManagement.BusinessLogic
         public int ExpenseId { get; set; }
         public int DepartmentId { get; set; }
         public DateTime CreateDate { get; set; }
-        public DateTime LastSaveDate { get; set; }
-        public DateTime SubmitDate { get; set; }
+        //public DateTime LastSaveDate { get; set; }
+        //public DateTime SubmitDate { get; set; }
         public DateTime ApprovedDate { get; set; }
         public DateTime ProcessedDate { get; set; }
         public Guid CreatedById { get; set; }
@@ -24,6 +24,12 @@ namespace ThreeAmigos.ExpenseManagement.BusinessLogic
         public Guid ProcessedById { get; set; }
         public ReportStatus Status { get; set; }
         public List<ExpenseItem> expenseItems;
+
+        public ExpenseReport()
+        {
+            ExpenseId = -1;
+            expenseItems = new List<ExpenseItem>();
+        }
 
         //ExpenseReportDAL expReport = new ExpenseReportDAL();
         
@@ -36,5 +42,41 @@ namespace ThreeAmigos.ExpenseManagement.BusinessLogic
         //{
         //    return expReport.FetchExpenseId();
         //}
+        
+
+        /// <summary>
+        /// Adds expense items to the report
+        /// </summary>
+        /// <param name="item">expense item</param>
+        public void AddExpenseItem(ExpenseItem item)
+        {
+            expenseItems.Add(item);
+        }
+
+        /// <summary>
+        /// Submits the initial expense report by the consultant
+        /// </summary>
+        public void SubmitExpenseReport()
+        {            
+            Status = ReportStatus.Submitted;
+            ExpenseReportDAL expenseReportDAL = new ExpenseReportDAL();
+            ExpenseId = expenseReportDAL.InsertExpenseHeader(CreatedById, CreateDate, DepartmentId, Status.ToString());
+
+            //foreach (ExpenseItem item in expenseItems)
+            //{
+            //    item.SubmitExpenseItem(ExpenseId);
+            //}
+
+        }
+                   
+
+        public void SupervisorUpdateReport()
+        {
+        }
+
+        public void AccountsUpdateReport()
+        {
+        
+        }
     }
 }

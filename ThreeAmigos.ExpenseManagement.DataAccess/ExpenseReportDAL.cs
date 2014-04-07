@@ -10,50 +10,116 @@ using System.Configuration;
 
 namespace ThreeAmigos.ExpenseManagement.DataAccess
 {
-    public class ExpenseReportDAL:BaseDataAccess
+    public class ExpenseReportDAL : BaseDataAccess
     {
 
-        // should pass the expense report object.
-        public void AddExpenseReport(int createdById,DateTime createDate,DateTime submitDate,string status)
+
+        //public void AddExpenseReport(id createdById, DateTime createDate, DateTime submitDate, string status)
+        //{
+        //    // string connection = ConfigurationManager.ConnectionStrings["localDatabase"].ConnectionString;
+        //    //SqlConnection con = new SqlConnection(connection);
+
+        //    // add try connection
+        //    conn.Open();
+
+        //    SqlCommand cmd = new SqlCommand();
+        //    cmd.Connection = conn;
+        //    cmd.CommandText = "AddExpenseHeader";
+        //    cmd.CommandType = CommandType.StoredProcedure;
+
+        //    cmd.Parameters.AddWithValue("@createdById", createdById);
+        //    cmd.Parameters.AddWithValue("@createDate", createDate);
+        //    cmd.Parameters.AddWithValue("@submitDate", submitDate);
+        //    cmd.Parameters.AddWithValue("@status", status);
+        //    cmd.ExecuteNonQuery();
+        //    cmd.Dispose();
+        //    conn.Close();
+        //}
+
+        /// <summary>
+        /// Inserts the expense header
+        /// </summary>
+        /// <returns>returns the expense id</returns>
+        public int InsertExpenseHeader(Guid createdById, DateTime createDate, int departmentId, string status)
         {
-           // string connection = ConfigurationManager.ConnectionStrings["localDatabase"].ConnectionString;
-            //SqlConnection con = new SqlConnection(connection);
+            int id = -1;
 
-            // add try connection
-            conn.Open();
+            try
+            {
+                cmd.Connection = conn;
+                cmd.CommandText = "AddExpenseHeader";
+                cmd.CommandType = CommandType.StoredProcedure;
+                SqlParameter expenseId = new SqlParameter("@id", SqlDbType.Int);
+                expenseId.Direction = ParameterDirection.Output;
+                cmd.Parameters.AddWithValue("@createdById", createdById);
+                cmd.Parameters.AddWithValue("@createDate", createDate);
+                cmd.Parameters.AddWithValue("@departmentId", departmentId);
+                cmd.Parameters.AddWithValue("@status", status);
 
-            SqlCommand cmd = new SqlCommand();
-            cmd.Connection = conn;
-            cmd.CommandText = "AddExpenseHeader";
-            cmd.CommandType = CommandType.StoredProcedure;
+                conn.Open();
+                cmd.ExecuteNonQuery();
 
-            cmd.Parameters.AddWithValue("@createdById", createdById);
-            cmd.Parameters.AddWithValue("@createDate", createDate);
-            cmd.Parameters.AddWithValue("@submitDate", submitDate);
-            cmd.Parameters.AddWithValue("@status", status);
-            cmd.ExecuteNonQuery();
-            cmd.Dispose();
-            conn.Close();
+                id = Convert.ToInt32(expenseId);
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Problem inserting the expense header " + ex.Message);
+                
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return id;
         }
 
-        // insert expense header return expense id
-         
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="expenseId"></param>
+        /// <param name="expenseDate"></param>
+        /// <param name="location"></param>
+        /// <param name="description"></param>
+        /// <param name="amount"></param>
+        /// <param name="currency"></param>
+        /// <param name="audAmount"></param>
+        /// <param name="receiptFileName"></param>
+        public void InsertExpenseItem(int expenseId, DateTime expenseDate, string location, string description, double amount, string currency, double audAmount, string receiptFileName)
+        {
+            try
+            {
 
+                string query = string.Format("INSERT INTO ExpenseItem(ExpenseHeaderId, ExpenseDate, Location, Description, Amount, Currency,AudAmount,ReceiptFileName) VALUES({0},{1},{2},{3},{4},{5},{6}",expenseId,expenseDate,location,description,amount,currency,audAmount,receiptFileName);
+                cmd = new SqlCommand(query, conn);
+                conn.Open();
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Problem inserting expense item " + ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
 
         // insert expense items need param expense id.
 
-        public int FetchExpenseId()
-        {
-            int expenseId;
-            //string connection = ConfigurationManager.ConnectionStrings["localDatabase"].ConnectionString;
-            //SqlConnection con = new SqlConnection(connection);
-            conn.Open();
+        //public int FetchExpenseId()
+        //{
+        //    int expenseId;
+        //    //string connection = ConfigurationManager.ConnectionStrings["localDatabase"].ConnectionString;
+        //    //SqlConnection con = new SqlConnection(connection);
+        //    conn.Open();
 
-            SqlCommand cmd = new SqlCommand();
-            cmd.Connection = conn;
-            cmd.CommandText = "select ExpenseId from ExpenseHeader where ExpenseId=Ident_Current('ExpenseHeader')";
-            expenseId = Convert.ToInt32(cmd.ExecuteScalar());
-            return expenseId;
-        }
+        //    SqlCommand cmd = new SqlCommand();
+        //    cmd.Connection = conn;
+        //    cmd.CommandText = "select ExpenseId from ExpenseHeader where ExpenseId=Ident_Current('ExpenseHeader')";
+        //    expenseId = Convert.ToInt32(cmd.ExecuteScalar());
+        //    return expenseId;
+        //}
     }
 }

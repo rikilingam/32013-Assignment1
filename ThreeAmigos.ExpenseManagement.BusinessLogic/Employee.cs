@@ -7,12 +7,13 @@ using ThreeAmigos.ExpenseManagement.DataAccess;
 
 namespace ThreeAmigos.ExpenseManagement.BusinessLogic
 {
-   public class Employee
+    public class Employee
     {
         public int EmployeeId { get; set; }
         public string FirstName { get; set; }
         public string Surname { get; set; }
         public int DepartmentId { get; set; }
+        public string DepartmentName { get; set; }
         public string Role { get; set; }
         public Guid UserId { get; set; }
 
@@ -21,6 +22,8 @@ namespace ThreeAmigos.ExpenseManagement.BusinessLogic
             EmployeeId = -1;
             FirstName = "";
             Surname = "";
+            DepartmentId = -1;
+            DepartmentName = "";
             Role = "";
 
 
@@ -33,18 +36,19 @@ namespace ThreeAmigos.ExpenseManagement.BusinessLogic
         public Employee(Guid id)
         {
             EmployeeDAL emp = new EmployeeDAL();
-            Guid testid = new Guid("78560DD3-F95E-4011-B40D-A7B56ED17F24");
-            List<string> employeeProfile = emp.GetEmployee(id);
+            
+            List<string> employeeProfile = emp.GetEmployeeProfile(id);
 
             UserId = new Guid(employeeProfile[0]);
             FirstName = employeeProfile[1];
             Surname = employeeProfile[2];
             DepartmentId = Int32.Parse(employeeProfile[3]);
-            Role = employeeProfile[4];
+            DepartmentName = employeeProfile[4];
+            Role = employeeProfile[5];
 
         }
         //DataAccess.Employee emp = new DataAccess.Employee();
-        
+
         //public int FetchUserId(string username)
         //{
         //    return emp.FetchUserId(username);

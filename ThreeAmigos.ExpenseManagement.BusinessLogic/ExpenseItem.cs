@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 using ThreeAmigos.ExpenseManagement.DataAccess;
 
 
@@ -22,7 +21,17 @@ namespace ThreeAmigos.ExpenseManagement.BusinessLogic
        public string Currency { get; set; }
        public double AudAmount { get; set; }
        public string ReceiptFileName { get; set; }
-        
+
+       /// <summary>
+       /// Submits each individual expense item
+       /// </summary>
+       /// <param name="expenseId">expense id from the expense header</param>
+       public void SubmitExpenseItem(int expenseId)
+       {
+           ExpenseReportDAL expenseReportDAL = new ExpenseReportDAL();
+           expenseReportDAL.InsertExpenseItem(ExpenseHeaderId,ExpenseDate,Location,Description,Amount,Currency,AudAmount,ReceiptFileName);
+
+       }
 
        //public void AddExpenseItem(DateTime expDate, string location, string description, double amount, string currency, double audAmount, string receiptFileName, int expHeaderId)
        //{
