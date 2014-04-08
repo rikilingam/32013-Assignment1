@@ -18,7 +18,7 @@
             dp.datetimepicker({
                 pickTime: false,
                 autoclose: true,
-      
+
             });
         });
 
@@ -63,16 +63,18 @@
                 <!-- This row contains the expense items -->
 
                 <div class="row">
-                    <asp:GridView ID="gvExpenseItems" runat="server" AutoGenerateColumns="False">
-                        <Columns>
-                            <asp:BoundField DataField="ExpenseDate" DataFormatString="{0:d}" HeaderText="Date" />
-                            <asp:BoundField DataField="Location" HeaderText="Location" />
-                            <asp:BoundField DataField="Description" HeaderText="Description" />
-                            <asp:BoundField DataField="Amount" DataFormatString="{0:c}" HeaderText="Amount" />
-                            <asp:BoundField DataField="Currency" HeaderText="Currency" />
-                            <asp:BoundField DataField="AudAmount" DataFormatString="{0:c}" HeaderText="AUD Amount" />
-                        </Columns>
-                    </asp:GridView>
+                    <div class="col-md-7">
+                        <asp:GridView ID="gvExpenseItems" runat="server" AutoGenerateColumns="False" CssClass="table">
+                            <Columns>
+                                <asp:BoundField DataField="ExpenseDate" DataFormatString="{0:d}" HeaderText="Date" />
+                                <asp:BoundField DataField="Location" HeaderText="Location" />
+                                <asp:BoundField DataField="Description" HeaderText="Description" />
+                                <asp:BoundField DataField="Amount" DataFormatString="{0:c}" HeaderText="Amount" />
+                                <asp:BoundField DataField="Currency" HeaderText="Currency" />
+                                <asp:BoundField DataField="AudAmount" DataFormatString="{0:c}" HeaderText="AUD Amount" />
+                            </Columns>
+                        </asp:GridView>
+                    </div>
                 </div>
 
                 <div class="row">

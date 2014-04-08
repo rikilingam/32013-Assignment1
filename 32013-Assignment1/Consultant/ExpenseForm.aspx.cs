@@ -12,7 +12,7 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface
 {
     public partial class ExpenseForm : System.Web.UI.Page
     {
-              
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -23,19 +23,19 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface
                 expenseReport.CreateDate = DateTime.Now;
                 expenseReport.CreatedById = employee.UserId;
                 expenseReport.DepartmentId = employee.DepartmentId;
-                
+
                 Session["expenseReport"] = expenseReport;
 
                 txtEmployeeName.Text = employee.FirstName + " " + employee.Surname;
-                txtDepartment.Text = employee.DepartmentName; 
-                txtExpenseDate.Text = expenseReport.CreateDate.ToString();                              
+                txtDepartment.Text = employee.DepartmentName;
+                txtExpenseDate.Text = expenseReport.CreateDate.ToString();
             }
 
         }
 
         protected void btnAddExpenseItem_Click(object sender, EventArgs e)
         {
-            ClientScript.RegisterStartupScript(this.GetType(),"ExpenseItemModal","ShowExpenseItemModal();", true);
+            ClientScript.RegisterStartupScript(this.GetType(), "ExpenseItemModal", "ShowExpenseItemModal();", true);
         }
 
         protected void btnAddItem_Click(object sender, EventArgs e)
@@ -49,11 +49,11 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface
             else
             {
                 // temporary exception
-                throw new Exception("User session does not exist");
+                throw new Exception("Unable to add item user session does not exist");
             }
 
             ExpenseItem expenseItem = new ExpenseItem();
-            
+
             expenseItem.ExpenseDate = DateTime.Parse(txtExpenseDate.Text);
             expenseItem.Location = txtItemLocation.Text;
             expenseItem.Description = txtItemDescription.Text;
@@ -105,12 +105,22 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface
         protected void btnSubmitExpense_Click(object sender, EventArgs e)
         {
             ExpenseReport expenseReport = new ExpenseReport();
-            expenseReport = (ExpenseReport)Session["expenseReport"];
+            if (Session["expenseReport"] != null)
+            {
+                expenseReport = (ExpenseReport)Session["expenseReport"];
+            }
+            else
+            {
+                // temporary exception
+                throw new Exception("Unable to submit form user session does not exist");
+            }
 
-            expenseReport.SubmitExpenseReport();
+            if (expenseReport.expenseItems.Count > 0)
+            {
+                expenseReport.SubmitExpenseReport();
 
-            Response.Redirect("Default.aspx");
-
+                Response.Redirect("/Default.aspx");
+            }
 
             //int CreatedById = (int)(Session["userId"]);
             //DateTime CreateDate = DateTime.Now;
