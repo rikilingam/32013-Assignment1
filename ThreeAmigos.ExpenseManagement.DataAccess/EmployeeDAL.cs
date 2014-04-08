@@ -40,7 +40,7 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
         /// Gets employee profile from the employee table
         /// </summary>
         /// <param name="id">user id</param>
-        /// <returns>array with employee profile</returns>
+        /// <returns>list with employee profile</returns>
         public List<string> GetEmployeeProfile(Guid id)
         {            
             List<string> employeeProfile = new List<string>();
@@ -64,16 +64,14 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
                     employeeProfile.Add((string)rdr["DepartmentName"]);
                     employeeProfile.Add((string)rdr["Role"]);
                 }
+                
+                conn.Close();
 
             }
             catch (Exception ex)
             {
-                throw new Exception("Unable to load user from employee table \n" + ex.Message);
+                throw new Exception("Unable to load user from employee table: " + ex.Message);
 
-            }
-            finally
-            {
-                conn.Close();
             }
 
             return employeeProfile;

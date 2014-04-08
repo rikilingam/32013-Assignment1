@@ -45,7 +45,7 @@ namespace ThreeAmigos.ExpenseManagement.BusinessLogic
         
 
         /// <summary>
-        /// Adds expense items to the report
+        /// Adds expense items to expenseItems list in ExpenseReport
         /// </summary>
         /// <param name="item">expense item</param>
         public void AddExpenseItem(ExpenseItem item)

@@ -40,7 +40,7 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
         /// <returns>returns the expense id</returns>
         public int InsertExpenseHeader(Guid createdById, DateTime createDate, int departmentId, string status)
         {
-            int id = -1;
+            int expenseId = -1;
             SqlConnection conn = new SqlConnection(connString);
             SqlCommand cmd = new SqlCommand();
 
@@ -62,8 +62,8 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
 
                 conn.Open();
                 cmd.ExecuteNonQuery();
-
-                id = Convert.ToInt32(cmd.Parameters["@Id"].Value);
+                conn.Close();
+                expenseId = Convert.ToInt32(cmd.Parameters["@Id"].Value);
 
             }
             catch (Exception ex)
@@ -71,12 +71,8 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
                 throw new Exception("Problem inserting the expense header: " + ex.Message);
 
             }
-            finally
-            {
-                conn.Close();
-            }
 
-            return id;
+            return expenseId;
         }
 
         /// <summary>
@@ -95,23 +91,21 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
             SqlConnection conn = new SqlConnection(connString);
             string query = String.Format("INSERT INTO ExpenseItem (ExpenseHeaderId, ExpenseDate, Location, Description, Amount, Currency,AudAmount,ReceiptFileName) VALUES({0},'{1}','{2}','{3}',{4},'{5}',{6},'{7}')", expenseId, expenseDate, location, description, amount, currency, audAmount, receiptFileName);
             SqlCommand cmd = new SqlCommand(query, conn);
-            
+
             try
             {
                 conn.Open();
                 cmd.ExecuteNonQuery();
+                conn.Close();
             }
             catch (Exception ex)
             {
                 throw new Exception("Problem inserting expense item: " + ex.Message);
             }
-            finally
-            {
-                conn.Close();
-            }
+            
         }
 
-        // insert expense items need param expense id.
+
 
         //public int FetchExpenseId()
         //{
