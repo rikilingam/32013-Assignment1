@@ -12,16 +12,15 @@
 
                 <div class="row">
                     <div class="col-md-2">
-  
-                            <strong>Search Filter:</strong>
-                            <asp:DropDownList ID="ddlSearchFilter" runat="server" CssClass="form-control">
-                                <asp:ListItem>All Submitted</asp:ListItem>
-                                <asp:ListItem>All Approved</asp:ListItem>
-                                <asp:ListItem>Pending Approval</asp:ListItem>
-                            </asp:DropDownList>
-<asp:Button ID="btnFilterExpenses" runat="server" Text="Button" CssClass="btn btn-primary" />
+
+                        <strong>Search Filter:</strong>
+                        <asp:DropDownList ID="ddlSearchFilter" runat="server" CssClass="form-control">
+                            <asp:ListItem>All Submitted</asp:ListItem>
+                            <asp:ListItem>All Approved</asp:ListItem>
+                            <asp:ListItem>Pending Approval</asp:ListItem>
+                        </asp:DropDownList>
+                        <asp:Button ID="btnSearchExpenses" runat="server" Text="Search" CssClass="btn btn-primary" />
                     </div>
- 
 
                 </div>
             </div>

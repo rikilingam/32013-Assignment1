@@ -100,7 +100,7 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface
 
             expenseReport.SubmitExpenseReport();
 
-
+            Response.Redirect("Default.aspx");
 
 
             //int CreatedById = (int)(Session["userId"]);

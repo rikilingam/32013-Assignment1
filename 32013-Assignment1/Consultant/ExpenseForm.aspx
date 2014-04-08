@@ -63,7 +63,16 @@
                 <!-- This row contains the expense items -->
 
                 <div class="row">
-                    <asp:GridView ID="gvExpenseItems" runat="server"></asp:GridView>
+                    <asp:GridView ID="gvExpenseItems" runat="server" AutoGenerateColumns="False">
+                        <Columns>
+                            <asp:BoundField DataField="ExpenseDate" DataFormatString="{0:d}" HeaderText="Date" />
+                            <asp:BoundField DataField="Location" HeaderText="Location" />
+                            <asp:BoundField DataField="Description" HeaderText="Description" />
+                            <asp:BoundField DataField="Amount" DataFormatString="{0:c}" HeaderText="Amount" />
+                            <asp:BoundField DataField="Currency" HeaderText="Currency" />
+                            <asp:BoundField DataField="AudAmount" DataFormatString="{0:c}" HeaderText="AUD Amount" />
+                        </Columns>
+                    </asp:GridView>
                 </div>
 
                 <div class="row">
@@ -76,7 +85,6 @@
                         <div class="form-group">
                             <asp:Button ID="btnAddExpenseItem" runat="server" Text="Add Item" CssClass="btn btn-primary" OnClick="btnAddExpenseItem_Click" />
                             <asp:Button ID="btnSubmitExpense" runat="server" Text="Submit Report" CssClass="btn btn-success" OnClick="btnSubmitExpense_Click" />
-                            <asp:Button ID="btnClear" runat="server" Text="Save Report" CssClass="btn btn-info" OnClick="btnClear_Click" />
                         </div>
                     </div>
 
