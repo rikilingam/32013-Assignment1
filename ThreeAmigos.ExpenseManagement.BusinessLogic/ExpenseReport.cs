@@ -62,10 +62,10 @@ namespace ThreeAmigos.ExpenseManagement.BusinessLogic
             ExpenseReportDAL expenseReportDAL = new ExpenseReportDAL();
             ExpenseId = expenseReportDAL.InsertExpenseHeader(CreatedById, CreateDate, DepartmentId, Status.ToString());
 
-            //foreach (ExpenseItem item in expenseItems)
-            //{
-            //    item.SubmitExpenseItem(ExpenseId);
-            //}
+            foreach (ExpenseItem item in expenseItems)
+            {
+                item.SubmitExpenseItem(ExpenseId);
+            }
 
         }
                    

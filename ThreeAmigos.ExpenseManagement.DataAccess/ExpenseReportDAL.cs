@@ -12,8 +12,6 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
 {
     public class ExpenseReportDAL : BaseDataAccess
     {
-
-
         //public void AddExpenseReport(id createdById, DateTime createDate, DateTime submitDate, string status)
         //{
         //    // string connection = ConfigurationManager.ConnectionStrings["localDatabase"].ConnectionString;
@@ -43,29 +41,35 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
         public int InsertExpenseHeader(Guid createdById, DateTime createDate, int departmentId, string status)
         {
             int id = -1;
+            SqlConnection conn = new SqlConnection(connString);
+            SqlCommand cmd = new SqlCommand();
 
             try
             {
                 cmd.Connection = conn;
                 cmd.CommandText = "AddExpenseHeader";
                 cmd.CommandType = CommandType.StoredProcedure;
-                SqlParameter expenseId = new SqlParameter("@id", SqlDbType.Int);
-                expenseId.Direction = ParameterDirection.Output;
-                cmd.Parameters.AddWithValue("@createdById", createdById);
-                cmd.Parameters.AddWithValue("@createDate", createDate);
-                cmd.Parameters.AddWithValue("@departmentId", departmentId);
-                cmd.Parameters.AddWithValue("@status", status);
+                //SqlParameter expenseId = new SqlParameter("@id", SqlDbType.Int);
+                //expenseId.Direction = ParameterDirection.Output;
+
+                cmd.Parameters.Add("@Id", SqlDbType.Int);
+                cmd.Parameters["@Id"].Direction = ParameterDirection.Output;
+
+                cmd.Parameters.AddWithValue("@CreatedById", createdById);
+                cmd.Parameters.AddWithValue("@CreateDate", createDate);
+                cmd.Parameters.AddWithValue("@DepartmentId", departmentId);
+                cmd.Parameters.AddWithValue("@Status", status);
 
                 conn.Open();
                 cmd.ExecuteNonQuery();
 
-                id = Convert.ToInt32(expenseId);
+                id = Convert.ToInt32(cmd.Parameters["@Id"].Value);
 
             }
             catch (Exception ex)
             {
-                throw new Exception("Problem inserting the expense header " + ex.Message);
-                
+                throw new Exception("Problem inserting the expense header: " + ex.Message);
+
             }
             finally
             {
@@ -88,17 +92,18 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
         /// <param name="receiptFileName"></param>
         public void InsertExpenseItem(int expenseId, DateTime expenseDate, string location, string description, double amount, string currency, double audAmount, string receiptFileName)
         {
+            SqlConnection conn = new SqlConnection(connString);
+            string query = String.Format("INSERT INTO ExpenseItem (ExpenseHeaderId, ExpenseDate, Location, Description, Amount, Currency,AudAmount,ReceiptFileName) VALUES({0},'{1}','{2}','{3}',{4},'{5}',{6},'{7}')", expenseId, expenseDate, location, description, amount, currency, audAmount, receiptFileName);
+            SqlCommand cmd = new SqlCommand(query, conn);
+            
             try
             {
-
-                string query = string.Format("INSERT INTO ExpenseItem(ExpenseHeaderId, ExpenseDate, Location, Description, Amount, Currency,AudAmount,ReceiptFileName) VALUES({0},{1},{2},{3},{4},{5},{6}",expenseId,expenseDate,location,description,amount,currency,audAmount,receiptFileName);
-                cmd = new SqlCommand(query, conn);
                 conn.Open();
                 cmd.ExecuteNonQuery();
             }
             catch (Exception ex)
             {
-                throw new Exception("Problem inserting expense item " + ex.Message);
+                throw new Exception("Problem inserting expense item: " + ex.Message);
             }
             finally
             {

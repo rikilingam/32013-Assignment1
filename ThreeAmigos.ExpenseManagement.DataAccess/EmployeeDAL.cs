@@ -45,14 +45,15 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
         {            
             List<string> employeeProfile = new List<string>();
 
+            SqlConnection conn = new SqlConnection(connString);
+            string query = String.Format("SELECT e.UserId, e.Firstname, e.Surname, e.DepartmentId, d.DepartmentName, e.Role FROM Employee e LEFT OUTER JOIN Department d on e.DepartmentId = d.DepartmentId  WHERE UserId='{0}'", id);
+            SqlCommand cmd = new SqlCommand(query, conn);
+            
             try
             {
-                conn.Open();
+                conn.Open();                
                 
-                string query = String.Format("SELECT e.UserId, e.Firstname, e.Surname, e.DepartmentId, d.DepartmentName, e.Role FROM Employee e LEFT OUTER JOIN Department d on e.DepartmentId = d.DepartmentId  WHERE UserId='{0}'", id);
-                cmd = new SqlCommand(query, conn);
-                rdr = cmd.ExecuteReader();
-
+                SqlDataReader rdr = cmd.ExecuteReader();
 
                 while (rdr.Read())
                 {

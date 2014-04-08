@@ -28,8 +28,10 @@ namespace ThreeAmigos.ExpenseManagement.BusinessLogic
        /// <param name="expenseId">expense id from the expense header</param>
        public void SubmitExpenseItem(int expenseId)
        {
+           ExpenseHeaderId = expenseId;
+
            ExpenseReportDAL expenseReportDAL = new ExpenseReportDAL();
-           expenseReportDAL.InsertExpenseItem(ExpenseHeaderId,ExpenseDate,Location,Description,Amount,Currency,AudAmount,ReceiptFileName);
+           expenseReportDAL.InsertExpenseItem(ExpenseHeaderId, ExpenseDate, Location, Description, Amount, Currency, AudAmount, ReceiptFileName);
 
        }
 

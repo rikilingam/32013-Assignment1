@@ -138,5 +138,10 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface
             txtItemAmount.Text = string.Empty;
             ddlItemCurrency.SelectedValue = "AUD";
         }
+
+        protected void btnClear_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

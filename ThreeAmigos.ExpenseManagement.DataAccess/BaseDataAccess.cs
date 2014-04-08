@@ -10,8 +10,6 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
 {
     public abstract class BaseDataAccess
     {
-        protected SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["localDatabase"].ConnectionString);
-        protected SqlCommand cmd;
-        protected SqlDataReader rdr;
+        protected string connString = ConfigurationManager.ConnectionStrings["localDatabase"].ConnectionString;
     }
 }

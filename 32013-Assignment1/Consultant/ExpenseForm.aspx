@@ -76,7 +76,7 @@
                         <div class="form-group">
                             <asp:Button ID="btnAddExpenseItem" runat="server" Text="Add Item" CssClass="btn btn-primary" OnClick="btnAddExpenseItem_Click" />
                             <asp:Button ID="btnSubmitExpense" runat="server" Text="Submit Report" CssClass="btn btn-success" OnClick="btnSubmitExpense_Click" />
-                            <asp:Button ID="btnSaveExpense" runat="server" Text="Save Report" CssClass="btn btn-info" />
+                            <asp:Button ID="btnClear" runat="server" Text="Save Report" CssClass="btn btn-info" OnClick="btnClear_Click" />
                         </div>
                     </div>
 

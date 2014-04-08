@@ -67,13 +67,13 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface {
         protected global::System.Web.UI.WebControls.Button btnSubmitExpense;
         
         /// <summary>
-        /// btnSaveExpense control.
+        /// btnClear control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnSaveExpense;
+        protected global::System.Web.UI.WebControls.Button btnClear;
         
         /// <summary>
         /// txtItemDate control.
