@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Configuration;
+using ThreeAmigos.ExpenseManagement.BusinessObject;
 
 namespace ThreeAmigos.ExpenseManagement.DataAccess
 {
@@ -41,9 +42,9 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
         /// </summary>
         /// <param name="id">user id</param>
         /// <returns>list with employee profile</returns>
-        public List<string> GetEmployeeProfile(Guid id)
-        {            
-            List<string> employeeProfile = new List<string>();
+        public Employee GetEmployee(Guid id)
+        {
+            Employee employee = new Employee();
 
             SqlConnection conn = new SqlConnection(connString);
             string query = String.Format("SELECT e.UserId, e.Firstname, e.Surname, e.DepartmentId, d.DepartmentName, e.Role FROM Employee e LEFT OUTER JOIN Department d on e.DepartmentId = d.DepartmentId  WHERE UserId='{0}'", id);
@@ -57,12 +58,12 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
 
                 while (rdr.Read())
                 {
-                    employeeProfile.Add(rdr.GetGuid(0).ToString()); // gets the unique identifier for the employee
-                    employeeProfile.Add((string)rdr["Firstname"]);
-                    employeeProfile.Add((string)rdr["Surname"]);
-                    employeeProfile.Add(rdr.GetInt32(3).ToString()); // reads the departmentId 
-                    employeeProfile.Add((string)rdr["DepartmentName"]);
-                    employeeProfile.Add((string)rdr["Role"]);
+                    employee.UserId = (Guid)rdr.GetGuid(0);
+                    employee.FirstName = (string)rdr["Firstname"];
+                    employee.Surname =(string)rdr["Surname"];
+                    employee.DepartmentId = (int)rdr["DepartmentId"];
+                    employee.DepartmentName = (string)rdr["DepartmentName"];
+                    employee.Role = (string)rdr["Role"];
                 }
                 
                 conn.Close();
@@ -74,7 +75,7 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
 
             }
 
-            return employeeProfile;
+            return employee;
         }
     }
 }

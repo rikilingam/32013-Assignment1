@@ -6,7 +6,7 @@ using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using ThreeAmigos.ExpenseManagement.BusinessLogic;
-//using ThreeAmigos.ExpenseManagement.BusinessObject;
+using ThreeAmigos.ExpenseManagement.BusinessObject;
 
 namespace ThreeAmigos.ExpenseManagement.UserInterface
 {
@@ -30,7 +30,7 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface
                 {
                     if (role == "Consultant")
                     {
-                        BusinessLogic.Employee emp = new BusinessLogic.Employee();
+                        Employee emp = new Employee();
                         //Session["userId"] = emp.FetchUserId(HttpContext.Current.User.Identity.Name);
                         navConsultant.Visible = true;
                     }

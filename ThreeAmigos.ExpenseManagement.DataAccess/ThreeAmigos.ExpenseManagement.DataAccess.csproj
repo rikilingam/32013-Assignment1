@@ -50,6 +50,12 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ThreeAmigos.ExpenseManagement.BusinessObject\ThreeAmigos.ExpenseManagement.BusinessObject.csproj">
+      <Project>{e0c2e862-93fa-44f7-b4af-1b443f2949c9}</Project>
+      <Name>ThreeAmigos.ExpenseManagement.BusinessObject</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

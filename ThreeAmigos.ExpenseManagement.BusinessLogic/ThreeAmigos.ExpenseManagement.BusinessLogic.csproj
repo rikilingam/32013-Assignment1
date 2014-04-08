@@ -40,9 +40,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CurrencyConverter.cs" />
-    <Compile Include="Employee.cs" />
-    <Compile Include="ExpenseReport.cs" />
-    <Compile Include="ExpenseItem.cs" />
+    <Compile Include="EmployeeService.cs" />
+    <Compile Include="ExpenseReportBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

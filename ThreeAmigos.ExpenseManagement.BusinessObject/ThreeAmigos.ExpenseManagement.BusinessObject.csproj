@@ -39,11 +39,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Accounts.cs" />
-    <Compile Include="Consultant.cs" />
     <Compile Include="Department.cs" />
+    <Compile Include="Employee.cs" />
+    <Compile Include="ExpenseItem.cs" />
+    <Compile Include="ExpenseReport.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Supervisor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="BusinessObjects.ClassDiagram.cd" />

@@ -6,32 +6,28 @@ using System.Threading.Tasks;
 using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
+using ThreeAmigos.ExpenseManagement.BusinessObject;
 
 namespace ThreeAmigos.ExpenseManagement.DataAccess
 {
     public class ExpenseReportDAL : BaseDataAccess
     {
-        //public void AddExpenseReport(id createdById, DateTime createDate, DateTime submitDate, string status)
-        //{
-        //    // string connection = ConfigurationManager.ConnectionStrings["localDatabase"].ConnectionString;
-        //    //SqlConnection con = new SqlConnection(connection);
 
-        //    // add try connection
-        //    conn.Open();
 
-        //    SqlCommand cmd = new SqlCommand();
-        //    cmd.Connection = conn;
-        //    cmd.CommandText = "AddExpenseHeader";
-        //    cmd.CommandType = CommandType.StoredProcedure;
+        public void ProcessExpense(ExpenseReport expenseReport)
+        {
+            int newExpenseId = -1;
 
-        //    cmd.Parameters.AddWithValue("@createdById", createdById);
-        //    cmd.Parameters.AddWithValue("@createDate", createDate);
-        //    cmd.Parameters.AddWithValue("@submitDate", submitDate);
-        //    cmd.Parameters.AddWithValue("@status", status);
-        //    cmd.ExecuteNonQuery();
-        //    cmd.Dispose();
-        //    conn.Close();
-        //}
+            newExpenseId = InsertExpenseHeader(expenseReport.CreatedById,expenseReport.CreateDate,expenseReport.DepartmentId,expenseReport.Status.ToString());
+
+            foreach (ExpenseItem item in expenseReport.ExpenseItems)
+            {
+                item.ExpenseHeaderId = newExpenseId;
+                InsertExpenseItem(item.ExpenseHeaderId, item.ExpenseDate, item.Location, item.Description, item.Amount, item.Currency, item.AudAmount, item.ReceiptFileName);
+            }
+
+                
+        }
 
         /// <summary>
         /// Inserts the expense header using a storeprocedure AddExpenseHeader
@@ -106,22 +102,16 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
             
         }
 
-       
 
 
+        public void SupervisorUpdateReport()
+        {
+        }
 
-        //public int FetchExpenseId()
-        //{
-        //    int expenseId;
-        //    //string connection = ConfigurationManager.ConnectionStrings["localDatabase"].ConnectionString;
-        //    //SqlConnection con = new SqlConnection(connection);
-        //    conn.Open();
+        public void AccountsUpdateReport()
+        {
 
-        //    SqlCommand cmd = new SqlCommand();
-        //    cmd.Connection = conn;
-        //    cmd.CommandText = "select ExpenseId from ExpenseHeader where ExpenseId=Ident_Current('ExpenseHeader')";
-        //    expenseId = Convert.ToInt32(cmd.ExecuteScalar());
-        //    return expenseId;
-        //}
+        }
+
     }
 }
