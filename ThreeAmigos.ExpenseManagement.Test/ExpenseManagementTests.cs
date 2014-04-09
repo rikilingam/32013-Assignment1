@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ThreeAmigos.ExpenseManagement.BusinessLogic;
+using ThreeAmigos.ExpenseManagement.BusinessObject;
 using ThreeAmigos.ExpenseManagement.DataAccess;
 
 namespace ThreeAmigos.ExpenseManagement.Test
@@ -16,15 +17,16 @@ namespace ThreeAmigos.ExpenseManagement.Test
         [TestMethod]
         public void EmployeeDAL_GetEmployee_IsNotNull()
         {
-                      
             Guid id = new Guid("78560DD3-F95E-4011-B40D-A7B56ED17F24");
-            Employee employee = new Employee(id);
+            Employee employee = new Employee();
 
+            EmployeeDAL employeeDAL = new EmployeeDAL();
 
-            string test = "test";
+            employee = employeeDAL.GetEmployee(id);
 
-            Assert.IsNotNull(test, "employee is not null");
+            bool IsEqual = TestEmployeeComparer(employee);
 
+            Assert.IsTrue(IsEqual, "Employee from database is same as test employee");
         }
 
         //[TestMethod]
@@ -32,13 +34,13 @@ namespace ThreeAmigos.ExpenseManagement.Test
         //{
 
         //}
-        
+
         ////////////////////////////////////
         // Begin - TestMethod for Consultant
         //[TestMethod]
         //public void Consultant_WhenRequireShowAllReport_ReturnAllReport()
         //{
-            
+
         //}
 
         //[TestMethod]
@@ -116,5 +118,25 @@ namespace ThreeAmigos.ExpenseManagement.Test
         //}
         //End - TestMethod for Accountant Staff
         ///////////////////////////////////////    
+
+
+        private bool TestEmployeeComparer(Employee employee)
+        {
+            Employee testEmployee = new Employee();
+            testEmployee.UserId = new Guid("78560DD3-F95E-4011-B40D-A7B56ED17F24");
+            testEmployee.FirstName = "Vikki";
+            testEmployee.Surname = "Carr";
+            testEmployee.DepartmentId = 2;
+            testEmployee.DepartmentName = "Logistics Services";
+            testEmployee.Role = "Consultant";
+
+            if (testEmployee.UserId == employee.UserId && testEmployee.FirstName == employee.FirstName
+                && testEmployee.Surname == employee.Surname && testEmployee.DepartmentId == employee.DepartmentId
+                && testEmployee.DepartmentName == employee.DepartmentName && testEmployee.Role == employee.Role)
+            {
+                return true;
+            }
+            else { return false; }
+        }
     }
 }

@@ -41,7 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseDataAccess.cs" />
+    <Compile Include="DataAccessFunctions.cs" />
     <Compile Include="EmployeeDAL.cs" />
     <Compile Include="ExpenseItemDAL.cs" />
     <Compile Include="ExpenseReportDAL.cs" />

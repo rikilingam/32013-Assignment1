@@ -10,9 +10,14 @@ using ThreeAmigos.ExpenseManagement.BusinessObject;
 
 namespace ThreeAmigos.ExpenseManagement.DataAccess
 {
-    public class ExpenseReportDAL : BaseDataAccess
+    public class ExpenseReportDAL
     {
+        private DataAccessFunctions daFunctions;
 
+        public ExpenseReportDAL()
+        {
+            daFunctions = new DataAccessFunctions();
+        }
 
         public void ProcessExpense(ExpenseReport expenseReport)
         {
@@ -25,7 +30,6 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
                 item.ExpenseHeaderId = newExpenseId;
                 InsertExpenseItem(item.ExpenseHeaderId, item.ExpenseDate, item.Location, item.Description, item.Amount, item.Currency, item.AudAmount, item.ReceiptFileName);
             }
-
                 
         }
 
@@ -36,12 +40,12 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
         public int InsertExpenseHeader(Guid createdById, DateTime createDate, int departmentId, string status)
         {
             int expenseId = -1; // store the returned value of the expenseId post insert of new record
-            SqlConnection conn = new SqlConnection(connString);
+            //SqlConnection conn = new SqlConnection(connectionString);
             SqlCommand cmd = new SqlCommand();
 
             try
             {
-                cmd.Connection = conn;
+                cmd.Connection = daFunctions.ConnectionString;
                 cmd.CommandText = "AddExpenseHeader";
                 cmd.CommandType = CommandType.StoredProcedure;
 
@@ -55,9 +59,9 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
                 cmd.Parameters.Add("@Id", SqlDbType.Int);
                 cmd.Parameters["@Id"].Direction = ParameterDirection.Output;
 
-                conn.Open();
+                daFunctions.ConnectionString.Open();
                 cmd.ExecuteNonQuery();
-                conn.Close();
+                daFunctions.ConnectionString.Close();
 
                 expenseId = Convert.ToInt32(cmd.Parameters["@Id"].Value);
 
@@ -85,15 +89,15 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
         /// <param name="receiptFileName">name of the file</param>
         public void InsertExpenseItem(int expenseId, DateTime expenseDate, string location, string description, double amount, string currency, double audAmount, string receiptFileName)
         {
-            SqlConnection conn = new SqlConnection(connString);
+            //SqlConnection conn = new SqlConnection(connectionString);
             string query = String.Format("INSERT INTO ExpenseItem (ExpenseHeaderId, ExpenseDate, Location, Description, Amount, Currency,AudAmount,ReceiptFileName) VALUES({0},'{1}','{2}','{3}',{4},'{5}',{6},'{7}')", expenseId, expenseDate, location, description, amount, currency, audAmount, receiptFileName);
-            SqlCommand cmd = new SqlCommand(query, conn);
+            SqlCommand cmd = new SqlCommand(query, daFunctions.ConnectionString);
 
             try
             {
-                conn.Open();
+                daFunctions.ConnectionString.Open();
                 cmd.ExecuteNonQuery();
-                conn.Close();
+                daFunctions.ConnectionString.Close();
             }
             catch (Exception ex)
             {
