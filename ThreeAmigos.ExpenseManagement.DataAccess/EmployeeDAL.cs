@@ -27,7 +27,6 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
         {
             Employee employee = new Employee();
 
-            //SqlConnection conn = daFunctions.ConnectionString;
             string query = String.Format("SELECT e.UserId, e.Firstname, e.Surname, e.DepartmentId, d.DepartmentName, e.Role FROM Employee e LEFT OUTER JOIN Department d on e.DepartmentId = d.DepartmentId  WHERE UserId='{0}'", id);
             SqlCommand cmd = new SqlCommand(query, daFunctions.ConnectionString);
 

@@ -7,12 +7,30 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ThreeAmigos.ExpenseManagement.BusinessLogic;
 using ThreeAmigos.ExpenseManagement.BusinessObject;
 using ThreeAmigos.ExpenseManagement.DataAccess;
+using System.IO;
+using System.Configuration;
+
 
 namespace ThreeAmigos.ExpenseManagement.Test
 {
     [TestClass]
     public class ExpenseManagementTests
     {
+        //TestContext { get; set; }
+
+        //[ClassInitialize]
+        //public static void SetUp(TestContext context)
+        //{
+        //    //    AppDomain.CurrentDomain.SetData("DataDirectory", Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ""));
+        //    //AppDomain.CurrentDomain.SetData("DataDirectory", Path.Combine(context.TestDeploymentDir, string.Empty));
+        //}
+
+        [TestMethod]
+        public void VerifyAppDomainHasConfigurationSettings()
+        {
+            string value = ConfigurationManager.ConnectionStrings["localDatabase"].ConnectionString;
+            Assert.IsFalse(String.IsNullOrEmpty(value), "No App.Config found.");
+        }
 
         [TestMethod]
         public void EmployeeDAL_GetEmployee_IsNotNull()

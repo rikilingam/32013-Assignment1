@@ -15,12 +15,13 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
         public DataAccessFunctions()
         {            
             connectionString = new SqlConnection(ConfigurationManager.ConnectionStrings["localDatabase"].ConnectionString);
+            //connectionString = new SqlConnection(@"Data Source=(LocalDB)\v11.0;AttachDbFileName=|DataDirectory|\ExpenseManager.mdf; Initial Catalog=ExpenseManager;Integrated Security=True;MultipleActiveResultSets=True");
         }
 
         public SqlConnection ConnectionString
         {
             get
-            {                
+            {     
                 return connectionString;
             }
         }
