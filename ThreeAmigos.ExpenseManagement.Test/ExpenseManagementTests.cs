@@ -7,7 +7,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ThreeAmigos.ExpenseManagement.BusinessLogic;
 using ThreeAmigos.ExpenseManagement.BusinessObject;
 using ThreeAmigos.ExpenseManagement.DataAccess;
-using System.IO;
 using System.Configuration;
 
 

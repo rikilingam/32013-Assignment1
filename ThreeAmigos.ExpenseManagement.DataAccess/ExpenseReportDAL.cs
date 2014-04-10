@@ -19,6 +19,10 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
             daFunctions = new DataAccessFunctions();
         }
 
+        /// <summary>
+        /// Inserts the expense report into the database
+        /// </summary>
+        /// <param name="expenseReport"></param>
         public void ProcessExpense(ExpenseReport expenseReport)
         {
             int newExpenseId = -1;
@@ -37,7 +41,7 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
         /// Inserts the expense header using a storeprocedure AddExpenseHeader
         /// </summary>
         /// <returns>Returns the expense id</returns>
-        public int InsertExpenseHeader(Guid createdById, DateTime createDate, int departmentId, string status)
+        private int InsertExpenseHeader(Guid createdById, DateTime createDate, int departmentId, string status)
         {
             int expenseId = -1; // store the returned value of the expenseId post insert of new record
             //SqlConnection conn = new SqlConnection(connectionString);
@@ -87,7 +91,7 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
         /// <param name="currency">currency of purchase</param>
         /// <param name="audAmount">amount converted to AUD</param>
         /// <param name="receiptFileName">name of the file</param>
-        public void InsertExpenseItem(int expenseId, DateTime expenseDate, string location, string description, double amount, string currency, double audAmount, string receiptFileName)
+        private void InsertExpenseItem(int expenseId, DateTime expenseDate, string location, string description, double amount, string currency, double audAmount, string receiptFileName)
         {
             //SqlConnection conn = new SqlConnection(connectionString);
             string query = String.Format("INSERT INTO ExpenseItem (ExpenseHeaderId, ExpenseDate, Location, Description, Amount, Currency,AudAmount,ReceiptFileName) VALUES({0},'{1}','{2}','{3}',{4},'{5}',{6},'{7}')", expenseId, expenseDate, location, description, amount, currency, audAmount, receiptFileName);
@@ -106,7 +110,13 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
             
         }
 
+        public List<ExpenseReport> GetReportsByConsultant(Guid id)
+        {
+            List<ExpenseReport> expenseReports = new List<ExpenseReport>();
 
+
+            return expenseReports;
+        }
 
         public void SupervisorUpdateReport()
         {
