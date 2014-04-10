@@ -16,15 +16,14 @@ namespace ThreeAmigos.ExpenseManagement.Test
     [TestClass]
     public class ExpenseManagementTests
     {
-        //TestContext { get; set; }
-
         [ClassInitialize]
         public static void SetUp(TestContext context)
         {
+            // This path needs to be changed to root path of the Visual Studio solution
             string path = "C:\\Users\\rikil\\Source\\Repos\\32013-Assignment1";
 
             AppDomain.CurrentDomain.SetData("DataDirectory", path);
-            //|DataDirectory|\32013-Assignment1\App_Data\
+            
         }
 
         [TestMethod]
