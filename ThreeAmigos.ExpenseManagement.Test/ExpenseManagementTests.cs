@@ -19,8 +19,8 @@ namespace ThreeAmigos.ExpenseManagement.Test
         public static void SetUp(TestContext context)
         {
             // This path needs to be changed to root path of the Visual Studio solution
-            string path = "C:\\Users\\rikil\\Source\\Repos\\32013-Assignment1";
-
+            string path = "C:\\Users\\riki\\Source\\Repos\\32013-Assignment1";
+            
             AppDomain.CurrentDomain.SetData("DataDirectory", path);
             
         }
@@ -45,6 +45,24 @@ namespace ThreeAmigos.ExpenseManagement.Test
             bool IsEqual = TestEmployeeComparer(employee);
 
             Assert.IsTrue(IsEqual, "Employee from database is not equal to test employee");
+        }
+
+        [TestMethod]
+        public void ExpenseReportDAL_GetReportSummaryByConsultant_IsTrue()
+        {
+            ExpenseReportDAL expenseReportDAL = new ExpenseReportDAL();
+
+            List<ExpenseReport> reports = new List<ExpenseReport>();
+            Guid id = new Guid("2ABC120C-F985-4FEF-87D1-74B6F697B140");
+            
+            reports = expenseReportDAL.GetReportSummaryByConsultant(id);
+
+            Assert.IsTrue(reports.Count > 0, "No data in list of reports");
+
+            foreach (ExpenseReport report in reports)
+            {
+                Assert.IsTrue(report.ExpenseItems.Count > 0, "No Data in list of expenseitems");
+            }
         }
 
         //[TestMethod]

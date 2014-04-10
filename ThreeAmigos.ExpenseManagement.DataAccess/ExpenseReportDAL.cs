@@ -27,14 +27,14 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
         {
             int newExpenseId = -1;
 
-            newExpenseId = InsertExpenseHeader(expenseReport.CreatedById,expenseReport.CreateDate,expenseReport.DepartmentId,expenseReport.Status.ToString());
+            newExpenseId = InsertExpenseHeader(expenseReport.CreatedById, expenseReport.CreateDate, expenseReport.DepartmentId, expenseReport.Status.ToString());
 
             foreach (ExpenseItem item in expenseReport.ExpenseItems)
             {
                 item.ExpenseHeaderId = newExpenseId;
                 InsertExpenseItem(item.ExpenseHeaderId, item.ExpenseDate, item.Location, item.Description, item.Amount, item.Currency, item.AudAmount, item.ReceiptFileName);
             }
-                
+
         }
 
         /// <summary>
@@ -44,12 +44,12 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
         private int InsertExpenseHeader(Guid createdById, DateTime createDate, int departmentId, string status)
         {
             int expenseId = -1; // store the returned value of the expenseId post insert of new record
-            //SqlConnection conn = new SqlConnection(connectionString);
+
             SqlCommand cmd = new SqlCommand();
 
             try
             {
-                cmd.Connection = daFunctions.ConnectionString;
+                cmd.Connection = daFunctions.Connection;
                 cmd.CommandText = "AddExpenseHeader";
                 cmd.CommandType = CommandType.StoredProcedure;
 
@@ -63,9 +63,9 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
                 cmd.Parameters.Add("@Id", SqlDbType.Int);
                 cmd.Parameters["@Id"].Direction = ParameterDirection.Output;
 
-                daFunctions.ConnectionString.Open();
+                daFunctions.Connection.Open();
                 cmd.ExecuteNonQuery();
-                daFunctions.ConnectionString.Close();
+                daFunctions.Connection.Close();
 
                 expenseId = Convert.ToInt32(cmd.Parameters["@Id"].Value);
 
@@ -93,30 +93,65 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
         /// <param name="receiptFileName">name of the file</param>
         private void InsertExpenseItem(int expenseId, DateTime expenseDate, string location, string description, double amount, string currency, double audAmount, string receiptFileName)
         {
-            //SqlConnection conn = new SqlConnection(connectionString);
+
             string query = String.Format("INSERT INTO ExpenseItem (ExpenseHeaderId, ExpenseDate, Location, Description, Amount, Currency,AudAmount,ReceiptFileName) VALUES({0},'{1}','{2}','{3}',{4},'{5}',{6},'{7}')", expenseId, expenseDate, location, description, amount, currency, audAmount, receiptFileName);
-            SqlCommand cmd = new SqlCommand(query, daFunctions.ConnectionString);
+            SqlCommand cmd = new SqlCommand(query, daFunctions.Connection);
 
             try
             {
-                daFunctions.ConnectionString.Open();
+                daFunctions.Connection.Open();
                 cmd.ExecuteNonQuery();
-                daFunctions.ConnectionString.Close();
+                daFunctions.Connection.Close();
             }
             catch (Exception ex)
             {
                 throw new Exception("Problem inserting expense item: " + ex.Message);
             }
-            
+
         }
 
-        public List<ExpenseReport> GetReportsByConsultant(Guid id)
+        public List<ExpenseReport> GetReportSummaryByConsultant(Guid id)
         {
             List<ExpenseReport> expenseReports = new List<ExpenseReport>();
 
+            string query = String.Format("SELECT ExpenseId, CreateDate, Status, ItemId, ExpenseDate, Location, Description, AudAmount, ReceiptFileName FROM ExpenseItem i INNER JOIN ExpenseHeader h ON i.ExpenseHeaderId = h.ExpenseId WHERE h.CreatedById ='{0}'", id);
+            daFunctions.Command.CommandText = query;
+
+            try
+            {
+                daFunctions.Connection.Open();
+                SqlDataReader rdr = daFunctions.Command.ExecuteReader();
+
+                while (rdr.Read())
+                {
+                    ExpenseReport report = new ExpenseReport();
+                    ExpenseItem item = new ExpenseItem();
+
+                    report.ExpenseId = rdr["ExpenseId"] as int? ?? default(int);
+                    report.CreateDate = (DateTime)rdr["CreateDate"];
+                    report.Status = (ReportStatus)Enum.Parse(typeof(ReportStatus), (string)rdr["Status"]);
+
+                    item.ItemId = rdr["ItemId"] as int? ?? default(int);
+                    item.ExpenseHeaderId = report.ExpenseId;
+                    item.ExpenseDate = (DateTime)rdr["ExpenseDate"];
+                    item.Location = (string)rdr["Location"];
+                    item.Description = (string)rdr["Description"];
+                    item.AudAmount = rdr["AudAmount"] as double? ?? default(double);
+                    item.ReceiptFileName = (string)rdr["ReceiptFileName"];
+
+                    report.ExpenseItems.Add(item);
+                    expenseReports.Add(report);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("There was a problem running method GetReportSummaryByConsultant: " + ex.Message);
+            }
 
             return expenseReports;
         }
+
+
 
         public void SupervisorUpdateReport()
         {

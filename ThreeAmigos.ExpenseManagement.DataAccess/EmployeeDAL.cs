@@ -28,11 +28,11 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
             Employee employee = new Employee();
 
             string query = String.Format("SELECT e.UserId, e.Firstname, e.Surname, e.DepartmentId, d.DepartmentName, e.Role FROM Employee e LEFT OUTER JOIN Department d on e.DepartmentId = d.DepartmentId  WHERE UserId='{0}'", id);
-            SqlCommand cmd = new SqlCommand(query, daFunctions.ConnectionString);
+            SqlCommand cmd = new SqlCommand(query, daFunctions.Connection);
 
             try
             {
-                daFunctions.ConnectionString.Open();
+                daFunctions.Connection.Open();
 
                 SqlDataReader rdr = cmd.ExecuteReader();
 
@@ -46,7 +46,7 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
                     employee.Role = (string)rdr["Role"];
                 }
 
-                daFunctions.ConnectionString.Close();
+                daFunctions.Connection.Close();
 
             }
             catch (Exception ex)

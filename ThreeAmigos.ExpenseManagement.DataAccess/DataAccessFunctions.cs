@@ -10,20 +10,28 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
 {
     public class DataAccessFunctions
     {
-        private SqlConnection connectionString;
+        private SqlConnection connection;
+        private SqlCommand command;
         
         public DataAccessFunctions()
         {            
-            connectionString = new SqlConnection(ConfigurationManager.ConnectionStrings["localDatabase"].ConnectionString);
-            //connectionString = new SqlConnection(@"Data Source=(LocalDB)\v11.0;AttachDbFileName=|DataDirectory|\ExpenseManager.mdf; Initial Catalog=ExpenseManager;Integrated Security=True;MultipleActiveResultSets=True");
+            connection = new SqlConnection(ConfigurationManager.ConnectionStrings["localDatabase"].ConnectionString);
+            command = new SqlCommand();
+            command.Connection = connection;
         }
 
-        public SqlConnection ConnectionString
+        public SqlConnection Connection
         {
             get
             {     
-                return connectionString;
+                return connection;
             }
+        }
+
+        public SqlCommand Command
+        {
+            get { return command; }
+            set { command = value;  }
         }
     }
 }
