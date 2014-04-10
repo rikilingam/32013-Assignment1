@@ -18,22 +18,24 @@ namespace ThreeAmigos.ExpenseManagement.Test
     {
         //TestContext { get; set; }
 
-        //[ClassInitialize]
-        //public static void SetUp(TestContext context)
-        //{
-        //    //    AppDomain.CurrentDomain.SetData("DataDirectory", Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ""));
-        //    //AppDomain.CurrentDomain.SetData("DataDirectory", Path.Combine(context.TestDeploymentDir, string.Empty));
-        //}
+        [ClassInitialize]
+        public static void SetUp(TestContext context)
+        {
+            string path = "C:\\Users\\rikil\\Source\\Repos\\32013-Assignment1";
+
+            AppDomain.CurrentDomain.SetData("DataDirectory", path);
+            //|DataDirectory|\32013-Assignment1\App_Data\
+        }
 
         [TestMethod]
-        public void VerifyAppDomainHasConfigurationSettings()
+        public void AppConfig_VerifyAppDomainHasConnectionString()
         {
             string value = ConfigurationManager.ConnectionStrings["localDatabase"].ConnectionString;
             Assert.IsFalse(String.IsNullOrEmpty(value), "No App.Config found.");
         }
 
         [TestMethod]
-        public void EmployeeDAL_GetEmployee_IsNotNull()
+        public void EmployeeDAL_IsGetEmployeeEqualToTestEmployee_IsEqual()
         {
             Guid id = new Guid("78560DD3-F95E-4011-B40D-A7B56ED17F24");
             Employee employee = new Employee();
@@ -44,7 +46,7 @@ namespace ThreeAmigos.ExpenseManagement.Test
 
             bool IsEqual = TestEmployeeComparer(employee);
 
-            Assert.IsTrue(IsEqual, "Employee from database is same as test employee");
+            Assert.IsTrue(IsEqual, "Employee from database is not equal to test employee");
         }
 
         //[TestMethod]
@@ -143,7 +145,7 @@ namespace ThreeAmigos.ExpenseManagement.Test
             Employee testEmployee = new Employee();
             testEmployee.UserId = new Guid("78560DD3-F95E-4011-B40D-A7B56ED17F24");
             testEmployee.FirstName = "Vikki";
-            testEmployee.Surname = "Carr";
+            testEmployee.Surname = "Car";
             testEmployee.DepartmentId = 2;
             testEmployee.DepartmentName = "Logistics Services";
             testEmployee.Role = "Consultant";
