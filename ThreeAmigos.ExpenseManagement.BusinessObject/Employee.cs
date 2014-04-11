@@ -18,6 +18,7 @@ namespace ThreeAmigos.ExpenseManagement.BusinessObject
 
         public Employee()
         {
+            UserId = new Guid();
             EmployeeId = -1;
             FirstName = "";
             Surname = "";

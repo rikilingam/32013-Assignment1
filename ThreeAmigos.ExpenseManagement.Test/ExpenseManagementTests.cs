@@ -27,10 +27,22 @@ namespace ThreeAmigos.ExpenseManagement.Test
         }
 
         [TestMethod]
-        public void AppConfig_VerifyAppDomainHasConnectionString()
+        public void AppConfig_VerifyAppDomainHasConnectionString_IsNotEmpty()
         {
             string value = ConfigurationManager.ConnectionStrings["localDatabase"].ConnectionString;
             Assert.IsFalse(String.IsNullOrEmpty(value), "No App.Config found.");
+        }
+
+        [TestMethod]
+        public void Employee_CheckEmployeeIsNotNull_IsNotNull()
+        {
+            Employee employee = new Employee();
+
+            Assert.IsNotNull(employee.UserId, "Employee UserId is null");
+            Assert.IsNotNull(employee.DepartmentName, "Employee DepartmentName is null");
+            Assert.IsNotNull(employee.FirstName, "Employee FirstName is null");
+            Assert.IsNotNull(employee.Surname, "Employee Surname is null");
+            Assert.IsNotNull(employee.Role, "Employee Role is null");
         }
 
         [TestMethod]
@@ -214,7 +226,7 @@ namespace ThreeAmigos.ExpenseManagement.Test
             bool exist;
 
             DataAccessFunctions daFunctions = new DataAccessFunctions();
-            string query = String.Format("SELECT ExpenseId from ExpenseHeader WHERE ExpenseId={0}",id);
+            string query = String.Format("SELECT ExpenseId from ExpenseHeader WHERE ExpenseId={0}", id);
             daFunctions.Command.CommandText = query;
 
             try
@@ -233,12 +245,12 @@ namespace ThreeAmigos.ExpenseManagement.Test
                 {
                     exist = false;
                 }
-                
+
                 return exist;
 
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception("There was a problem running method CheckDatabaseForExpense: " + ex.Message);
             }
