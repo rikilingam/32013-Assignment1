@@ -25,13 +25,12 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
         /// <param name="expenseReport"></param>
         public void ProcessExpense(ExpenseReport expenseReport)
         {
-            int newExpenseId = -1;
-
-            newExpenseId = InsertExpenseHeader(expenseReport.CreatedById, expenseReport.CreateDate, expenseReport.DepartmentId, expenseReport.Status.ToString());
+            
+            expenseReport.ExpenseId = InsertExpenseHeader(expenseReport.CreatedById, expenseReport.CreateDate, expenseReport.DepartmentId, expenseReport.Status.ToString());
 
             foreach (ExpenseItem item in expenseReport.ExpenseItems)
             {
-                item.ExpenseHeaderId = newExpenseId;
+                item.ExpenseHeaderId = expenseReport.ExpenseId;
                 InsertExpenseItem(item.ExpenseHeaderId, item.ExpenseDate, item.Location, item.Description, item.Amount, item.Currency, item.AudAmount, item.ReceiptFileName);
             }
 
@@ -83,14 +82,6 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
         /// Inserts the each expense item into the database,
         /// with a foreign key of expenseId
         /// </summary>
-        /// <param name="expenseId">expense id from expense header</param>
-        /// <param name="expenseDate">date of the expense</param>
-        /// <param name="location">location of the expense</param>
-        /// <param name="description">reason for the expense</param>
-        /// <param name="amount">amount in original currency</param>
-        /// <param name="currency">currency of purchase</param>
-        /// <param name="audAmount">amount converted to AUD</param>
-        /// <param name="receiptFileName">name of the file</param>
         private void InsertExpenseItem(int expenseId, DateTime expenseDate, string location, string description, double amount, string currency, double audAmount, string receiptFileName)
         {
 

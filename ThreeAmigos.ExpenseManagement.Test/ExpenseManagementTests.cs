@@ -8,6 +8,7 @@ using ThreeAmigos.ExpenseManagement.BusinessLogic;
 using ThreeAmigos.ExpenseManagement.BusinessObject;
 using ThreeAmigos.ExpenseManagement.DataAccess;
 using System.Configuration;
+using System.Transactions;
 
 
 namespace ThreeAmigos.ExpenseManagement.Test
@@ -19,10 +20,10 @@ namespace ThreeAmigos.ExpenseManagement.Test
         public static void SetUp(TestContext context)
         {
             // This path needs to be changed to root path of the Visual Studio solution
-            string path = "C:\\Users\\riki\\Source\\Repos\\32013-Assignment1";
-            
+            string path = "C:\\Users\\rikil\\Source\\Repos\\32013-Assignment1";
+
             AppDomain.CurrentDomain.SetData("DataDirectory", path);
-            
+
         }
 
         [TestMethod]
@@ -54,7 +55,7 @@ namespace ThreeAmigos.ExpenseManagement.Test
 
             List<ExpenseReport> reports = new List<ExpenseReport>();
             Guid id = new Guid("2ABC120C-F985-4FEF-87D1-74B6F697B140");
-            
+
             reports = expenseReportDAL.GetReportSummaryByConsultant(id);
 
             Assert.IsTrue(reports.Count > 0, "No data in list of reports");
@@ -62,6 +63,39 @@ namespace ThreeAmigos.ExpenseManagement.Test
             foreach (ExpenseReport report in reports)
             {
                 Assert.IsTrue(report.ExpenseItems.Count > 0, "No Data in list of expenseitems");
+            }
+        }
+
+        [TestMethod]
+        public void ExpenseReportDAL_ProcessExpense_InsertSuccess()
+        {
+            ExpenseReportDAL expenseReportDAL = new ExpenseReportDAL();
+
+            ExpenseReport expenseReport = new ExpenseReport();
+            ExpenseItem item = new ExpenseItem();
+
+            expenseReport.CreateDate = DateTime.Now;
+            expenseReport.CreatedById = new Guid("78560DD3-F95E-4011-B40D-A7B56ED17F24");
+            expenseReport.DepartmentId = 2;
+            expenseReport.Status = ReportStatus.Submitted;
+
+            item.ExpenseDate = DateTime.Now;
+            item.Location = "Brisbane";
+            item.Description = "Mouse and Keyboard";
+            item.Amount = 10.50;
+            item.Currency = "AUD";
+            item.AudAmount = item.Amount;
+
+            expenseReport.ExpenseItems.Add(item);
+
+            using (TransactionScope testTransaction = new TransactionScope())
+            {
+                expenseReportDAL.ProcessExpense(expenseReport);
+
+                Assert.IsTrue(CheckDatabaseForExpenseId(expenseReport.ExpenseId), "Expense Id was not found in database");
+
+                testTransaction.Dispose();
+
             }
         }
 
@@ -173,6 +207,41 @@ namespace ThreeAmigos.ExpenseManagement.Test
                 return true;
             }
             else { return false; }
+        }
+
+        private bool CheckDatabaseForExpenseId(int id)
+        {
+            bool exist;
+
+            DataAccessFunctions daFunctions = new DataAccessFunctions();
+            string query = String.Format("SELECT ExpenseId from ExpenseHeader WHERE ExpenseId={0}",id);
+            daFunctions.Command.CommandText = query;
+
+            try
+            {
+                daFunctions.Connection.Open();
+
+                int dbExpenseId = (int)daFunctions.Command.ExecuteScalar();
+
+                daFunctions.Connection.Close();
+
+                if (id == dbExpenseId)
+                {
+                    exist = true;
+                }
+                else
+                {
+                    exist = false;
+                }
+                
+                return exist;
+
+
+            }
+            catch(Exception ex)
+            {
+                throw new Exception("There was a problem running method CheckDatabaseForExpense: " + ex.Message);
+            }
         }
     }
 }
