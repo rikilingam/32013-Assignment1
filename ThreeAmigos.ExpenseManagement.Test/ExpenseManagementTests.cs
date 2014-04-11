@@ -23,7 +23,6 @@ namespace ThreeAmigos.ExpenseManagement.Test
             string path = "C:\\Users\\rikil\\Source\\Repos\\32013-Assignment1";
 
             AppDomain.CurrentDomain.SetData("DataDirectory", path);
-
         }
 
         [TestMethod]
@@ -43,6 +42,20 @@ namespace ThreeAmigos.ExpenseManagement.Test
             Assert.IsNotNull(employee.FirstName, "Employee FirstName is null");
             Assert.IsNotNull(employee.Surname, "Employee Surname is null");
             Assert.IsNotNull(employee.Role, "Employee Role is null");
+        }
+
+        [TestMethod]
+        public void ExpenseReport_CheckExpenseReportItemsIsNotNull_IsNotNull()
+        {
+            ExpenseReport expenseReport = new ExpenseReport();
+
+            Assert.IsNotNull(expenseReport.ExpenseItems, "ExpenseReport ExpenseItems is null");
+        }
+
+        [TestMethod]
+        public void ExpenseItem_CheckExpenseItemsIsNotNull_IsNotNull()
+        {
+
         }
 
         [TestMethod]
@@ -68,7 +81,7 @@ namespace ThreeAmigos.ExpenseManagement.Test
             List<ExpenseReport> reports = new List<ExpenseReport>();
             Guid id = new Guid("2ABC120C-F985-4FEF-87D1-74B6F697B140");
 
-            reports = expenseReportDAL.GetReportSummaryByConsultant(id);
+            reports = expenseReportDAL.GetReportSummaryByConsultant(id,"%");
 
             Assert.IsTrue(reports.Count > 0, "No data in list of reports");
 
@@ -110,6 +123,10 @@ namespace ThreeAmigos.ExpenseManagement.Test
 
             }
         }
+
+        [TestMethod]
+        public void ExpenseReportDAL_GetExpenseItemsByExpenseId_IsNotEmpty()
+        { }
 
         //[TestMethod]
         //public void ExpenseHeader_OnInitialisation_CreateExpenseReport()

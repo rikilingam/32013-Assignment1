@@ -15,12 +15,34 @@
 
                         <strong>Search Filter:</strong>
                         <asp:DropDownList ID="ddlSearchFilter" runat="server" CssClass="form-control">
-                            <asp:ListItem>All Submitted</asp:ListItem>
-                            <asp:ListItem>All Approved</asp:ListItem>
-                            <asp:ListItem>Pending Approval</asp:ListItem>
+                            <asp:ListItem Value="%">All Submitted</asp:ListItem>
+                            <asp:ListItem Value="ApproveBySupervisor">All Approved</asp:ListItem>
+                            <asp:ListItem Value="Submitted">Pending Approval</asp:ListItem>
                         </asp:DropDownList>
-                        <asp:Button ID="btnSearchExpenses" runat="server" Text="Search" CssClass="btn btn-primary" />
+                        <asp:Button ID="btnSearchExpenses" runat="server" Text="Search" CssClass="btn btn-primary" OnClick="btnSearchExpenses_Click" />
                     </div>
+
+                </div>
+                <div class="row">
+                    <hr />
+                </div>
+                <div class="row" id="displayExpenseReports" runat="server">
+                    <asp:Repeater ID="Repeater1" runat="server">
+                        <HeaderTemplate>
+                            <table>
+                        </HeaderTemplate>
+                        <ItemTemplate>
+                            <tr><td></td></tr>
+                                <tr><td>Expense ID: </td>
+                                   </tr>
+                            <tr><td></td>
+                            <td></td></tr>
+                        </ItemTemplate>
+                        <FooterTemplate>
+                            </table>
+                        </FooterTemplate>
+
+                    </asp:Repeater>
 
                 </div>
             </div>

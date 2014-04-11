@@ -12,11 +12,11 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
 {
     public class ExpenseReportDAL
     {
-        private DataAccessFunctions daFunctions;
+        //private DataAccessFunctions daFunctions;
 
         public ExpenseReportDAL()
         {
-            daFunctions = new DataAccessFunctions();
+
         }
 
         /// <summary>
@@ -25,7 +25,7 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
         /// <param name="expenseReport"></param>
         public void ProcessExpense(ExpenseReport expenseReport)
         {
-            
+
             expenseReport.ExpenseId = InsertExpenseHeader(expenseReport.CreatedById, expenseReport.CreateDate, expenseReport.DepartmentId, expenseReport.Status.ToString());
 
             foreach (ExpenseItem item in expenseReport.ExpenseItems)
@@ -44,6 +44,7 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
         {
             int expenseId = -1; // store the returned value of the expenseId post insert of new record
 
+            DataAccessFunctions daFunctions = new DataAccessFunctions();
             SqlCommand cmd = new SqlCommand();
 
             try
@@ -85,6 +86,7 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
         private void InsertExpenseItem(int expenseId, DateTime expenseDate, string location, string description, double amount, string currency, double audAmount, string receiptFileName)
         {
 
+            DataAccessFunctions daFunctions = new DataAccessFunctions();
             string query = String.Format("INSERT INTO ExpenseItem (ExpenseHeaderId, ExpenseDate, Location, Description, Amount, Currency,AudAmount,ReceiptFileName) VALUES({0},'{1}','{2}','{3}',{4},'{5}',{6},'{7}')", expenseId, expenseDate, location, description, amount, currency, audAmount, receiptFileName);
             SqlCommand cmd = new SqlCommand(query, daFunctions.Connection);
 
@@ -101,38 +103,38 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
 
         }
 
-        public List<ExpenseReport> GetReportSummaryByConsultant(Guid id)
+        public List<ExpenseReport> GetReportSummaryByConsultant(Guid id, string status)
         {
             List<ExpenseReport> expenseReports = new List<ExpenseReport>();
+            EmployeeDAL employeeDAL = new EmployeeDAL();
 
-            string query = String.Format("SELECT ExpenseId, CreateDate, Status, ItemId, ExpenseDate, Location, Description, AudAmount, ReceiptFileName FROM ExpenseItem i INNER JOIN ExpenseHeader h ON i.ExpenseHeaderId = h.ExpenseId WHERE h.CreatedById ='{0}'", id);
-            daFunctions.Command.CommandText = query;
+            DataAccessFunctions daFunctions = new DataAccessFunctions();
+            string query = String.Format("SELECT ExpenseId, CreateDate, CreatedById, ApprovedById, ProcessedById, Status FROM ExpenseHeader WHERE CreatedById ='{0}' AND status LIKE'{1}' ", id, status);
+            daFunctions.Command = new SqlCommand(query, daFunctions.Connection);
 
             try
             {
                 daFunctions.Connection.Open();
+
                 SqlDataReader rdr = daFunctions.Command.ExecuteReader();
 
                 while (rdr.Read())
                 {
                     ExpenseReport report = new ExpenseReport();
                     ExpenseItem item = new ExpenseItem();
+                    Employee createdBy = new Employee();
+                    Employee approvedBy = new Employee();
+                    Employee processedBy = new Employee();
 
                     report.ExpenseId = rdr["ExpenseId"] as int? ?? default(int);
                     report.CreateDate = (DateTime)rdr["CreateDate"];
                     report.Status = (ReportStatus)Enum.Parse(typeof(ReportStatus), (string)rdr["Status"]);
 
-                    item.ItemId = rdr["ItemId"] as int? ?? default(int);
-                    item.ExpenseHeaderId = report.ExpenseId;
-                    item.ExpenseDate = (DateTime)rdr["ExpenseDate"];
-                    item.Location = (string)rdr["Location"];
-                    item.Description = (string)rdr["Description"];
-                    item.AudAmount = rdr["AudAmount"] as double? ?? default(double);
-                    item.ReceiptFileName = (string)rdr["ReceiptFileName"];
-
-                    report.ExpenseItems.Add(item);
+                    report.ExpenseItems = GetExpenseItemsByExpenseId(report.ExpenseId);
                     expenseReports.Add(report);
                 }
+
+                daFunctions.Connection.Close();
             }
             catch (Exception ex)
             {
@@ -140,8 +142,61 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
             }
 
             return expenseReports;
+
         }
 
+        private List<ExpenseItem> GetExpenseItemsByExpenseId(int expenseid)
+        {
+
+            List<ExpenseItem> expenseItems = new List<ExpenseItem>();
+
+            DataAccessFunctions daFunctions = new DataAccessFunctions();
+            string query = String.Format("SELECT ExpenseHeaderId,ItemId, ExpenseDate, Location, Description, AudAmount, ReceiptFileName FROM ExpenseItem WHERE ExpenseHeaderId={0}", expenseid);
+
+            daFunctions.Connection.Open();
+            daFunctions.Command.CommandText = query;
+            SqlDataReader rdr = daFunctions.Command.ExecuteReader();
+
+            while (rdr.Read())
+            {
+                ExpenseItem item = new ExpenseItem();
+
+                item.ExpenseHeaderId = rdr["ExpenseHeaderId"] as int? ?? default(int);
+                item.ItemId = rdr["ItemId"] as int? ?? default(int);
+                item.ExpenseDate = (DateTime)rdr["ExpenseDate"];
+                item.Location = (string)rdr["Location"];
+                item.Description = (string)rdr["Description"];
+                item.AudAmount = rdr["AudAmount"] as double? ?? default(double);
+                item.ReceiptFileName = (string)rdr["ReceiptFileName"];
+
+                expenseItems.Add(item);
+            }
+
+            daFunctions.Connection.Close();
+            return expenseItems;
+        }
+
+        //public DataSet GetReportsByConsultant(Guid id, string status)
+        //{
+        //    DataSet expenseReports = new DataSet();
+
+        //    string query = String.Format("SELECT ExpenseId, CreateDate, Status, ItemId, ExpenseDate, Location, Description, AudAmount, ReceiptFileName FROM ExpenseItem i INNER JOIN ExpenseHeader h ON i.ExpenseHeaderId = h.ExpenseId WHERE h.CreatedById ='{0}' AND status LIKE'{1}' ", id, status);
+
+        //    daFunctions.Command.CommandText = query;
+
+        //    SqlDataAdapter adapter = new SqlDataAdapter(query,daFunctions.Connection);
+
+        //    try
+        //    {
+        //        adapter.Fill(expenseReports);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception("There was a problem running method GetReportSummaryByConsultant: " + ex.Message);
+        //    }
+
+        //    return expenseReports;
+        //}
 
 
         public void SupervisorUpdateReport()

@@ -18,11 +18,19 @@ namespace ThreeAmigos.ExpenseManagement.BusinessObject
         public Guid CreatedById { get; set; }
         public Guid ApprovedById { get; set; }
         public Guid ProcessedById { get; set; }
+
+        public Employee CreatedBy { get; set; }
+        public Employee ApprovedBy { get; set; }
+        public Employee ProcessedBy { get; set; }
+
         public ReportStatus Status { get; set; }
         public List<ExpenseItem> ExpenseItems {get;set;}
 
         public ExpenseReport()
         {
+            CreatedBy = new Employee();
+            ApprovedBy = new Employee();
+            ProcessedBy = new Employee();
             ExpenseItems = new List<ExpenseItem>();
         }
 
