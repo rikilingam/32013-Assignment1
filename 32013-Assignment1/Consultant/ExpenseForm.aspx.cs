@@ -39,7 +39,7 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface
             employee = employeeDAL.GetEmployee((Guid)Membership.GetUser().ProviderUserKey);
 
             reportBuilder.expenseReport.CreateDate = DateTime.Now;
-            reportBuilder.expenseReport.CreatedById = employee.UserId;
+            reportBuilder.expenseReport.CreatedBy = employee;
             reportBuilder.expenseReport.DepartmentId = employee.DepartmentId;
 
             Session["expenseReport"] = reportBuilder;

@@ -25,8 +25,7 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
         /// <param name="expenseReport"></param>
         public void ProcessExpense(ExpenseReport expenseReport)
         {
-
-            expenseReport.ExpenseId = InsertExpenseHeader(expenseReport.CreatedById, expenseReport.CreateDate, expenseReport.DepartmentId, expenseReport.Status.ToString());
+            expenseReport.ExpenseId = InsertExpenseHeader(expenseReport.CreatedBy.UserId, expenseReport.CreateDate, expenseReport.DepartmentId, expenseReport.Status.ToString());
 
             foreach (ExpenseItem item in expenseReport.ExpenseItems)
             {

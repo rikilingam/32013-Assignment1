@@ -15,9 +15,9 @@ namespace ThreeAmigos.ExpenseManagement.BusinessObject
         public DateTime CreateDate { get; set; }
         public DateTime ApprovedDate { get; set; }
         public DateTime ProcessedDate { get; set; }
-        public Guid CreatedById { get; set; }
-        public Guid ApprovedById { get; set; }
-        public Guid ProcessedById { get; set; }
+        //public Guid CreatedById { get; set; }
+        //public Guid ApprovedById { get; set; }
+        //public Guid ProcessedById { get; set; }
 
         public Employee CreatedBy { get; set; }
         public Employee ApprovedBy { get; set; }
