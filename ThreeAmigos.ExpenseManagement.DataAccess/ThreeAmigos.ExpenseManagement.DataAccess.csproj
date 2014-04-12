@@ -45,6 +45,7 @@
     <Compile Include="EmployeeDAL.cs" />
     <Compile Include="ExpenseItemDAL.cs" />
     <Compile Include="ExpenseReportDAL.cs" />
+    <Compile Include="ExpenseReportService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

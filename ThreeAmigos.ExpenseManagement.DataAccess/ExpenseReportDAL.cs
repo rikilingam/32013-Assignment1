@@ -33,7 +33,6 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
                 item.ExpenseHeaderId = expenseReport.ExpenseId;
                 InsertExpenseItem(item.ExpenseHeaderId, item.ExpenseDate, item.Location, item.Description, item.Amount, item.Currency, item.AudAmount, item.ReceiptFileName);
             }
-
         }
 
         /// <summary>
@@ -85,7 +84,6 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
         /// </summary>
         private void InsertExpenseItem(int expenseId, DateTime expenseDate, string location, string description, double amount, string currency, double audAmount, string receiptFileName)
         {
-
             DataAccessFunctions daFunctions = new DataAccessFunctions();
             string query = String.Format("INSERT INTO ExpenseItem (ExpenseHeaderId, ExpenseDate, Location, Description, Amount, Currency,AudAmount,ReceiptFileName) VALUES({0},'{1}','{2}','{3}',{4},'{5}',{6},'{7}')", expenseId, expenseDate, location, description, amount, currency, audAmount, receiptFileName);
             SqlCommand cmd = new SqlCommand(query, daFunctions.Connection);
@@ -103,13 +101,20 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
 
         }
 
-        public List<ExpenseReport> GetReportSummaryByConsultant(Guid id, string status)
+        public List<ExpenseReport> GetExpenseReportByConsultant(Guid id, string status)
+        {
+            string query = String.Format("SELECT ExpenseId, CreateDate, CreatedById, ApprovedById, ProcessedById, Status FROM ExpenseHeader WHERE CreatedById='{0}' and Status LIKE '{1}'", id, status);
+
+            return GetReportsFromDatabase(query);
+        }
+
+        private List<ExpenseReport> GetReportsFromDatabase(string query)
         {
             List<ExpenseReport> expenseReports = new List<ExpenseReport>();
             EmployeeDAL employeeDAL = new EmployeeDAL();
 
             DataAccessFunctions daFunctions = new DataAccessFunctions();
-            string query = String.Format("SELECT ExpenseId, CreateDate, CreatedById, ApprovedById, ProcessedById, Status FROM ExpenseHeader WHERE CreatedById ='{0}' AND status LIKE'{1}' ", id, status);
+
             daFunctions.Command = new SqlCommand(query, daFunctions.Connection);
 
             try
@@ -121,7 +126,6 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
                 while (rdr.Read())
                 {
                     ExpenseReport report = new ExpenseReport();
-                    ExpenseItem item = new ExpenseItem();
                     Employee createdBy = new Employee();
                     Employee approvedBy = new Employee();
                     Employee processedBy = new Employee();
@@ -129,6 +133,9 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
                     report.ExpenseId = rdr["ExpenseId"] as int? ?? default(int);
                     report.CreateDate = (DateTime)rdr["CreateDate"];
                     report.Status = (ReportStatus)Enum.Parse(typeof(ReportStatus), (string)rdr["Status"]);
+                    report.CreatedBy = employeeDAL.GetEmployee(rdr["CreatedById"] as Guid? ?? default(Guid));
+                    report.ApprovedBy = employeeDAL.GetEmployee(rdr["ApprovedById"] as Guid? ?? default(Guid));
+                    report.ProcessedBy = employeeDAL.GetEmployee(rdr["ProcessedById"] as Guid? ?? default(Guid));
 
                     report.ExpenseItems = GetExpenseItemsByExpenseId(report.ExpenseId);
                     expenseReports.Add(report);
@@ -145,12 +152,14 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
 
         }
 
+
         private List<ExpenseItem> GetExpenseItemsByExpenseId(int expenseid)
         {
 
             List<ExpenseItem> expenseItems = new List<ExpenseItem>();
 
             DataAccessFunctions daFunctions = new DataAccessFunctions();
+
             string query = String.Format("SELECT ExpenseHeaderId,ItemId, ExpenseDate, Location, Description, AudAmount, ReceiptFileName FROM ExpenseItem WHERE ExpenseHeaderId={0}", expenseid);
 
             daFunctions.Connection.Open();
@@ -175,6 +184,9 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
             daFunctions.Connection.Close();
             return expenseItems;
         }
+
+
+
 
         //public DataSet GetReportsByConsultant(Guid id, string status)
         //{

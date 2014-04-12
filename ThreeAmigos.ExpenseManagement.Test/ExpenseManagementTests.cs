@@ -20,7 +20,7 @@ namespace ThreeAmigos.ExpenseManagement.Test
         public static void SetUp(TestContext context)
         {
             // This path needs to be changed to root path of the Visual Studio solution
-            string path = "C:\\Users\\rikil\\Source\\Repos\\32013-Assignment1";
+            string path = "C:\\Users\\riki\\Source\\Repos\\32013-Assignment1";
 
             AppDomain.CurrentDomain.SetData("DataDirectory", path);
         }
@@ -80,8 +80,9 @@ namespace ThreeAmigos.ExpenseManagement.Test
 
             List<ExpenseReport> reports = new List<ExpenseReport>();
             Guid id = new Guid("2ABC120C-F985-4FEF-87D1-74B6F697B140");
+            string status = "%";
 
-            reports = expenseReportDAL.GetReportSummaryByConsultant(id,"%");
+            reports = expenseReportDAL.GetReportSummaryByConsultant(id, status);
 
             Assert.IsTrue(reports.Count > 0, "No data in list of reports");
 
@@ -89,6 +90,12 @@ namespace ThreeAmigos.ExpenseManagement.Test
             {
                 Assert.IsTrue(report.ExpenseItems.Count > 0, "No Data in list of expenseitems");
             }
+        }
+
+        [TestMethod]
+        public void ExpenseReportDAL_GetExpenseItemByExpenseId_IsNotEmpty()
+        {
+
         }
 
         [TestMethod]

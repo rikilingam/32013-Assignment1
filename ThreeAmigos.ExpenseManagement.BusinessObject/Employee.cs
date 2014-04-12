@@ -27,5 +27,10 @@ namespace ThreeAmigos.ExpenseManagement.BusinessObject
             Role = "";
         }
 
+        public string Fullname
+        {
+            get { return FirstName + " " + Surname; }
+        }
+
     }
 }
