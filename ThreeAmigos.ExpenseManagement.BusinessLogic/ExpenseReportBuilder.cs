@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data;
+using System.Data.SqlClient;
+using System.Configuration;
 using ThreeAmigos.ExpenseManagement.BusinessObject;
 using ThreeAmigos.ExpenseManagement.DataAccess;
 
@@ -36,6 +39,5 @@ namespace ThreeAmigos.ExpenseManagement.BusinessLogic
 
             expenseReportDAL.ProcessExpense(expenseReport);
         }
-
     }
 }
