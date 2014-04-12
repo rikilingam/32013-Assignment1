@@ -25,7 +25,7 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
         /// <param name="expenseReport"></param>
         public void ProcessExpense(ExpenseReport expenseReport)
         {
-            expenseReport.ExpenseId = InsertExpenseHeader(expenseReport.CreatedBy.UserId, expenseReport.CreateDate, expenseReport.DepartmentId, expenseReport.Status.ToString());
+            expenseReport.ExpenseId = InsertExpenseHeader(expenseReport.CreatedBy.UserId, expenseReport.CreateDate, expenseReport.ExpenseToDept.DepartmentId, expenseReport.Status.ToString());
 
             foreach (ExpenseItem item in expenseReport.ExpenseItems)
             {
@@ -71,7 +71,6 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
             catch (Exception ex)
             {
                 throw new Exception("Problem inserting the expense header: " + ex.Message);
-
             }
 
             return expenseId;
@@ -97,12 +96,11 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
             {
                 throw new Exception("Problem inserting expense item: " + ex.Message);
             }
-
         }
 
-        public List<ExpenseReport> GetExpenseReportByConsultant(Guid id, string status)
+        public List<ExpenseReport> GetExpenseReportsByConsultant(Guid id, string status)
         {
-            string query = String.Format("SELECT ExpenseId, CreateDate, CreatedById, ApprovedById, ProcessedById, Status FROM ExpenseHeader WHERE CreatedById='{0}' and Status LIKE '{1}'", id, status);
+            string query = String.Format("SELECT * FROM ExpenseHeader WHERE CreatedById='{0}' and Status LIKE '{1}'", id, status);
 
             return GetReportsFromDatabase(query);
         }
@@ -111,6 +109,7 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
         {
             List<ExpenseReport> expenseReports = new List<ExpenseReport>();
             EmployeeDAL employeeDAL = new EmployeeDAL();
+            DepartmentDAL departmentDAL = new DepartmentDAL();
 
             DataAccessFunctions daFunctions = new DataAccessFunctions();
 
@@ -131,6 +130,7 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
 
                     report.ExpenseId = rdr["ExpenseId"] as int? ?? default(int);
                     report.CreateDate = (DateTime)rdr["CreateDate"];
+                    report.ExpenseToDept = departmentDAL.GetDepartmentProfile(rdr["DepartmentId"] as int? ?? default(int));
                     report.Status = (ReportStatus)Enum.Parse(typeof(ReportStatus), (string)rdr["Status"]);
                     report.CreatedBy = employeeDAL.GetEmployee(rdr["CreatedById"] as Guid? ?? default(Guid));
                     report.ApprovedBy = employeeDAL.GetEmployee(rdr["ApprovedById"] as Guid? ?? default(Guid));
@@ -154,12 +154,11 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
 
         private List<ExpenseItem> GetExpenseItemsByExpenseId(int expenseid)
         {
-
             List<ExpenseItem> expenseItems = new List<ExpenseItem>();
 
             DataAccessFunctions daFunctions = new DataAccessFunctions();
 
-            string query = String.Format("SELECT ExpenseHeaderId,ItemId, ExpenseDate, Location, Description, AudAmount, ReceiptFileName FROM ExpenseItem WHERE ExpenseHeaderId={0}", expenseid);
+            string query = String.Format("SELECT * FROM ExpenseItem WHERE ExpenseHeaderId={0}", expenseid);
 
             daFunctions.Connection.Open();
             daFunctions.Command.CommandText = query;
@@ -183,32 +182,6 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
             daFunctions.Connection.Close();
             return expenseItems;
         }
-
-
-
-
-        //public DataSet GetReportsByConsultant(Guid id, string status)
-        //{
-        //    DataSet expenseReports = new DataSet();
-
-        //    string query = String.Format("SELECT ExpenseId, CreateDate, Status, ItemId, ExpenseDate, Location, Description, AudAmount, ReceiptFileName FROM ExpenseItem i INNER JOIN ExpenseHeader h ON i.ExpenseHeaderId = h.ExpenseId WHERE h.CreatedById ='{0}' AND status LIKE'{1}' ", id, status);
-
-        //    daFunctions.Command.CommandText = query;
-
-        //    SqlDataAdapter adapter = new SqlDataAdapter(query,daFunctions.Connection);
-
-        //    try
-        //    {
-        //        adapter.Fill(expenseReports);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception("There was a problem running method GetReportSummaryByConsultant: " + ex.Message);
-        //    }
-
-        //    return expenseReports;
-        //}
-
 
         public void SupervisorUpdateReport()
         {

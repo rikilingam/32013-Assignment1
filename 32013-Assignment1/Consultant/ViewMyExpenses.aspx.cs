@@ -22,14 +22,8 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Consultant
         {
             ExpenseReportDAL expenseReportDAL = new ExpenseReportDAL();
 
-            //gvExpenseReports.DataSource = expenseReportDAL.GetReportSummaryByConsultant((Guid)Membership.GetUser().ProviderUserKey,ddlSearchFilter.SelectedValue);
-            //gvExpenseReports.DataBind();
-            Repeater1.DataSource = expenseReportDAL.GetExpenseReportByConsultant((Guid)Membership.GetUser().ProviderUserKey, ddlSearchFilter.SelectedValue);
-            Repeater1.DataBind();
-
-            
-
-
+            gvDisplayExpenseReports.DataSource = expenseReportDAL.GetExpenseReportsByConsultant((Guid)Membership.GetUser().ProviderUserKey, ddlSearchFilter.SelectedValue);
+            gvDisplayExpenseReports.DataBind();
         }
     }
 }

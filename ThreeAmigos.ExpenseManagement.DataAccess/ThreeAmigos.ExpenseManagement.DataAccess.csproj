@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataAccessFunctions.cs" />
+    <Compile Include="DepartmentDAL.cs" />
     <Compile Include="EmployeeDAL.cs" />
     <Compile Include="ExpenseItemDAL.cs" />
     <Compile Include="ExpenseReportDAL.cs" />

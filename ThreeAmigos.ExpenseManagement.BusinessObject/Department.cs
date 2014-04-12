@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace ThreeAmigos.ExpenseManagement.BusinessObject
 {
-    class Department
+    public class Department
     {
-        private string departmentName;
-        private double monthlyBudget;
+        public int DepartmentId { get; set; }
+        public string DepartmentName { get; set; }
+        public double MonthlyBudget { get; set; }
     }
 }
