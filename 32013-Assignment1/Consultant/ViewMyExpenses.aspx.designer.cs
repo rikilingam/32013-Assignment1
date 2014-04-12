@@ -40,12 +40,12 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Consultant {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divDisplayExpenseReports;
         
         /// <summary>
-        /// gvDisplayExpenseReports control.
+        /// rptExpenseReport control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gvDisplayExpenseReports;
+        protected global::System.Web.UI.WebControls.Repeater rptExpenseReport;
     }
 }

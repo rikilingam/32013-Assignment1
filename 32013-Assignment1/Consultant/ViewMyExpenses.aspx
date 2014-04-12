@@ -27,7 +27,21 @@
                     <hr />
                 </div>
                 <div class="row" id="divDisplayExpenseReports" runat="server">
-                    <asp:GridView ID="gvDisplayExpenseReports" runat="server"></asp:GridView>
+
+                    <asp:Repeater ID="rptExpenseReport" runat="server">
+                        <HeaderTemplate>
+                            <table class="table">
+                        </HeaderTemplate>
+                        <ItemTemplate>
+                            <tr>
+                                <td>Expense ID: <%# Eval("ExpenseId") %></td>
+                                <td>Consultant: <%# Eval("CreatedBy.Fullname") %></td>
+                            </tr>
+                        </ItemTemplate>
+                        <FooterTemplate>
+                            </table>
+                        </FooterTemplate>
+                    </asp:Repeater>
 
                 </div>
             </div>

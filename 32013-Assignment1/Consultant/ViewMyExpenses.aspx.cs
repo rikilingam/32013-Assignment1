@@ -22,8 +22,26 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Consultant
         {
             ExpenseReportDAL expenseReportDAL = new ExpenseReportDAL();
 
-            gvDisplayExpenseReports.DataSource = expenseReportDAL.GetExpenseReportsByConsultant((Guid)Membership.GetUser().ProviderUserKey, ddlSearchFilter.SelectedValue);
-            gvDisplayExpenseReports.DataBind();
+            rptExpenseReport.DataSource = expenseReportDAL.GetExpenseReportsByConsultant((Guid)Membership.GetUser().ProviderUserKey, ddlSearchFilter.SelectedValue);
+            rptExpenseReport.DataBind();
+
+            //gvDisplayExpenseReports.DataSource = expenseReportDAL.GetExpenseReportsByConsultant((Guid)Membership.GetUser().ProviderUserKey, ddlSearchFilter.SelectedValue);
+            //gvDisplayExpenseReports.DataBind();
         }
+
+        //protected void gvDisplayExpenseReports_RowDataBound(object sender, GridViewRowEventArgs e)
+        //{
+        //    if (e.Row.RowType == DataControlRowType.DataRow)
+        //    {
+        //        int expenseId = (int)gvDisplayExpenseReports.DataKeys[e.Row.RowIndex].Value;
+        //        GridView gvExpenseItems = (GridView)e.Row.FindControl("gvExpenseItems");
+        //        List<ExpenseItem> expenseItems = new List<ExpenseItem>();
+        //        expenseItems = (string)e.Row.FindControl("expenseItems");
+        //        gvExpenseItems.DataSource = (ObjectDataSource)e.Row.FindControl("gvExpenseItems") ;
+        //        gvExpenseItems.DataBind();
+        //    }
+        //}
+
+
     }
 }
