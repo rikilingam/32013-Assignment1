@@ -145,9 +145,9 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
 
         }
 
-        private List<ExpenseItem> GetExpenseItemsByExpenseId(int expenseid)
+        public List<ExpenseItem> GetExpenseItemsByExpenseId(int expenseid)
         {
-
+           
             List<ExpenseItem> expenseItems = new List<ExpenseItem>();
 
             DataAccessFunctions daFunctions = new DataAccessFunctions();
@@ -201,10 +201,45 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
 
         public void SupervisorUpdateReport()
         {
+
         }
 
         public void AccountsUpdateReport()
         {
+
+        }
+
+        public List<ExpenseReport> GetReportSummaryBySupervisor(int id)
+        {
+            List<ExpenseReport> expenseReports = new List<ExpenseReport>();
+          //  EmployeeDAL employeeDAL = new EmployeeDAL();
+
+            DataAccessFunctions daFunctions = new DataAccessFunctions();
+            string query = String.Format("SELECT ExpenseId,CreateDate,CreatedById,Status,DepartmentId FROM ExpenseHeader WHERE DepartmentId ='{0}' ", id);
+            daFunctions.Command = new SqlCommand(query, daFunctions.Connection);
+
+            try
+            {
+                daFunctions.Connection.Open();                
+                SqlDataReader rdr = daFunctions.Command.ExecuteReader();
+                while (rdr.Read())
+                {
+                    ExpenseReport report = new ExpenseReport();                   
+                    report.ExpenseId = Convert.ToInt32(rdr[0]);
+                    report.CreateDate = Convert.ToDateTime(rdr[1]);
+                    report.CreatedById = (Guid)(rdr[2]);
+                    report.Status = (ReportStatus)Enum.Parse(typeof(ReportStatus), (string)rdr[3]);
+                    report.DepartmentId =(int) rdr[4];                 
+                    report.ExpenseItems = GetExpenseItemsByExpenseId(report.ExpenseId);
+                    expenseReports.Add(report);
+                  }                
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("There was a problem running method GetReportSummaryBySupervisor: " + ex.Message);
+            }
+            daFunctions.Connection.Close();
+            return expenseReports;
 
         }
 
