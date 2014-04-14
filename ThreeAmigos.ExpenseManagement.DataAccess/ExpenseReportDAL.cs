@@ -12,7 +12,7 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
 {
     public class ExpenseReportDAL
     {
-        //private DataAccessFunctions daFunctions;
+        private DataAccessFunctions daFunctions;
 
         public ExpenseReportDAL()
         {
@@ -25,15 +25,13 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
         /// <param name="expenseReport"></param>
         public void ProcessExpense(ExpenseReport expenseReport)
         {
-
-            expenseReport.ExpenseId = InsertExpenseHeader(expenseReport.CreatedById, expenseReport.CreateDate, expenseReport.DepartmentId, expenseReport.Status.ToString());
+            expenseReport.ExpenseId = InsertExpenseHeader(expenseReport.CreatedBy.UserId, expenseReport.CreateDate, expenseReport.DepartmentId, expenseReport.Status.ToString());
 
             foreach (ExpenseItem item in expenseReport.ExpenseItems)
             {
                 item.ExpenseHeaderId = expenseReport.ExpenseId;
                 InsertExpenseItem(item.ExpenseHeaderId, item.ExpenseDate, item.Location, item.Description, item.Amount, item.Currency, item.AudAmount, item.ReceiptFileName);
             }
-
         }
 
         /// <summary>
@@ -85,7 +83,6 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
         /// </summary>
         private void InsertExpenseItem(int expenseId, DateTime expenseDate, string location, string description, double amount, string currency, double audAmount, string receiptFileName)
         {
-
             DataAccessFunctions daFunctions = new DataAccessFunctions();
             string query = String.Format("INSERT INTO ExpenseItem (ExpenseHeaderId, ExpenseDate, Location, Description, Amount, Currency,AudAmount,ReceiptFileName) VALUES({0},'{1}','{2}','{3}',{4},'{5}',{6},'{7}')", expenseId, expenseDate, location, description, amount, currency, audAmount, receiptFileName);
             SqlCommand cmd = new SqlCommand(query, daFunctions.Connection);
@@ -103,13 +100,20 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
 
         }
 
-        public List<ExpenseReport> GetReportSummaryByConsultant(Guid id, string status)
+        public List<ExpenseReport> GetExpenseReportByConsultant(Guid id, string status)
+        {
+            string query = String.Format("SELECT ExpenseId, CreateDate, CreatedById, ApprovedById, ProcessedById, Status FROM ExpenseHeader WHERE CreatedById='{0}' and Status LIKE '{1}'", id, status);
+
+            return GetReportsFromDatabase(query);
+        }
+
+        private List<ExpenseReport> GetReportsFromDatabase(string query)
         {
             List<ExpenseReport> expenseReports = new List<ExpenseReport>();
             EmployeeDAL employeeDAL = new EmployeeDAL();
 
             DataAccessFunctions daFunctions = new DataAccessFunctions();
-            string query = String.Format("SELECT ExpenseId, CreateDate, CreatedById, ApprovedById, ProcessedById, Status FROM ExpenseHeader WHERE CreatedById ='{0}' AND status LIKE'{1}' ", id, status);
+
             daFunctions.Command = new SqlCommand(query, daFunctions.Connection);
 
             try
@@ -121,7 +125,6 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
                 while (rdr.Read())
                 {
                     ExpenseReport report = new ExpenseReport();
-                    ExpenseItem item = new ExpenseItem();
                     Employee createdBy = new Employee();
                     Employee approvedBy = new Employee();
                     Employee processedBy = new Employee();
@@ -129,7 +132,9 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
                     report.ExpenseId = rdr["ExpenseId"] as int? ?? default(int);
                     report.CreateDate = (DateTime)rdr["CreateDate"];
                     report.Status = (ReportStatus)Enum.Parse(typeof(ReportStatus), (string)rdr["Status"]);
-
+                    report.CreatedBy = employeeDAL.GetEmployee(rdr["CreatedById"] as Guid? ?? default(Guid));
+                    report.ApprovedBy = employeeDAL.GetEmployee(rdr["ApprovedById"] as Guid? ?? default(Guid));
+                    report.ProcessedBy = employeeDAL.GetEmployee(rdr["ProcessedById"] as Guid? ?? default(Guid));
                     report.ExpenseItems = GetExpenseItemsByExpenseId(report.ExpenseId);
                     expenseReports.Add(report);
                 }
@@ -147,11 +152,12 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
 
         public List<ExpenseItem> GetExpenseItemsByExpenseId(int expenseid)
         {
-           
+
             List<ExpenseItem> expenseItems = new List<ExpenseItem>();
 
             DataAccessFunctions daFunctions = new DataAccessFunctions();
-            string query = String.Format("SELECT ExpenseHeaderId,ItemId, ExpenseDate, Location, Description, AudAmount, ReceiptFileName FROM ExpenseItem WHERE ExpenseHeaderId={0}", expenseid);
+
+            string query = String.Format("SELECT ExpenseHeaderId,ItemId, ExpenseDate, Location, Description,Amount,AudAmount, ReceiptFileName FROM ExpenseItem WHERE ExpenseHeaderId={0}", expenseid); // Added Amount field just for testing
 
             daFunctions.Connection.Open();
             daFunctions.Command.CommandText = query;
@@ -166,6 +172,7 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
                 item.ExpenseDate = (DateTime)rdr["ExpenseDate"];
                 item.Location = (string)rdr["Location"];
                 item.Description = (string)rdr["Description"];
+                item.Amount = Convert.ToDouble(rdr["Amount"]);//as double? ?? default(double);  // for testing
                 item.AudAmount = rdr["AudAmount"] as double? ?? default(double);
                 item.ReceiptFileName = (string)rdr["ReceiptFileName"];
 
@@ -176,72 +183,148 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
             return expenseItems;
         }
 
-        //public DataSet GetReportsByConsultant(Guid id, string status)
-        //{
-        //    DataSet expenseReports = new DataSet();
-
-        //    string query = String.Format("SELECT ExpenseId, CreateDate, Status, ItemId, ExpenseDate, Location, Description, AudAmount, ReceiptFileName FROM ExpenseItem i INNER JOIN ExpenseHeader h ON i.ExpenseHeaderId = h.ExpenseId WHERE h.CreatedById ='{0}' AND status LIKE'{1}' ", id, status);
-
-        //    daFunctions.Command.CommandText = query;
-
-        //    SqlDataAdapter adapter = new SqlDataAdapter(query,daFunctions.Connection);
-
-        //    try
-        //    {
-        //        adapter.Fill(expenseReports);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception("There was a problem running method GetReportSummaryByConsultant: " + ex.Message);
-        //    }
-
-        //    return expenseReports;
-        //}
-
-
-        public void SupervisorUpdateReport()
+        public DataSet GetReportsByConsultant(Guid id, string status)
         {
+            DataSet expenseReports = new DataSet();
 
-        }
+            string query = String.Format("SELECT ExpenseId, CreateDate, Status, ItemId, ExpenseDate, Location, Description, AudAmount, ReceiptFileName FROM ExpenseItem i INNER JOIN ExpenseHeader h ON i.ExpenseHeaderId = h.ExpenseId WHERE h.CreatedById ='{0}' AND status LIKE'{1}' ", id, status);
 
-        public void AccountsUpdateReport()
-        {
+            daFunctions.Command.CommandText = query;
 
-        }
-
-        public List<ExpenseReport> GetReportSummaryBySupervisor(int id)
-        {
-            List<ExpenseReport> expenseReports = new List<ExpenseReport>();
-          //  EmployeeDAL employeeDAL = new EmployeeDAL();
-
-            DataAccessFunctions daFunctions = new DataAccessFunctions();
-            string query = String.Format("SELECT ExpenseId,CreateDate,CreatedById,Status,DepartmentId FROM ExpenseHeader WHERE DepartmentId ='{0}' ", id);
-            daFunctions.Command = new SqlCommand(query, daFunctions.Connection);
+            SqlDataAdapter adapter = new SqlDataAdapter(query, daFunctions.Connection);
 
             try
             {
-                daFunctions.Connection.Open();                
-                SqlDataReader rdr = daFunctions.Command.ExecuteReader();
-                while (rdr.Read())
-                {
-                    ExpenseReport report = new ExpenseReport();                   
-                    report.ExpenseId = Convert.ToInt32(rdr[0]);
-                    report.CreateDate = Convert.ToDateTime(rdr[1]);
-                    report.CreatedById = (Guid)(rdr[2]);
-                    report.Status = (ReportStatus)Enum.Parse(typeof(ReportStatus), (string)rdr[3]);
-                    report.DepartmentId =(int) rdr[4];                 
-                    report.ExpenseItems = GetExpenseItemsByExpenseId(report.ExpenseId);
-                    expenseReports.Add(report);
-                  }                
+                adapter.Fill(expenseReports);
             }
             catch (Exception ex)
             {
-                throw new Exception("There was a problem running method GetReportSummaryBySupervisor: " + ex.Message);
+                throw new Exception("There was a problem running method GetReportSummaryByConsultant: " + ex.Message);
             }
-            daFunctions.Connection.Close();
+
             return expenseReports;
+        }
+
+
+       
+       // BELOW METHODS ARE USED FOR SUPERVISOR FUNCTIONS    
+  
+       // Gets the reports that are submitted by consultant but are not approved or rejected
+       public List<ExpenseReport> GetReportSummaryBySupervisor(int id)
+        {
+            string query = string.Format("SELECT ExpenseId, CreateDate, CreatedById, ApprovedById, ProcessedById, Status FROM ExpenseHeader WHERE DepartmentId ='{0}' and Status ='{1}' ", id, ReportStatus.Submitted);
+            return GetReportsFromDatabase(query);
+        }
+      
+       // To calculate the Sum of expenses of reports that are approved by supervisors
+       public double SumOfExpenseApproved(int id)
+        {
+            double totalExpenseApproved = 0;
+            string query = string.Format("SELECT ExpenseId, CreateDate, CreatedById, ApprovedById, ProcessedById, Status FROM ExpenseHeader WHERE DepartmentId ='{0}' and Status ='{1}' ", id, ReportStatus.ApproveBySupervisor);
+            List<ExpenseReport> expenseReports = new List<ExpenseReport>();
+            expenseReports=GetReportsFromDatabase(query);
+            totalExpenseApproved = SumOfExpenseItem(expenseReports);
+
+            //EmployeeDAL employeeDAL = new EmployeeDAL();
+            //DataAccessFunctions daFunctions = new DataAccessFunctions();
+            //daFunctions.Command = new SqlCommand(query, daFunctions.Connection);
+
+            //try
+            //{
+            //    daFunctions.Connection.Open();
+            //    SqlDataReader rdr = daFunctions.Command.ExecuteReader();
+            //    while (rdr.Read())
+            //    {
+            //        ExpenseReport report = new ExpenseReport();
+            //        Employee createdBy = new Employee();
+            //        Employee approvedBy = new Employee();
+            //        Employee processedBy = new Employee();
+
+            //        report.ExpenseId = rdr["ExpenseId"] as int? ?? default(int);
+            //        report.CreateDate = (DateTime)rdr["CreateDate"];
+            //        report.Status = (ReportStatus)Enum.Parse(typeof(ReportStatus), (string)rdr["Status"]);
+            //        report.CreatedBy = employeeDAL.GetEmployee(rdr["CreatedById"] as Guid? ?? default(Guid));
+            //        report.ApprovedBy = employeeDAL.GetEmployee(rdr["ApprovedById"] as Guid? ?? default(Guid));
+            //        report.ProcessedBy = employeeDAL.GetEmployee(rdr["ProcessedById"] as Guid? ?? default(Guid));
+            //        report.ExpenseItems = GetExpenseItemsByExpenseId(report.ExpenseId);
+            //        expenseReports.Add(report);
+                    
+            //        totalExpenseApproved = SumOfExpenseItem(expenseReports);
+            //    }
+
+            //    daFunctions.Connection.Close();
+            //}
+            //catch (Exception ex)
+            //{
+            //    throw new Exception("There was a problem running method GetReportSummaryByConsultant: " + ex.Message);
+            //}
+            return totalExpenseApproved;
 
         }
 
+       // Calculates the sum of items in report passed from above method
+       public double SumOfExpenseItem(List<ExpenseReport> rep)
+        {
+            double sum = 0;
+            foreach (var item in rep)
+            {
+                for(int i=0;i<item.ExpenseItems.Count;i++)
+                sum = sum + item.ExpenseItems[i].Amount;
+            }
+            return sum;
+        }
+      
+       // Method if expense report is approved by supervisor
+       public void SupervisorAddExpenseReport(int expenseId, Guid empId)
+       {
+           string query = "update ExpenseHeader set ApprovedById=@ApprovedById,  ApprovedDate=@ApprovedDate,Status=@Status where ExpenseId='" + expenseId + "'";
+           //  where Username='" + username + "'";                                  
+           DataAccessFunctions daFunctions = new DataAccessFunctions();
+           daFunctions.Connection.Open();
+
+           daFunctions.Command = new SqlCommand(query, daFunctions.Connection);
+           daFunctions.Command.Parameters.AddWithValue("@ApprovedById", empId);
+           daFunctions.Command.Parameters.AddWithValue("@ApprovedDate", DateTime.Now);
+           daFunctions.Command.Parameters.AddWithValue("@Status", ReportStatus.ApproveBySupervisor.ToString());
+           daFunctions.Command.ExecuteNonQuery();
+           daFunctions.Connection.Close();
+       }
+
+       // Method if expense report is rejected by supervisor
+       public void SupervisorRejectExpenseReport(int expenseId, Guid empId)
+       {
+           string query = "update ExpenseHeader set ApprovedById=@ApprovedById,  ApprovedDate=@ApprovedDate,Status=@Status where ExpenseId='" + expenseId + "'";
+                                          
+           DataAccessFunctions daFunctions = new DataAccessFunctions();
+           daFunctions.Connection.Open();
+
+           daFunctions.Command = new SqlCommand(query, daFunctions.Connection);
+           daFunctions.Command.Parameters.AddWithValue("@ApprovedById", empId);
+           daFunctions.Command.Parameters.AddWithValue("@ApprovedDate", DateTime.Now);
+           daFunctions.Command.Parameters.AddWithValue("@Status", ReportStatus.RejectedBySupervisor.ToString());
+           daFunctions.Command.ExecuteNonQuery();
+           daFunctions.Connection.Close();
+       }
+    
+
+       // Other Methods
+
+       public List<ExpenseReport> GetReportsApprovedBySupervisor(int id)
+       {
+           string query = string.Format("SELECT ExpenseId, CreateDate, CreatedById, ApprovedById, ProcessedById, Status FROM ExpenseHeader WHERE DepartmentId ='{0}' and Status ='{1}' ", id, ReportStatus.ApproveBySupervisor);
+           return GetReportsFromDatabase(query);
+       }
+
+       public List<ExpenseReport> GetReportsRejectedBySupervisor(int id)
+       {
+           string query = string.Format("SELECT ExpenseId, CreateDate, CreatedById, ApprovedById, ProcessedById, Status FROM ExpenseHeader WHERE DepartmentId ='{0}' and Status ='{1}' ", id, ReportStatus.RejectedBySupervisor);
+           return GetReportsFromDatabase(query);
+       }
+
+       public List<ExpenseReport> GetReportsRejectedByAccountsStaff(int id)
+       {
+           string query = string.Format("SELECT ExpenseId, CreateDate, CreatedById, ApprovedById, ProcessedById, Status FROM ExpenseHeader WHERE DepartmentId ='{0}' and Status ='{1}' ", id, ReportStatus.RejectedByAccountant);
+           return GetReportsFromDatabase(query);
+       }
     }
 }
