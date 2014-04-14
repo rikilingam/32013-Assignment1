@@ -33,8 +33,29 @@
                         </HeaderTemplate>
                         <ItemTemplate>
                             <tr><td></td></tr>
-                                <tr><td>Expense ID: </td>
+                                <tr><td>Expense ID: <%# Eval("ExpenseId") %> </td>
+                                    <td>Created By ID: <%# Eval("CreatedBy.FirstName")%> <%#Eval("CreatedBy.Surname") %> </td>
+                                    <td>Approved By ID: <%# Eval("ApprovedBy.UserId") %> </td>
+                                    <td>Processed By ID: <%# Eval("ProcessedBy.UserId") %> </td>
                                    </tr>
+                            <tr><td>
+                                <asp:Repeater ID="Repeater2" DataSource='<%# Eval("ExpenseItems") %>' runat="server">
+                                    <HeaderTemplate><table></HeaderTemplate>
+                                    <ItemTemplate>
+                                        <tr>
+                                            <td>
+                                                <%# Eval("Location") %>
+
+                                            </td>
+                                            <td><%# Eval("Description") %></td>
+                                        </tr>
+
+                                    </ItemTemplate>
+                                    <FooterTemplate></table></FooterTemplate>
+                                </asp:Repeater>
+                                </td>
+
+                            </tr>
                             <tr><td></td>
                             <td></td></tr>
                         </ItemTemplate>
