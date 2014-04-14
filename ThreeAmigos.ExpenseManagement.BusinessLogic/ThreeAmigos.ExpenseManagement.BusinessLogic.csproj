@@ -41,7 +41,6 @@
   <ItemGroup>
     <Compile Include="CalculateReportTotal.cs" />
     <Compile Include="CurrencyConverter.cs" />
-    <Compile Include="EmployeeService.cs" />
     <Compile Include="ExpenseReportBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
