@@ -13,7 +13,7 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
 {
     public class ExpenseReportDAL
     {
-        private DataAccessFunctions daFunctions;
+       // private DataAccessFunctions daFunctions;
 
         public ExpenseReportDAL()
         {
@@ -219,7 +219,7 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
         public double SumOfExpenseApproved(int id)
         {
             double totalExpenseApproved = 0;
-            string query = string.Format("SELECT ExpenseId, CreateDate, CreatedById, ApprovedById, ProcessedById, Status FROM ExpenseHeader WHERE DepartmentId ='{0}' and Status ='{1}' ", id, ReportStatus.ApproveBySupervisor);
+            string query = string.Format("SELECT ExpenseId, CreateDate, CreatedById, ApprovedById, ProcessedById, Status FROM ExpenseHeader WHERE DepartmentId ='{0}' and Status ='{1}' ", id, ReportStatus.ApprovedBySupervisor);
             List<ExpenseReport> expenseReports = new List<ExpenseReport>();
             expenseReports = GetReportsFromDatabase(query);
             totalExpenseApproved = SumOfExpenseItem(expenseReports);
@@ -303,7 +303,7 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
 
         public List<ExpenseReport> GetReportsApprovedBySupervisor(int id)
         {
-            string query = string.Format("SELECT ExpenseId, CreateDate, CreatedById, ApprovedById, ProcessedById, Status FROM ExpenseHeader WHERE DepartmentId ='{0}' and Status ='{1}' ", id, ReportStatus.ApproveBySupervisor);
+            string query = string.Format("SELECT ExpenseId, CreateDate, CreatedById, ApprovedById, ProcessedById, Status FROM ExpenseHeader WHERE DepartmentId ='{0}' and Status ='{1}' ", id, ReportStatus.ApprovedBySupervisor);
             return GetReportsFromDatabase(query);
         }
 
