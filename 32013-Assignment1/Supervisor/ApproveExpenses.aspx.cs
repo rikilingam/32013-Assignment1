@@ -27,12 +27,13 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Supervisor
             if (!IsPostBack)
             {                
                 Employee emp = new Employee();
+               // Department dept = new Department();
                 EmployeeDAL employeeDAL = new EmployeeDAL();
                 ExpenseReportBuilder expReport = new ExpenseReportBuilder();
 
                 emp = employeeDAL.GetEmployee((Guid)Membership.GetUser().ProviderUserKey);
                 Session["EmpUserId"] = emp.UserId;
-                Session["EmpDepartment"] = emp.DepartmentId;
+                Session["EmpDepartment"] = emp.Dept.DepartmentId;               
                 Session["ExpenseReport"] = expReport.GetReportSummaryBySupervisor((int)Session["EmpDepartment"]);
 
                 totalSpent = expReport.SumOfExpenseApproved((int)(Session["EmpDepartment"]));
