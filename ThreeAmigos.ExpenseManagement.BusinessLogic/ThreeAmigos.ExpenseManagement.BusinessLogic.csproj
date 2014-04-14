@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CalculateReportTotal.cs" />
     <Compile Include="CurrencyConverter.cs" />
     <Compile Include="EmployeeService.cs" />
     <Compile Include="ExpenseReportBuilder.cs" />

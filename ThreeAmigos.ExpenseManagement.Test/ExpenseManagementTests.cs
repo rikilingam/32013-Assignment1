@@ -13,14 +13,14 @@ using System.Transactions;
 
 namespace ThreeAmigos.ExpenseManagement.Test
 {
-    //[TestClass]
-    //public class ExpenseManagementTests
-    //{
-    //    [ClassInitialize]
-    //    public static void SetUp(TestContext context)
-    //    {
-    //        // This path needs to be changed to root path of the Visual Studio solution
-    //        string path = "C:\\Users\\riki\\Source\\Repos\\32013-Assignment1";
+    [TestClass]
+    public class ExpenseManagementTests
+    {
+        [ClassInitialize]
+        public static void SetUp(TestContext context)
+        {
+            // This path needs to be changed to root path of the Visual Studio solution
+            string path = "C:\\Users\\riki\\Source\\Repos\\32013-Assignment1";
 
     //        AppDomain.CurrentDomain.SetData("DataDirectory", path);
     //    }
@@ -37,12 +37,12 @@ namespace ThreeAmigos.ExpenseManagement.Test
     //    {
     //        Employee employee = new Employee();
 
-    //        Assert.IsNotNull(employee.UserId, "Employee UserId is null");
-    //        Assert.IsNotNull(employee.DepartmentName, "Employee DepartmentName is null");
-    //        Assert.IsNotNull(employee.FirstName, "Employee FirstName is null");
-    //        Assert.IsNotNull(employee.Surname, "Employee Surname is null");
-    //        Assert.IsNotNull(employee.Role, "Employee Role is null");
-    //    }
+            Assert.IsNotNull(employee.UserId, "Employee UserId is null");
+            Assert.IsNotNull(employee.DepartmentName, "Employee DepartmentName is null");
+            Assert.IsNotNull(employee.FirstName, "Employee FirstName is null");
+            Assert.IsNotNull(employee.Surname, "Employee Surname is null");
+            Assert.IsNotNull(employee.Role, "Employee Role is null");
+        }
 
     //    [TestMethod]
     //    public void ExpenseReport_CheckExpenseReportItemsIsNotNull_IsNotNull()
@@ -82,7 +82,7 @@ namespace ThreeAmigos.ExpenseManagement.Test
         //    Guid id = new Guid("2ABC120C-F985-4FEF-87D1-74B6F697B140");
         //    string status = "%";
 
-        //    reports = expenseReportDAL.GetReportSummaryByConsultant(id, status);
+            reports = expenseReportDAL.GetReportSummaryByConsultant(id, status);
 
         //    Assert.IsTrue(reports.Count > 0, "No data in list of reports");
 
@@ -106,10 +106,10 @@ namespace ThreeAmigos.ExpenseManagement.Test
         //    ExpenseReport expenseReport = new ExpenseReport();
         //    ExpenseItem item = new ExpenseItem();
 
-        //    expenseReport.CreateDate = DateTime.Now;
-        //    expenseReport.CreatedBy = new Guid("78560DD3-F95E-4011-B40D-A7B56ED17F24");
-        //    expenseReport.DepartmentId = 2;
-        //    expenseReport.Status = ReportStatus.Submitted;
+            expenseReport.CreateDate = DateTime.Now;
+            expenseReport.CreatedById = new Guid("78560DD3-F95E-4011-B40D-A7B56ED17F24");
+            expenseReport.DepartmentId = 2;
+            expenseReport.Status = ReportStatus.Submitted;
 
         //    item.ExpenseDate = DateTime.Now;
         //    item.Location = "Brisbane";
@@ -236,18 +236,24 @@ namespace ThreeAmigos.ExpenseManagement.Test
         //    testEmployee.DepartmentName = "Logistics Services";
         //    testEmployee.Role = "Consultant";
 
-        //    if (testEmployee.UserId == employee.UserId && testEmployee.FirstName == employee.FirstName
-        //        && testEmployee.Surname == employee.Surname && testEmployee.DepartmentId == employee.DepartmentId
-        //        && testEmployee.DepartmentName == employee.DepartmentName && testEmployee.Role == employee.Role)
-        //    {
-        //        return true;
-        //    }
-        //    else { return false; }
-        //}
+        private bool TestEmployeeComparer(Employee employee)
+        {
+            Employee testEmployee = new Employee();
+            testEmployee.UserId = new Guid("78560DD3-F95E-4011-B40D-A7B56ED17F24");
+            testEmployee.FirstName = "Vikki";
+            testEmployee.Surname = "Car";
+            testEmployee.DepartmentId = 2;
+            testEmployee.DepartmentName = "Logistics Services";
+            testEmployee.Role = "Consultant";
 
-        //    private bool CheckDatabaseForExpenseId(int id)
-        //    {
-        //        bool exist;
+            if (testEmployee.UserId == employee.UserId && testEmployee.FirstName == employee.FirstName
+                && testEmployee.Surname == employee.Surname && testEmployee.DepartmentId == employee.DepartmentId
+                && testEmployee.DepartmentName == employee.DepartmentName && testEmployee.Role == employee.Role)
+            {
+                return true;
+            }
+            else { return false; }
+        }
 
         //        DataAccessFunctions daFunctions = new DataAccessFunctions();
         //        string query = String.Format("SELECT ExpenseId from ExpenseHeader WHERE ExpenseId={0}", id);
@@ -280,5 +286,5 @@ namespace ThreeAmigos.ExpenseManagement.Test
         //        }
         //    }
         //}
-    
-}
+
+            }

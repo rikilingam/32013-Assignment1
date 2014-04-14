@@ -8,23 +8,23 @@ namespace ThreeAmigos.ExpenseManagement.BusinessObject
 {
     public class Employee
     {
-        public int EmployeeId { get; set; }
+        //public int EmployeeId { get; set; }
         public string FirstName { get; set; }
         public string Surname { get; set; }
-        public int DepartmentId { get; set; }
-        public string DepartmentName { get; set; }
+        //public int DepartmentId { get; set; }
+        //public string DepartmentName { get; set; }
+        public Department Dept { get; set; }
         public string Role { get; set; }
         public Guid UserId { get; set; }
 
         public Employee()
         {
             UserId = new Guid();
-            EmployeeId = -1;
             FirstName = "";
             Surname = "";
-            DepartmentId = -1;
-            DepartmentName = "";
             Role = "";
+            Dept = new Department();
+
         }
 
         public string Fullname

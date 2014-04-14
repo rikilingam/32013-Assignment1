@@ -40,12 +40,12 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface
 
             reportBuilder.expenseReport.CreateDate = DateTime.Now;
             reportBuilder.expenseReport.CreatedBy = employee;
-            reportBuilder.expenseReport.DepartmentId = employee.DepartmentId;
+            reportBuilder.expenseReport.ExpenseToDept = employee.Dept;
 
             Session["expenseReport"] = reportBuilder;
 
             txtEmployeeName.Text = employee.FirstName + " " + employee.Surname;
-            txtDepartment.Text = employee.DepartmentName;
+            txtDepartment.Text = employee.Dept.DepartmentName;
             txtExpenseDate.Text = reportBuilder.expenseReport.CreateDate.ToString();
 
         }

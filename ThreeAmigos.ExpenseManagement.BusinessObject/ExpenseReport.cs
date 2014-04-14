@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 
 namespace ThreeAmigos.ExpenseManagement.BusinessObject
 {
-    public enum ReportStatus { Submitted, RejectedBySupervisor, ApproveBySupervisor, RejectedByAccountant, ApprovedByAccountant }
+    public enum ReportStatus { Submitted, RejectedBySupervisor, ApprovedBySupervisor, RejectedByAccountant, ApprovedByAccountant }
 
     public class ExpenseReport
     {
         public int ExpenseId { get; set; }
-        public int DepartmentId { get; set; }
+        //public int DepartmentId { get; set; }
+        public Department ExpenseToDept { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime ApprovedDate { get; set; }
         public DateTime ProcessedDate { get; set; }
@@ -31,9 +32,8 @@ namespace ThreeAmigos.ExpenseManagement.BusinessObject
             CreatedBy = new Employee();
             ApprovedBy = new Employee();
             ProcessedBy = new Employee();
+            ExpenseToDept = new Department();
             ExpenseItems = new List<ExpenseItem>();
         }
-
-
     }
 }
