@@ -10,16 +10,27 @@
     <p>
         &nbsp;</p>
     <p>
-        <asp:GridView ID="GridView1" runat="server" OnSelectedIndexChanged="GridView1_SelectedIndexChanged" BackColor="LightGoldenrodYellow" BorderColor="Tan" BorderWidth="1px" CellPadding="2" ForeColor="Black" GridLines="None" OnRowCommand="GridView1_RowCommand" OnRowCancelingEdit="GridView1_RowCancelingEdit" DataKeyNames="ExpenseId">
+        <asp:GridView ID="grdExpenseReport" runat="server" OnSelectedIndexChanged="GridView1_SelectedIndexChanged" BackColor="LightGoldenrodYellow" BorderColor="Tan" BorderWidth="1px" CellPadding="2" ForeColor="Black" GridLines="None" OnRowCommand="GridView1_RowCommand" OnRowCancelingEdit="GridView1_RowCancelingEdit" DataKeyNames="ExpenseId" Width="726px">
             <AlternatingRowStyle BackColor="PaleGoldenrod" />
             <Columns>
-                <asp:TemplateField HeaderText="Check Items">
+                <asp:TemplateField>
                     <ItemTemplate>
                         <asp:Button ID="btnItemDetails" runat="server" Text="Check Items" CommandName="Details" CommandArgument='<%#Container.DataItemIndex %>' />
-                        <asp:GridView ID="GridView2" runat="server">
+                        &nbsp;&nbsp;
+                        <asp:GridView ID="grdExpenseItems" runat="server">
                         </asp:GridView>
                         <asp:Button ID="btnCancelItems" runat="server" Text="Cancel" Visible="False" CommandName="Cancel" CommandArgument='<%#Container.DataItemIndex %>' />
                         <br />
+                    </ItemTemplate>
+                </asp:TemplateField>
+                <asp:TemplateField>
+                    <ItemTemplate>
+                        <asp:Button ID="btnApproveExpense" runat="server" Text="Approve Expense" CommandName="ApproveExpense" CommandArgument='<%#Container.DataItemIndex %>'/>
+                    </ItemTemplate>
+                </asp:TemplateField>
+                <asp:TemplateField>
+                    <ItemTemplate>
+                        <asp:Button ID="Button1" runat="server" Height="27px" Text="Reject Expense" CommandName="RejectExpense" CommandArgument='<%#Container.DataItemIndex %>' />
                     </ItemTemplate>
                 </asp:TemplateField>
             </Columns>
