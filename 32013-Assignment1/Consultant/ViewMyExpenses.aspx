@@ -16,7 +16,7 @@
                         <strong>Search Filter:</strong>
                         <asp:DropDownList ID="ddlSearchFilter" runat="server" CssClass="form-control">
                             <asp:ListItem Value="%">All Submitted</asp:ListItem>
-                            <asp:ListItem Value="ApproveBySupervisor">All Approved</asp:ListItem>
+                            <asp:ListItem Value="ApprovedBySupervisor">All Approved</asp:ListItem>
                             <asp:ListItem Value="Submitted">Pending Approval</asp:ListItem>
                         </asp:DropDownList>
                         <asp:Button ID="btnSearchExpenses" runat="server" Text="Search" CssClass="btn btn-primary" OnClick="btnSearchExpenses_Click" />
@@ -27,33 +27,37 @@
                     <hr />
                 </div>
                 <div class="row" id="divDisplayExpenseReports" runat="server">
-
                     <asp:Repeater ID="rptExpenseReport" runat="server">
                         <HeaderTemplate>
                             <table class="table">
-                                <tr>
-                                    <th>Expense Date</th>
-                                    <th>Location</th>
-                                    <th>Description</th>
-                                    <th>Receipt</th>
-                                    <th>Amount (AUD)</th>
-                                </tr>
                         </HeaderTemplate>
                         <ItemTemplate>
-                            <tr class="active">
-                                <td colspan="5">Expense ID: <%# Eval("ExpenseId") %> &nbsp;|&nbsp;Consultant: <%# Eval("CreatedBy.Fullname") %></td>
+                            <tr class="success">
+                                <th>Report Date: <%# Eval("CreateDate") %></th>
+                                <th>Consultant: <%# Eval("CreatedBy.Fullname") %></th>
+                                <th>Department: <%# Eval("ExpenseToDept.DepartmentName") %></th>
+                                <th>Status: <%# Eval("Status") %></th>
+                                <th></th>
+                                <th></th>
                             </tr>
-
                             <asp:Repeater ID="rptExpenseItems" DataSource='<%# Eval("ExpenseItems") %>' runat="server">
                                 <HeaderTemplate>
+                                    <tr>
+                                        <th></th>
+                                        <th>Expense Date</th>
+                                        <th>Location</th>
+                                        <th>Description</th>
+                                        <th>Receipt</th>
+                                        <th>Amount (AUD)</th>
+                                    </tr>
                                 </HeaderTemplate>
                                 <ItemTemplate>
-                                    <tr>
-                                        <td><%# Eval("ExpenseDate") %></td>
-                                        <td><%# Eval("Location") %></td>
-                                        <td><%# Eval("Description") %></td>
-                                        <td><%# Eval("ReceiptFileName") %></td>
-                                        <td><%# Eval("AudAmount") %></td>
+                                    <th></th>
+                                    <td><%# Eval("ExpenseDate") %></td>
+                                    <td><%# Eval("Location") %></td>
+                                    <td><%# Eval("Description") %></td>
+                                    <td><%# Eval("ReceiptFileName") %></td>
+                                    <td><%# Eval("AudAmount") %></td>
                                     </tr>
                                 </ItemTemplate>
                                 <FooterTemplate>
@@ -62,11 +66,11 @@
                                         <td></td>
                                         <td></td>
                                         <td></td>
+                                        <td></td>
                                         <td><%# GetReportTotalValue((List<ThreeAmigos.ExpenseManagement.BusinessObject.ExpenseItem>)Eval("ExpenseItems")) %></td>
                                     </tr>
                                 </FooterTemplate>
                             </asp:Repeater>
-
                         </ItemTemplate>
                         <FooterTemplate>
                             </table>

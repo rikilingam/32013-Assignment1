@@ -156,7 +156,7 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
             }
             catch (Exception ex)
             {
-                throw new Exception("There was a problem running method GetReportSummaryByConsultant: " + ex.Message);
+                throw new Exception("There was a problem retrieving expense reports: " + ex.Message);
             }
 
             return expenseReports;
