@@ -17,5 +17,15 @@ namespace ThreeAmigos.ExpenseManagement.BusinessObject
         public string Currency { get; set; }
         public double AudAmount { get; set; }
         public string ReceiptFileName { get; set; }
+
+        public ExpenseItem()
+        {
+            Location = "";
+            Description = "";
+            Currency = "";
+            ReceiptFileName = "";        
+        }
     }
+
+  
 }

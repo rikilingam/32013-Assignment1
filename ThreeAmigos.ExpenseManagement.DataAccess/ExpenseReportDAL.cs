@@ -45,28 +45,27 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
             DataAccessFunctions daFunctions = new DataAccessFunctions();
             SqlCommand cmd = new SqlCommand();
 
+            cmd.Connection = daFunctions.Connection;
+            cmd.CommandText = "AddExpenseHeader";
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            //Parameters for the expense header
+            cmd.Parameters.AddWithValue("@CreatedById", createdById);
+            cmd.Parameters.AddWithValue("@CreateDate", createDate);
+            cmd.Parameters.AddWithValue("@DepartmentId", departmentId);
+            cmd.Parameters.AddWithValue("@Status", status);
+
+            // Will return the value of expense Id
+            cmd.Parameters.Add("@Id", SqlDbType.Int);
+            cmd.Parameters["@Id"].Direction = ParameterDirection.Output;
+
             try
             {
-                cmd.Connection = daFunctions.Connection;
-                cmd.CommandText = "AddExpenseHeader";
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                //Parameters for the expense header
-                cmd.Parameters.AddWithValue("@CreatedById", createdById);
-                cmd.Parameters.AddWithValue("@CreateDate", createDate);
-                cmd.Parameters.AddWithValue("@DepartmentId", departmentId);
-                cmd.Parameters.AddWithValue("@Status", status);
-
-                // Will return the value of expense Id
-                cmd.Parameters.Add("@Id", SqlDbType.Int);
-                cmd.Parameters["@Id"].Direction = ParameterDirection.Output;
-
                 daFunctions.Connection.Open();
                 cmd.ExecuteNonQuery();
                 daFunctions.Connection.Close();
 
                 expenseId = Convert.ToInt32(cmd.Parameters["@Id"].Value);
-
             }
             catch (Exception ex)
             {
@@ -77,14 +76,27 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
         }
 
         /// <summary>
-        /// Inserts the each expense item into the database,
+        /// Inserts each expense item into the database,
         /// with a foreign key of expenseId
         /// </summary>
         private void InsertExpenseItem(int expenseId, DateTime expenseDate, string location, string description, double amount, string currency, double audAmount, string receiptFileName)
         {
             DataAccessFunctions daFunctions = new DataAccessFunctions();
-            string query = String.Format("INSERT INTO ExpenseItem (ExpenseHeaderId, ExpenseDate, Location, Description, Amount, Currency,AudAmount,ReceiptFileName) VALUES({0},'{1}','{2}','{3}',{4},'{5}',{6},'{7}')", expenseId, expenseDate, location, description, amount, currency, audAmount, receiptFileName);
-            SqlCommand cmd = new SqlCommand(query, daFunctions.Connection);
+            //string query = String.Format("INSERT INTO ExpenseItem (ExpenseHeaderId, ExpenseDate, Location, Description, Amount, Currency,AudAmount,ReceiptFileName) VALUES({0},'{1}','{2}','{3}',{4},'{5}',{6},'{7}')", expenseId, expenseDate, location, description, amount, currency, audAmount, receiptFileName);
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = daFunctions.Connection;
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.CommandText = "AddExpenseItem";
+
+            //parameters for the expense items
+            cmd.Parameters.AddWithValue("@ExpenseHeaderId", expenseId);
+            cmd.Parameters.AddWithValue("@ExpenseDate", expenseDate);
+            cmd.Parameters.AddWithValue("@Location", location);
+            cmd.Parameters.AddWithValue("@Description", description);
+            cmd.Parameters.AddWithValue("@Amount", amount);
+            cmd.Parameters.AddWithValue("@Currency", currency);
+            cmd.Parameters.AddWithValue("@AudAmount", audAmount);
+            cmd.Parameters.AddWithValue("@ReceiptFileName", receiptFileName);
 
             try
             {

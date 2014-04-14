@@ -11,5 +11,13 @@ namespace ThreeAmigos.ExpenseManagement.BusinessObject
         public int DepartmentId { get; set; }
         public string DepartmentName { get; set; }
         public double MonthlyBudget { get; set; }
+
+
+        public Department()
+        {
+            DepartmentId = -1;
+            DepartmentName = "";
+            MonthlyBudget = -1.00;
+        }
     }
 }
