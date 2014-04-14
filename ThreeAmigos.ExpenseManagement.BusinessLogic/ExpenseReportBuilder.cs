@@ -14,6 +14,7 @@ namespace ThreeAmigos.ExpenseManagement.BusinessLogic
     public class ExpenseReportBuilder
     {
         public ExpenseReport expenseReport;
+        ExpenseReportDAL exp = new ExpenseReportDAL();
 
         public ExpenseReportBuilder()
         {
@@ -36,8 +37,35 @@ namespace ThreeAmigos.ExpenseManagement.BusinessLogic
         {
             expenseReport.Status = ReportStatus.Submitted;
             ExpenseReportDAL expenseReportDAL = new ExpenseReportDAL();
-
             expenseReportDAL.ProcessExpense(expenseReport);
+        }
+
+
+        //BELOW METHODS ARE USED FOR SUPERVISORS FUNCTIONS
+        public List<ExpenseReport> GetReportSummaryBySupervisor(int id)
+        {
+            return exp.GetReportSummaryBySupervisor(id);
+        }
+       
+        public double SumOfExpenseApproved(int id)
+        {
+            return exp.SumOfExpenseApproved(id);
+        }
+
+        // Ccalculates the budget remaining in a department
+        public double CalculateRemainingBudget(double budget, double totalSpent)
+        {
+            return budget - totalSpent;
+        }
+
+        public void SupervisorAddExpenseReport(int expenseid, Guid empId)
+        {
+           exp.SupervisorAddExpenseReport(expenseid, empId);
+        }
+        
+        public void SupervisorRejectExpenseReport(int expenseid, Guid empId)
+        {
+            exp.SupervisorRejectExpenseReport(expenseid, empId);
         }
     }
 }
