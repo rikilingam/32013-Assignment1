@@ -31,12 +31,42 @@
                     <asp:Repeater ID="rptExpenseReport" runat="server">
                         <HeaderTemplate>
                             <table class="table">
+                                <tr>
+                                    <th>Expense Date</th>
+                                    <th>Location</th>
+                                    <th>Description</th>
+                                    <th>Receipt</th>
+                                    <th>Amount (AUD)</th>
+                                </tr>
                         </HeaderTemplate>
                         <ItemTemplate>
-                            <tr>
-                                <td>Expense ID: <%# Eval("ExpenseId") %></td>
-                                <td>Consultant: <%# Eval("CreatedBy.Fullname") %></td>
+                            <tr class="active">
+                                <td colspan="5">Expense ID: <%# Eval("ExpenseId") %> &nbsp;|&nbsp;Consultant: <%# Eval("CreatedBy.Fullname") %></td>
                             </tr>
+
+                            <asp:Repeater ID="rptExpenseItems" DataSource='<%# Eval("ExpenseItems") %>' runat="server">
+                                <HeaderTemplate>
+                                </HeaderTemplate>
+                                <ItemTemplate>
+                                    <tr>
+                                        <td><%# Eval("ExpenseDate") %></td>
+                                        <td><%# Eval("Location") %></td>
+                                        <td><%# Eval("Description") %></td>
+                                        <td><%# Eval("ReceiptFileName") %></td>
+                                        <td><%# Eval("AudAmount") %></td>
+                                    </tr>
+                                </ItemTemplate>
+                                <FooterTemplate>
+                                    <tr class="info">
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><%# GetReportTotalValue((List<ThreeAmigos.ExpenseManagement.BusinessObject.ExpenseItem>)Eval("ExpenseItems")) %></td>
+                                    </tr>
+                                </FooterTemplate>
+                            </asp:Repeater>
+
                         </ItemTemplate>
                         <FooterTemplate>
                             </table>

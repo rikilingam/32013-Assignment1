@@ -29,6 +29,17 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Consultant
             //gvDisplayExpenseReports.DataBind();
         }
 
+        public string GetReportTotalValue(List<ExpenseItem> expenseItems)
+        {
+            return CalculateReportTotal.ReportTotal(expenseItems).ToString();
+        }
+
+        protected void rptExpenseReport_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            
+        }
+
+
         //protected void gvDisplayExpenseReports_RowDataBound(object sender, GridViewRowEventArgs e)
         //{
         //    if (e.Row.RowType == DataControlRowType.DataRow)
