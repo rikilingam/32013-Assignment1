@@ -22,7 +22,7 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Consultant
         {
             ExpenseReportDAL expenseReportDAL = new ExpenseReportDAL();
 
-            rptExpenseReport.DataSource = expenseReportDAL.GetExpenseReportByConsultant((Guid)Membership.GetUser().ProviderUserKey, ddlSearchFilter.SelectedValue);
+            rptExpenseReport.DataSource = expenseReportDAL.GetExpenseReportsByConsultant((Guid)Membership.GetUser().ProviderUserKey, ddlSearchFilter.SelectedValue);
             rptExpenseReport.DataBind();
 
             //gvDisplayExpenseReports.DataSource = expenseReportDAL.GetExpenseReportsByConsultant((Guid)Membership.GetUser().ProviderUserKey, ddlSearchFilter.SelectedValue);

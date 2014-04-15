@@ -85,8 +85,21 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
         private void InsertExpenseItem(int expenseId, DateTime expenseDate, string location, string description, double amount, string currency, double audAmount, string receiptFileName)
         {
             DataAccessFunctions daFunctions = new DataAccessFunctions();
-            string query = String.Format("INSERT INTO ExpenseItem (ExpenseHeaderId, ExpenseDate, Location, Description, Amount, Currency,AudAmount,ReceiptFileName) VALUES({0},'{1}','{2}','{3}',{4},'{5}',{6},'{7}')", expenseId, expenseDate, location, description, amount, currency, audAmount, receiptFileName);
-            SqlCommand cmd = new SqlCommand(query, daFunctions.Connection);
+            //string query = String.Format("INSERT INTO ExpenseItem (ExpenseHeaderId, ExpenseDate, Location, Description, Amount, Currency,AudAmount,ReceiptFileName) VALUES({0},'{1}','{2}','{3}',{4},'{5}',{6},'{7}')", expenseId, expenseDate, location, description, amount, currency, audAmount, receiptFileName);
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = daFunctions.Connection;
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.CommandText = "AddExpenseItem";
+
+            //parameters for the expense items
+            cmd.Parameters.AddWithValue("@ExpenseHeaderId", expenseId);
+            cmd.Parameters.AddWithValue("@ExpenseDate", expenseDate);
+            cmd.Parameters.AddWithValue("@Location", location);
+            cmd.Parameters.AddWithValue("@Description", description);
+            cmd.Parameters.AddWithValue("@Amount", amount);
+            cmd.Parameters.AddWithValue("@Currency", currency);
+            cmd.Parameters.AddWithValue("@AudAmount", audAmount);
+            cmd.Parameters.AddWithValue("@ReceiptFileName", receiptFileName);
 
             try
             {
@@ -101,7 +114,7 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
 
         }
 
-        public List<ExpenseReport> GetExpenseReportByConsultant(Guid id, string status)
+        public List<ExpenseReport> GetExpenseReportsByConsultant(Guid id, string status)
         {
             string query = String.Format("SELECT ExpenseId, CreateDate, CreatedById, ApprovedById, ProcessedById, Status FROM ExpenseHeader WHERE CreatedById='{0}' and Status LIKE '{1}'", id, status);
 

@@ -101,7 +101,7 @@ namespace ThreeAmigos.ExpenseManagement.Test
             Guid id = new Guid("2ABC120C-F985-4FEF-87D1-74B6F697B140");
             string status = "%";
 
-            reports = expenseReportDAL.GetExpenseReportByConsultant(id, status);
+            reports = expenseReportDAL.GetExpenseReportsByConsultant(id, status);
 
             Assert.IsTrue(reports.Count > 0, "No data in list of reports");
 
