@@ -28,7 +28,7 @@ namespace ThreeAmigos.ExpenseManagement.BusinessLogic
                 {
                     return amount * rate;
                 }
-                else return 0;
+                else return rate;
             }
             else if (currency == Currency.EUR.ToString())
             {

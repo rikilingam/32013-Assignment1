@@ -184,27 +184,27 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
             return expenseItems;
         }
 
-        public DataSet GetReportsByConsultant(Guid id, string status)
-        {
-            DataSet expenseReports = new DataSet();
+        //public DataSet GetReportsByConsultant(Guid id, string status)
+        //{
+        //    DataSet expenseReports = new DataSet();
 
-            string query = String.Format("SELECT ExpenseId, CreateDate, Status, ItemId, ExpenseDate, Location, Description, AudAmount, ReceiptFileName FROM ExpenseItem i INNER JOIN ExpenseHeader h ON i.ExpenseHeaderId = h.ExpenseId WHERE h.CreatedById ='{0}' AND status LIKE'{1}' ", id, status);
+        //    string query = String.Format("SELECT ExpenseId, CreateDate, Status, ItemId, ExpenseDate, Location, Description, AudAmount, ReceiptFileName FROM ExpenseItem i INNER JOIN ExpenseHeader h ON i.ExpenseHeaderId = h.ExpenseId WHERE h.CreatedById ='{0}' AND status LIKE'{1}' ", id, status);
 
-            daFunctions.Command.CommandText = query;
+        //    daFunctions.Command.CommandText = query;
 
-            SqlDataAdapter adapter = new SqlDataAdapter(query, daFunctions.Connection);
+        //    SqlDataAdapter adapter = new SqlDataAdapter(query, daFunctions.Connection);
 
-            try
-            {
-                adapter.Fill(expenseReports);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("There was a problem running method GetReportSummaryByConsultant: " + ex.Message);
-            }
+        //    try
+        //    {
+        //        adapter.Fill(expenseReports);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception("There was a problem running method GetReportSummaryByConsultant: " + ex.Message);
+        //    }
 
-            return expenseReports;
-        }
+        //    return expenseReports;
+        //}
         
 
         // Below are the methods used by supervisor

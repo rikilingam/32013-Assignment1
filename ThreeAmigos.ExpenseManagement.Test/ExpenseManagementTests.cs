@@ -74,6 +74,25 @@ namespace ThreeAmigos.ExpenseManagement.Test
         }
 
         [TestMethod]
+        public void ConvertCurrency_ConvertCNYToAUD_AreEqual()
+        {
+            double testAUDAmount = 100 * 0.17430;
+
+            Assert.IsNotNull(ConfigurationManager.AppSettings["CNY"],"Currency CNY is NULL");
+            Assert.AreEqual(testAUDAmount,CurrencyConverter.ConvertToAUD("CNY", 100), "Conversion to CNY Failed");
+
+        }
+
+        [TestMethod]
+        public void ConvertCurrency_ConvertEURToAUD_AreEqual()
+        {
+            double testAUDAmount = 100 * 1.49146;
+
+            Assert.IsNotNull(ConfigurationManager.AppSettings["EUR"], "Currency EUR is NULL in AppConfig");
+            Assert.AreEqual(testAUDAmount, CurrencyConverter.ConvertToAUD("EUR", 100), "Conversion to EUR Failed");
+        }
+
+        [TestMethod]
         public void ExpenseReportDAL_GetReportSummaryByConsultant_IsTrue()
         {
             ExpenseReportDAL expenseReportDAL = new ExpenseReportDAL();
