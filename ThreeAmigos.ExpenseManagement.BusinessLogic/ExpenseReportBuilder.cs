@@ -42,9 +42,9 @@ namespace ThreeAmigos.ExpenseManagement.BusinessLogic
 
 
         //BELOW METHODS ARE USED FOR SUPERVISORS FUNCTIONS
-        public List<ExpenseReport> GetReportSummaryBySupervisor(int id)
+        public List<ExpenseReport> GetReportsBySupervisor(int id,string status)
         {
-            return exp.GetReportSummaryBySupervisor(id);
+            return exp.GetReportsBySupervisor(id,status);
         }
        
         public double SumOfExpenseApproved(int id)
