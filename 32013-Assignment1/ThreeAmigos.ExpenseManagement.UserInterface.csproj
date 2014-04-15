@@ -140,6 +140,8 @@
     <Content Include="Scripts\moment-with-langs.min.js" />
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\moment.min.js" />
+    <Content Include="Supervisor\CheckBalance.aspx" />
+    <Content Include="Supervisor\ViewReports.aspx" />
     <Content Include="WebForm1.aspx" />
     <Content Include="Supervisor\ApproveExpenses.aspx" />
     <Content Include="Test1.aspx" />
@@ -202,6 +204,20 @@
     </Compile>
     <Compile Include="Supervisor\ApproveExpenses.aspx.designer.cs">
       <DependentUpon>ApproveExpenses.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Supervisor\CheckBalance.aspx.cs">
+      <DependentUpon>CheckBalance.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Supervisor\CheckBalance.aspx.designer.cs">
+      <DependentUpon>CheckBalance.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Supervisor\ViewReports.aspx.cs">
+      <DependentUpon>ViewReports.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Supervisor\ViewReports.aspx.designer.cs">
+      <DependentUpon>ViewReports.aspx</DependentUpon>
     </Compile>
     <Compile Include="Test1.aspx.cs">
       <DependentUpon>Test1.aspx</DependentUpon>
