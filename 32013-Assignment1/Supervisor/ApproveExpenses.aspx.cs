@@ -87,44 +87,47 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Supervisor
                 List<ExpenseReport> expReport = new List<ExpenseReport>();
                 expReport =(List<ExpenseReport>) Session["ExpenseReport"];
 
-               // Use to check the sum of all items in the expense report
+               
                 for (int i = 0; i < expReport.Count; i++)
                 {
                     if (expReport[i].ExpenseId == Convert.ToInt32(grdExpenseReport.Rows[rowindex].Cells[3].Text))
                     {
                       Session["ExpenseId"] = expReport[i].ExpenseId;
-                        
+
+                      // Use to check the sum of all items in the expense report
                       for (int a = 0; a < expReport[i].ExpenseItems.Count; a++)
                       {
                         currentReportSum= CalculateReportTotal.ReportTotal(expReport[i].ExpenseItems);
                       }
                     }                   
-                 }           
+                 }
 
-            if(currentReportSum>Convert.ToDouble(Session["remainingBudget"]))
+                if (currentReportSum > Convert.ToDouble(Session["remainingBudget"]))
                 {
                     DialogResult UserReply = MessageBox.Show("Approving this expense will cross the total monthly budget...You want to approve?", "Important Question", MessageBoxButtons.YesNo);
                     if (UserReply.ToString() == "Yes")
                     {
-                        expReportBuilder.SupervisorAddExpenseReport(Convert.ToInt32(Session["ExpenseId"]), Session["EmpUserId"] as Guid? ?? default(Guid));
+                        expReportBuilder.SupervisorActionOnExpenseReport(Convert.ToInt32(Session["ExpenseId"]), Session["EmpUserId"] as Guid? ?? default(Guid), ReportStatus.ApprovedBySupervisor.ToString());
+
                     }
                     else
                     {
-                        expReportBuilder.SupervisorRejectExpenseReport(Convert.ToInt32(Session["ExpenseId"]), Session["EmpUserId"] as Guid? ?? default(Guid));
+                        expReportBuilder.SupervisorActionOnExpenseReport(Convert.ToInt32(Session["ExpenseId"]), Session["EmpUserId"] as Guid? ?? default(Guid), ReportStatus.RejectedBySupervisor.ToString());
+
                     }
                 }
-                
+
                 else
-                 {
-                     expReportBuilder.SupervisorAddExpenseReport(Convert.ToInt32(Session["ExpenseId"]), Session["EmpUserId"] as Guid? ?? default(Guid));
-                 }                 
+                {
+                    expReportBuilder.SupervisorActionOnExpenseReport(Convert.ToInt32(Session["ExpenseId"]), Session["EmpUserId"] as Guid? ?? default(Guid), ReportStatus.ApprovedBySupervisor.ToString());
+
+                }          
             }
 
             else if (e.CommandName == "RejectExpense")
             {
-               expReportBuilder.SupervisorRejectExpenseReport(Convert.ToInt32(Session["ExpenseId"]), Session["EmpUserId"] as Guid? ?? default(Guid));
+                expReportBuilder.SupervisorActionOnExpenseReport(Convert.ToInt32(Session["ExpenseId"]), Session["EmpUserId"] as Guid? ?? default(Guid), ReportStatus.RejectedBySupervisor.ToString());
             }
-
             else
             {
                 // child gridview  display false when cancel button raise event
