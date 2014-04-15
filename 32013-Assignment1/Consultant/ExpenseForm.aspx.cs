@@ -65,6 +65,7 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface
             expenseItem.Description = txtItemDescription.Text;
             expenseItem.Amount = Double.Parse(txtItemAmount.Text);
             expenseItem.Currency = ddlItemCurrency.SelectedValue;
+            expenseItem.AudAmount = CurrencyConverter.ConvertToAUD(expenseItem.Currency, expenseItem.Amount);
             expenseItem.ReceiptFileName = fileReceipt.FileName;
 
             reportBuilder.AddExpenseItem(expenseItem);

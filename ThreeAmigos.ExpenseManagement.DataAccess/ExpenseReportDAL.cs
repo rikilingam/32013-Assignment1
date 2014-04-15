@@ -204,13 +204,13 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
         // Below are the methods used by supervisor
         public List<ExpenseReport> GetReportsBySupervisor(int id,string status)
         {
-            string query = string.Format("SELECT ExpenseId, CreateDate, CreatedById, ApprovedById, ProcessedById, Status FROM ExpenseHeader WHERE DepartmentId ='{0}' and Status ='{1}' ", id,status);
+            string query = string.Format("SELECT * FROM ExpenseHeader WHERE DepartmentId ={0} and Status ='{1}' ", id,status);
             return GetReportsFromDatabase(query);
         }
         public double SumOfExpenseApproved(int id)
         {
             double totalExpenseApproved = 0;
-            string query = string.Format("SELECT ExpenseId, CreateDate, CreatedById, ApprovedById, ProcessedById, Status FROM ExpenseHeader WHERE DepartmentId ='{0}' and Status ='{1}' ", id, ReportStatus.ApprovedBySupervisor);
+            string query = string.Format("SELECT * FROM ExpenseHeader WHERE DepartmentId ='{0}' and Status ='{1}' ", id, ReportStatus.ApprovedBySupervisor);
             List<ExpenseReport> expenseReports = new List<ExpenseReport>();
             expenseReports = GetReportsFromDatabase(query);
             totalExpenseApproved = SumOfExpenseItem(expenseReports);
