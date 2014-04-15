@@ -58,14 +58,11 @@ namespace ThreeAmigos.ExpenseManagement.BusinessLogic
             return budget - totalSpent;
         }
 
-        public void SupervisorAddExpenseReport(int expenseid, Guid empId)
+
+        public void SupervisorActionOnExpenseReport(int expenseid, Guid empId,string status)
         {
-           exp.SupervisorAddExpenseReport(expenseid, empId);
+            exp.SupervisorActionOnExpenseReport(expenseid, empId,status);
         }
-        
-        public void SupervisorRejectExpenseReport(int expenseid, Guid empId)
-        {
-            exp.SupervisorRejectExpenseReport(expenseid, empId);
-        }
+       
     }
 }
