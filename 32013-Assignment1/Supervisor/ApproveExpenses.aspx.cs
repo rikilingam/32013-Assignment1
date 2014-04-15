@@ -34,7 +34,7 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Supervisor
                 emp = employeeDAL.GetEmployee((Guid)Membership.GetUser().ProviderUserKey);
                 Session["EmpUserId"] = emp.UserId;
                 Session["EmpDepartment"] = emp.Dept.DepartmentId;               
-                Session["ExpenseReport"] = expReport.GetReportSummaryBySupervisor((int)Session["EmpDepartment"]);
+                Session["ExpenseReport"] = expReport.GetReportsBySupervisor((int)Session["EmpDepartment"],ReportStatus.Submitted.ToString());
 
                 totalSpent = expReport.SumOfExpenseApproved((int)(Session["EmpDepartment"]));
                 Response.Write("Total Amount spent is " + totalSpent);
@@ -87,21 +87,21 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Supervisor
                 List<ExpenseReport> expReport = new List<ExpenseReport>();
                 expReport =(List<ExpenseReport>) Session["ExpenseReport"];
 
-                // Use to check the sum of all items in the expense report
+               // Use to check the sum of all items in the expense report
                 for (int i = 0; i < expReport.Count; i++)
                 {
                     if (expReport[i].ExpenseId == Convert.ToInt32(grdExpenseReport.Rows[rowindex].Cells[3].Text))
                     {
                       Session["ExpenseId"] = expReport[i].ExpenseId;
+                        
                       for (int a = 0; a < expReport[i].ExpenseItems.Count; a++)
                       {
-                          currentReportSum = currentReportSum + expReport[i].ExpenseItems[a].Amount;
+                        currentReportSum= CalculateReportTotal.ReportTotal(expReport[i].ExpenseItems);
                       }
                     }                   
-                 }
-                
-                
-                if(currentReportSum>Convert.ToDouble(Session["remainingBudget"]))
+                 }           
+
+            if(currentReportSum>Convert.ToDouble(Session["remainingBudget"]))
                 {
                     DialogResult UserReply = MessageBox.Show("Approving this expense will cross the total monthly budget...You want to approve?", "Important Question", MessageBoxButtons.YesNo);
                     if (UserReply.ToString() == "Yes")
