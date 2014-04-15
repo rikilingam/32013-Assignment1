@@ -47,7 +47,8 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" runat="server">Supervisor<b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li><a href="/Supervisor/ApproveExpenses.aspx">Approve Expenses</a></li>
-                                <li><a href="#">View History</a></li>
+                                <li><a href="/Supervisor/ViewReports.aspx">View Reports</a></li>
+                                <li><a href="/Supervisor/CheckBalance.aspx">Check Balance</a></li>
                             </ul>
                         </li>
                         <li class="dropdown" runat="server" id="navAccounts">

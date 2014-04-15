@@ -5,8 +5,10 @@ using System.Web;
 using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Configuration;
 using ThreeAmigos.ExpenseManagement.BusinessLogic;
 using ThreeAmigos.ExpenseManagement.BusinessObject;
+using ThreeAmigos.ExpenseManagement.DataAccess;
 
 namespace ThreeAmigos.ExpenseManagement.UserInterface
 {
@@ -33,10 +35,24 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface
                         Employee emp = new Employee();
                         //Session["userId"] = emp.FetchUserId(HttpContext.Current.User.Identity.Name);
                         navConsultant.Visible = true;
+
                     }
                     else if (role == "Supervisor")
                     {
+                        double totalSpent = 0;
                         navSupervisor.Visible = true;
+                        Employee emp = new Employee();
+                        EmployeeDAL employeeDAL = new EmployeeDAL();
+                        ExpenseReportBuilder expReport = new ExpenseReportBuilder();
+
+                        emp = employeeDAL.GetEmployee((Guid)Membership.GetUser().ProviderUserKey);
+                        Session["EmpUserId"] = emp.UserId;
+                        Session["EmpDepartment"] = emp.Dept.DepartmentId;
+                        Session["ExpenseReport"] = expReport.GetReportsBySupervisor((int)Session["EmpDepartment"], ReportStatus.Submitted.ToString());
+
+                        totalSpent = expReport.SumOfExpenseApproved((int)(Session["EmpDepartment"]));
+                        Session["totalSpent"] = totalSpent;
+                        Session["remainingBudget"] = expReport.CalculateRemainingBudget(Convert.ToDouble(ConfigurationManager.AppSettings["DepartmentMonthlyBudget"]), totalSpent);  
                     }
                     else if (role == "Accounts")
                     {
