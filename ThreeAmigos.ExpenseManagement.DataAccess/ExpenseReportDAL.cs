@@ -158,7 +158,7 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
 
             DataAccessFunctions daFunctions = new DataAccessFunctions();
 
-            string query = String.Format("SELECT ExpenseHeaderId,ItemId, ExpenseDate, Location, Description,Amount,AudAmount, ReceiptFileName FROM ExpenseItem WHERE ExpenseHeaderId={0}", expenseid); // Added Amount field just for testing
+            string query = String.Format("SELECT ExpenseHeaderId,ItemId, ExpenseDate, Location, Description,Amount,AudAmount, ReceiptFileName FROM ExpenseItem WHERE ExpenseHeaderId={0}", expenseid); 
 
             daFunctions.Connection.Open();
             daFunctions.Command.CommandText = query;
@@ -174,7 +174,7 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
                 item.Location = (string)rdr["Location"];
                 item.Description = (string)rdr["Description"];
                 item.Amount = Convert.ToDouble(rdr["Amount"]);//as double? ?? default(double);  // for testing
-                item.AudAmount = rdr["AudAmount"] as double? ?? default(double);
+                item.AudAmount = Convert.ToDouble(rdr["AudAmount"]);                            // rdr["AudAmount"] as double? ?? default(double);
                 item.ReceiptFileName = (string)rdr["ReceiptFileName"];
 
                 expenseItems.Add(item);
@@ -208,9 +208,9 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
         
 
         // Below are the methods used by supervisor
-        public List<ExpenseReport> GetReportSummaryBySupervisor(int id)
+        public List<ExpenseReport> GetReportsBySupervisor(int id,string status)
         {
-            string query = string.Format("SELECT ExpenseId, CreateDate, CreatedById, ApprovedById, ProcessedById, Status FROM ExpenseHeader WHERE DepartmentId ='{0}' and Status ='{1}' ", id, ReportStatus.Submitted);
+            string query = string.Format("SELECT ExpenseId, CreateDate, CreatedById, ApprovedById, ProcessedById, Status FROM ExpenseHeader WHERE DepartmentId ='{0}' and Status ='{1}' ", id,status);
             return GetReportsFromDatabase(query);
         }
         public double SumOfExpenseApproved(int id)
@@ -220,40 +220,6 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
             List<ExpenseReport> expenseReports = new List<ExpenseReport>();
             expenseReports = GetReportsFromDatabase(query);
             totalExpenseApproved = SumOfExpenseItem(expenseReports);
-
-            //EmployeeDAL employeeDAL = new EmployeeDAL();
-            //DataAccessFunctions daFunctions = new DataAccessFunctions();
-            //daFunctions.Command = new SqlCommand(query, daFunctions.Connection);
-
-            //try
-            //{
-            //    daFunctions.Connection.Open();
-            //    SqlDataReader rdr = daFunctions.Command.ExecuteReader();
-            //    while (rdr.Read())
-            //    {
-            //        ExpenseReport report = new ExpenseReport();
-            //        Employee createdBy = new Employee();
-            //        Employee approvedBy = new Employee();
-            //        Employee processedBy = new Employee();
-
-            //        report.ExpenseId = rdr["ExpenseId"] as int? ?? default(int);
-            //        report.CreateDate = (DateTime)rdr["CreateDate"];
-            //        report.Status = (ReportStatus)Enum.Parse(typeof(ReportStatus), (string)rdr["Status"]);
-            //        report.CreatedBy = employeeDAL.GetEmployee(rdr["CreatedById"] as Guid? ?? default(Guid));
-            //        report.ApprovedBy = employeeDAL.GetEmployee(rdr["ApprovedById"] as Guid? ?? default(Guid));
-            //        report.ProcessedBy = employeeDAL.GetEmployee(rdr["ProcessedById"] as Guid? ?? default(Guid));
-            //        report.ExpenseItems = GetExpenseItemsByExpenseId(report.ExpenseId);
-            //        expenseReports.Add(report);
-
-            //        totalExpenseApproved = SumOfExpenseItem(expenseReports);
-            //    }
-
-            //    daFunctions.Connection.Close();
-            //}
-            //catch (Exception ex)
-            //{
-            //    throw new Exception("There was a problem running method GetReportSummaryByConsultant: " + ex.Message);
-            //}
             return totalExpenseApproved;
 
         }
@@ -263,7 +229,7 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
             foreach (var item in rep)
             {
                 for (int i = 0; i < item.ExpenseItems.Count; i++)
-                    sum = sum + item.ExpenseItems[i].Amount;
+                    sum = sum + item.ExpenseItems[i].AudAmount;
             }
             return sum;
         }
@@ -294,26 +260,6 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
             daFunctions.Command.Parameters.AddWithValue("@Status", ReportStatus.RejectedBySupervisor.ToString());
             daFunctions.Command.ExecuteNonQuery();
             daFunctions.Connection.Close();
-        }
-
-        // Other Methods
-
-        public List<ExpenseReport> GetReportsApprovedBySupervisor(int id)
-        {
-            string query = string.Format("SELECT ExpenseId, CreateDate, CreatedById, ApprovedById, ProcessedById, Status FROM ExpenseHeader WHERE DepartmentId ='{0}' and Status ='{1}' ", id, ReportStatus.ApprovedBySupervisor);
-            return GetReportsFromDatabase(query);
-        }
-
-        public List<ExpenseReport> GetReportsRejectedBySupervisor(int id)
-        {
-            string query = string.Format("SELECT ExpenseId, CreateDate, CreatedById, ApprovedById, ProcessedById, Status FROM ExpenseHeader WHERE DepartmentId ='{0}' and Status ='{1}' ", id, ReportStatus.RejectedBySupervisor);
-            return GetReportsFromDatabase(query);
-        }
-
-        public List<ExpenseReport> GetReportsRejectedByAccountsStaff(int id)
-        {
-            string query = string.Format("SELECT ExpenseId, CreateDate, CreatedById, ApprovedById, ProcessedById, Status FROM ExpenseHeader WHERE DepartmentId ='{0}' and Status ='{1}' ", id, ReportStatus.RejectedByAccountant);
-            return GetReportsFromDatabase(query);
         }
     }
 }
