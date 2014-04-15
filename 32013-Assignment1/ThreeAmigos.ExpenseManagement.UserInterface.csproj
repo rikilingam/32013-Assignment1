@@ -63,7 +63,6 @@
     <Content Include="App_Data\ExpenseManager_log.ldf">
       <DependentUpon>ExpenseManager.mdf</DependentUpon>
     </Content>
-    <Content Include="Consultant\ViewMyExpenses.aspx" />
     <Content Include="Content\bootstrap-datetimepicker.css" />
     <Content Include="Content\bootstrap-datetimepicker.min.css" />
     <Content Include="Content\bootstrap-theme.css" />
@@ -161,13 +160,6 @@
     </Compile>
     <Compile Include="Consultant\ExpenseForm.aspx.designer.cs">
       <DependentUpon>ExpenseForm.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Consultant\ViewMyExpenses.aspx.cs">
-      <DependentUpon>ViewMyExpenses.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Consultant\ViewMyExpenses.aspx.designer.cs">
-      <DependentUpon>ViewMyExpenses.aspx</DependentUpon>
     </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
