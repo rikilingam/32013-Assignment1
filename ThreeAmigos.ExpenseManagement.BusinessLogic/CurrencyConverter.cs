@@ -7,26 +7,43 @@ using System.Configuration;
 
 namespace ThreeAmigos.ExpenseManagement.BusinessLogic
 {
-  public static class CurrencyConverter
+    enum Currency { AUD, CNY, EUR }
+
+    public static class CurrencyConverter
     {
-      public static double ConvertCurrency(string text, double value,double cny,double eur)
+        public static double ConvertToAUD(string currency, double amount)
         {
-            if (text == "AUD")
+            double rate = 0;
+            bool isRateValid = false;
+
+            if (currency == Currency.AUD.ToString())
             {
-                return value;
+                return amount;
             }
-            else if (text == "CNY")
+            else if (currency == Currency.CNY.ToString())
             {
-                return (value *cny);
+                isRateValid = double.TryParse(ConfigurationManager.AppSettings["CNY"], out rate);
+
+                if (isRateValid = true && rate > 0)
+                {
+                    return amount * rate;
+                }
+                else return 0;
             }
-            else if (text == "EUR")
+            else if (currency == Currency.EUR.ToString())
             {
-                return (value * eur);
+                isRateValid = double.TryParse(ConfigurationManager.AppSettings["EUR"], out rate);
+
+                if (isRateValid = true && rate > 0)
+                {
+                    return amount * rate;
+                }
+                else return 0;
             }
             else
             {
                 return 0;
-            }            
+            }
         }
     }
 }
