@@ -233,7 +233,7 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
             }
             return sum;
         }
-        public void SupervisorAddExpenseReport(int expenseId, Guid empId)
+        public void SupervisorActionOnExpenseReport(int expenseId, Guid empId,string status)
         {
             string query = "update ExpenseHeader set ApprovedById=@ApprovedById,  ApprovedDate=@ApprovedDate,Status=@Status where ExpenseId='" + expenseId + "'";
             //  where Username='" + username + "'";                                  
@@ -243,21 +243,7 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
             daFunctions.Command = new SqlCommand(query, daFunctions.Connection);
             daFunctions.Command.Parameters.AddWithValue("@ApprovedById", empId);
             daFunctions.Command.Parameters.AddWithValue("@ApprovedDate", DateTime.Now);
-            daFunctions.Command.Parameters.AddWithValue("@Status", ReportStatus.ApprovedBySupervisor.ToString());
-            daFunctions.Command.ExecuteNonQuery();
-            daFunctions.Connection.Close();
-        }
-        public void SupervisorRejectExpenseReport(int expenseId, Guid empId)
-        {
-            string query = "update ExpenseHeader set ApprovedById=@ApprovedById,  ApprovedDate=@ApprovedDate,Status=@Status where ExpenseId='" + expenseId + "'";
-
-            DataAccessFunctions daFunctions = new DataAccessFunctions();
-            daFunctions.Connection.Open();
-
-            daFunctions.Command = new SqlCommand(query, daFunctions.Connection);
-            daFunctions.Command.Parameters.AddWithValue("@ApprovedById", empId);
-            daFunctions.Command.Parameters.AddWithValue("@ApprovedDate", DateTime.Now);
-            daFunctions.Command.Parameters.AddWithValue("@Status", ReportStatus.RejectedBySupervisor.ToString());
+            daFunctions.Command.Parameters.AddWithValue("@Status", status);
             daFunctions.Command.ExecuteNonQuery();
             daFunctions.Connection.Close();
         }
