@@ -205,10 +205,7 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
 
             return expenseReports;
         }
-
-
-
-
+        
 
         // Below are the methods used by supervisor
         public List<ExpenseReport> GetReportSummaryBySupervisor(int id)
