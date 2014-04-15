@@ -18,29 +18,13 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Supervisor
 {
     public partial class ApproveExpenses : System.Web.UI.Page
     {
+        ExpenseReportDAL eexp = new ExpenseReportDAL(); 
         double currentReportSum = 0;
-        double totalSpent = 0;
-
-     //   ExpenseReportDAL expenseReportDAL = new ExpenseReportDAL();
         protected void Page_Load(object sender, EventArgs e)
         { 
+
             if (!IsPostBack)
             {                
-                Employee emp = new Employee();
-               // Department dept = new Department();
-                EmployeeDAL employeeDAL = new EmployeeDAL();
-                ExpenseReportBuilder expReport = new ExpenseReportBuilder();
-
-                emp = employeeDAL.GetEmployee((Guid)Membership.GetUser().ProviderUserKey);
-                Session["EmpUserId"] = emp.UserId;
-                Session["EmpDepartment"] = emp.Dept.DepartmentId;               
-                Session["ExpenseReport"] = expReport.GetReportsBySupervisor((int)Session["EmpDepartment"],ReportStatus.Submitted.ToString());
-
-                totalSpent = expReport.SumOfExpenseApproved((int)(Session["EmpDepartment"]));
-                Response.Write("Total Amount spent is " + totalSpent);
-                Session["remainingBudget"] =  expReport.CalculateRemainingBudget(Convert.ToDouble(ConfigurationManager.AppSettings["DepartmentMonthlyBudget"]),totalSpent) ;
-                Response.Write("\nRemaining budget is "+ Session["remainingbudget"]);
-                
                 grdExpenseReport.DataSource = Session["ExpenseReport"];
                 grdExpenseReport.DataBind();
             }              
@@ -99,7 +83,8 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Supervisor
                       {
                         currentReportSum= CalculateReportTotal.ReportTotal(expReport[i].ExpenseItems);
                       }
-                    }                   
+                    }   
+                
                  }
 
                 if (currentReportSum > Convert.ToDouble(Session["remainingBudget"]))
@@ -108,25 +93,26 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Supervisor
                     if (UserReply.ToString() == "Yes")
                     {
                         expReportBuilder.SupervisorActionOnExpenseReport(Convert.ToInt32(Session["ExpenseId"]), Session["EmpUserId"] as Guid? ?? default(Guid), ReportStatus.ApprovedBySupervisor.ToString());
-
+                        gridBind();                 
                     }
                     else
                     {
                         expReportBuilder.SupervisorActionOnExpenseReport(Convert.ToInt32(Session["ExpenseId"]), Session["EmpUserId"] as Guid? ?? default(Guid), ReportStatus.RejectedBySupervisor.ToString());
-
+                        gridBind();  
                     }
                 }
 
                 else
                 {
                     expReportBuilder.SupervisorActionOnExpenseReport(Convert.ToInt32(Session["ExpenseId"]), Session["EmpUserId"] as Guid? ?? default(Guid), ReportStatus.ApprovedBySupervisor.ToString());
-
+                    gridBind();  
                 }          
             }
 
             else if (e.CommandName == "RejectExpense")
             {
                 expReportBuilder.SupervisorActionOnExpenseReport(Convert.ToInt32(Session["ExpenseId"]), Session["EmpUserId"] as Guid? ?? default(Guid), ReportStatus.RejectedBySupervisor.ToString());
+                gridBind();
             }
             else
             {
@@ -139,6 +125,13 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Supervisor
         protected void GridView1_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
         {
            
+        }
+
+        protected void gridBind()
+        {
+            Session["ExpenseReport"] = eexp.GetReportsBySupervisor((int)Session["EmpDepartment"], ReportStatus.Submitted.ToString());
+            grdExpenseReport.DataSource = Session["ExpenseReport"];
+            grdExpenseReport.DataBind();
         }
     }
 }
