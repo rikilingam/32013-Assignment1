@@ -20,7 +20,8 @@ namespace ThreeAmigos.ExpenseManagement.Test
         public static void SetUp(TestContext context)
         {
             // This path needs to be changed to root path of the Visual Studio solution
-            string path = "C:\\Users\\rikil\\Source\\Repos\\32013-Assignment1";
+            //  string path = "C:\\Users\\rikil\\Source\\Repos\\32013-Assignment1";
+            string path = "C:\\Users\\Bikrem\\Documents\\Visual Studio 2012\\Projects\\.Net Assignment-1\\32013-Assignment1";
 
             AppDomain.CurrentDomain.SetData("DataDirectory", path);
         }
@@ -78,8 +79,8 @@ namespace ThreeAmigos.ExpenseManagement.Test
         {
             double testAUDAmount = 100 * 0.17430;
 
-            Assert.IsNotNull(ConfigurationManager.AppSettings["CNY"],"Currency CNY is NULL");
-            Assert.AreEqual(testAUDAmount,CurrencyConverter.ConvertToAUD("CNY", 100), "Conversion to CNY Failed");
+            Assert.IsNotNull(ConfigurationManager.AppSettings["CNY"], "Currency CNY is NULL");
+            Assert.AreEqual(testAUDAmount, CurrencyConverter.ConvertToAUD("CNY", 100), "Conversion to CNY Failed");
 
         }
 
@@ -298,5 +299,108 @@ namespace ThreeAmigos.ExpenseManagement.Test
                 throw new Exception("There was a problem running method CheckDatabaseForExpense: " + ex.Message);
             }
         }
+
+
+
+        // Below are Tests For Supervisors Functions
+
+        [TestMethod]
+        public void ExpenseReportDAL_GetReportBySupervisor_IsTrue()
+        {
+            ExpenseReportDAL expenseReportDAL = new ExpenseReportDAL();
+            List<ExpenseReport> reports = new List<ExpenseReport>();
+            int deptId = 1;
+
+                string status = ReportStatus.ApprovedBySupervisor.ToString();
+           //   string status = ReportStatus.RejectedByAccountant.ToString();
+           //   string status = ReportStatus.RejectedBySupervisor.ToString();
+
+                reports = expenseReportDAL.GetReportsBySupervisor(deptId, status);
+                Assert.IsTrue(reports.Count > 0, "No data in expense report");
+                foreach (ExpenseReport report in reports)
+                {
+                    Assert.IsTrue(report.ExpenseItems.Count > 0, "No item in expense report");
+                }
+        
+        }
+
+        [TestMethod]
+        public void ExpenseReportDAL_SumOfExpenseApproved_AreEqual()
+        {
+            ExpenseReportDAL expenseReportDAL = new ExpenseReportDAL();
+            int deptId = 1;
+            double actual= expenseReportDAL.SumOfExpenseApproved(deptId);
+            double expected = 133;        
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void ExpenseReportDAL_SupervisorActionOnExpenseReport_ActionSuccess()
+        {
+            ExpenseReportDAL expenseReportDAL = new ExpenseReportDAL();
+            ExpenseReport expenseReport = new ExpenseReport();
+            ExpenseItem expenseItem = new ExpenseItem();
+
+            int expenseId = 31;
+            Guid approvedBy = new Guid("651c58ff-c87a-4721-9f13-33caef1a12fe");
+            DateTime approvedDate = DateTime.Now;
+           // string status = "ApprovedBySupervisor";
+           string status = "RejectedBySupervisor";
+
+            using (TransactionScope testTransaction = new TransactionScope())
+            {
+                expenseReportDAL.SupervisorActionOnExpenseReport(expenseId, approvedBy, status);
+                Assert.IsTrue(CheckDatabaseForReportStatus(expenseId));
+                testTransaction.Dispose();
+            }
+        }
+
+        [TestMethod]
+        public void ExpenseReportBuilder_CalcualateRemainingBudget_AreEqaul()
+        {
+            ExpenseReportBuilder expReportBuilder=new ExpenseReportBuilder(); 
+            double expected = 44;
+            double actual = expReportBuilder.CalculateRemainingBudget(100, 56);
+            Assert.AreEqual(expected, actual);
+        }
+
+        private bool CheckDatabaseForReportStatus(int id)
+        {
+            bool updated;
+
+            DataAccessFunctions daFunctions = new DataAccessFunctions();
+            string query = String.Format("SELECT status  from ExpenseHeader WHERE ExpenseId={0}", id);
+            daFunctions.Command.CommandText = query;
+
+            try
+            {
+                daFunctions.Connection.Open();
+
+                string status = daFunctions.Command.ExecuteScalar().ToString();
+
+                daFunctions.Connection.Close();
+
+                if (status == "ApprovedBySupervisor")
+                {
+                    updated = true;
+                }
+                else if (status == "RejectedBySupervisor")
+                {
+                    updated = true;
+                }
+                else
+                {
+                    updated = false;
+                }
+
+                return updated;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("There was a problem running method CheckDatabaseForReportStatus: " + ex.Message);
+            }
+        }
     }
 }
+    
+
