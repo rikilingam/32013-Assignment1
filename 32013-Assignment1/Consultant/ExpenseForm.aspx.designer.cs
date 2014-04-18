@@ -76,6 +76,15 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface {
         protected global::System.Web.UI.WebControls.TextBox txtItemDate;
         
         /// <summary>
+        /// rfvLocation control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvLocation;
+        
+        /// <summary>
         /// txtItemLocation control.
         /// </summary>
         /// <remarks>
@@ -85,6 +94,15 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface {
         protected global::System.Web.UI.WebControls.TextBox txtItemLocation;
         
         /// <summary>
+        /// rfvDescription control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvDescription;
+        
+        /// <summary>
         /// txtItemDescription control.
         /// </summary>
         /// <remarks>
@@ -92,6 +110,24 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtItemDescription;
+        
+        /// <summary>
+        /// rfvAmount control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvAmount;
+        
+        /// <summary>
+        /// amountValidator control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator amountValidator;
         
         /// <summary>
         /// txtItemAmount control.
@@ -112,6 +148,24 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface {
         protected global::System.Web.UI.WebControls.DropDownList ddlItemCurrency;
         
         /// <summary>
+        /// revReceipt control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator revReceipt;
+        
+        /// <summary>
+        /// cvReceipt control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CustomValidator cvReceipt;
+        
+        /// <summary>
         /// fileReceipt control.
         /// </summary>
         /// <remarks>
@@ -119,6 +173,15 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.FileUpload fileReceipt;
+        
+        /// <summary>
+        /// expenseItemValidationSummary control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ValidationSummary expenseItemValidationSummary;
         
         /// <summary>
         /// btnAddItem control.

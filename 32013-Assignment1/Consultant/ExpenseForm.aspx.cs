@@ -87,6 +87,22 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface
         //    return file;
         //}
 
+        protected void ValidateFileSize(object source, EventArgs args)
+        {
+            const long DEFAULTMAXFILESIZE=1024;
+            long maxFileSize = DEFAULTMAXFILESIZE;
+            //args.IsValid = false;
+            
+            //if(long.TryParse(ConfigurationManager.AppSettings["MaxFileSize"],out maxFileSize))
+
+            
+            if (fileReceipt.PostedFile.ContentLength > maxFileSize)
+            {
+                //args.IsValid = true;
+                return;
+            }
+        }
+
         protected void btnSubmitExpense_Click(object sender, EventArgs e)
         {            
 

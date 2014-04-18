@@ -9,6 +9,7 @@
         function HideExpenseItemModal() {
             $('#ExpenseItemModal').modal('hide');
         }
+
     </script>
 
     <script type="text/javascript">
@@ -120,6 +121,7 @@
                         <div class="col-md-6 col-md-offset-1">
                             <div class="form-group">
                                 <label for="txtItemLocation" class="control-label">Location</label>
+                                <asp:RequiredFieldValidator ID="rfvLocation" runat="server" ErrorMessage="Location of expense" ControlToValidate="txtItemLocation" ValidationGroup="vgExpenseItem">*</asp:RequiredFieldValidator>
                                 <asp:TextBox ID="txtItemLocation" runat="server" placeholder="Location" CssClass="form-control" Enabled="true"></asp:TextBox>
                             </div>
                         </div>
@@ -130,7 +132,7 @@
 
                         <div class="col-md-6 col-md-offset-1">
                             <div class="form-group">
-                                <label for="txtItemDescription" class="control-label">Description</label>
+                                <label for="txtItemDescription" class="control-label">Description</label><asp:RequiredFieldValidator ID="rfvDescription" runat="server" ErrorMessage="Description of expense" ControlToValidate="txtItemDescription" Text="*" ValidationGroup="vgExpenseItem"></asp:RequiredFieldValidator>
                                 <asp:TextBox ID="txtItemDescription" runat="server" placeholder="Description" CssClass="form-control" Enabled="true"></asp:TextBox>
                             </div>
                         </div>
@@ -142,6 +144,7 @@
                         <div class="col-md-3 col-md-offset-1">
                             <div class="form-group">
                                 <label for="txtItemAmount" class="control-label">Amount</label>
+                                <asp:RequiredFieldValidator ID="rfvAmount" runat="server" ErrorMessage="Expense amount" ControlToValidate="txtItemAmount" ValidationGroup="vgExpenseItem" Text="*"></asp:RequiredFieldValidator><asp:RegularExpressionValidator ID="amountValidator" runat="server" ValidationGroup="vgExpenseItem" ErrorMessage="Invalid expense amount" ValidationExpression="^[1-9]\d*(\.\d+)?$" ControlToValidate="txtItemAmount">*</asp:RegularExpressionValidator>
                                 <asp:TextBox ID="txtItemAmount" runat="server" placeholder="Amount" CssClass="form-control" Enabled="true"></asp:TextBox>
                             </div>
                         </div>
@@ -161,20 +164,28 @@
                         <div class="col-md-6 col-md-offset-1">
                             <div class="form-group">
                                 <label for="fileReceipt" class="control-label">Receipt</label>
+                                (PDF files only) <asp:RegularExpressionValidator ID="revReceipt" runat="server" ErrorMessage="Invalid file type" ControlToValidate="fileReceipt" ValidationExpression="^.+\.((PDF)|(pdf)|(Pdf)|(PDf)|(pDF)|(pdF))$" ValidationGroup="vgExpenseItem" Text="*"></asp:RegularExpressionValidator><asp:CustomValidator ID="cvReceipt" runat="server" OnServerValidate="ValidateFileSize" ErrorMessage="Invalid file size" ControlToValidate="fileReceipt" ValidationGroup="vgExpenseItem" Text="*"></asp:CustomValidator>
                                 <asp:FileUpload ID="fileReceipt" runat="server" CssClass="form-control"></asp:FileUpload>
 
                             </div>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <asp:ValidationSummary ID="expenseItemValidationSummary" ValidationGroup="vgExpenseItem" runat="server" HeaderText="Please check the following;" />
                         </div>
                     </div>
                 </div>
 
 
                 <div class="modal-footer">
-                    <asp:Button ID="btnAddItem" runat="server" Text="Add to Report" CssClass="btn btn-primary" OnClick="btnAddItem_Click" />
+                    <asp:Button ID="btnAddItem" runat="server" Text="Add to Report" CssClass="btn btn-primary" ValidationGroup="vgExpenseItem" OnClick="btnAddItem_Click" />
                     <asp:Button ID="btnItemClose" runat="server" Text="Close" CssClass="btn btn-default" />
                 </div>
             </div>
             <!-- /.modal-content -->
         </div>
     </div>
+
 </asp:Content>

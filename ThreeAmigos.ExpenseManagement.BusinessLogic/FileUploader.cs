@@ -38,27 +38,24 @@ namespace ThreeAmigos.ExpenseManagement.BusinessLogic
 
         public bool CheckFileSize(string filepath)
         {
-            long fileSize = -1;
-            int maxFileSize = 1;
+            const int DEFAULT_FILESIZE =1;
+
+            long sourceFileSize = -1;
+            long maxFileSize = DEFAULT_FILESIZE;
+            bool isValid = false;
 
             if (CheckFileExist(filepath))
             {
                 FileInfo fileInfo = new FileInfo(filepath);
-                fileSize = fileInfo.Length;
+                sourceFileSize = fileInfo.Length;
+
+                if (long.TryParse(ConfigurationManager.AppSettings["MaxUploadFileSize"], out maxFileSize) && sourceFileSize < maxFileSize)
+                {
+                    isValid = true;
+                }
             }
-
-            if (Int32.TryParse(ConfigurationManager.AppSettings["MaxFileSize"], out maxFileSize))
-            {
-                if (fileSize < maxFileSize)
-                    return true;
-            }
-            else
-            {
-                return false;
-            }
-
-
-
+            
+            return isValid;
         }
     }
 }
