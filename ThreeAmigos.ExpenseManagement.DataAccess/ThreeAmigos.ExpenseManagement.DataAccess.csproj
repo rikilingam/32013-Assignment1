@@ -47,6 +47,7 @@
     <Compile Include="ExpenseItemDAL.cs" />
     <Compile Include="ExpenseReportDAL.cs" />
     <Compile Include="ExpenseReportService.cs" />
+    <Compile Include="FileUploader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

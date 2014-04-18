@@ -21,12 +21,11 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface
             if (!IsPostBack)
             {
                 InitializeExpenseReport();
-
+                
             }
             else
             {
                 reportBuilder = new ExpenseReportBuilder();
-                //InitializeExpenseReport();
                 reportBuilder = (ExpenseReportBuilder)Session["expenseReportBuilder"];
             }
 
@@ -74,19 +73,19 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface
 
             Session["expenseReportBuilder"] = reportBuilder;
 
-
             gvExpenseItems.DataSource = reportBuilder.expenseReport.ExpenseItems;
             gvExpenseItems.DataBind();
 
         }
 
-        public string CheckFile(FileUpload filename)
-        {
-            string ext = System.IO.Path.GetExtension(filename.FileName);
-            string file = filename.FileName;
-            filename.SaveAs(Server.MapPath(ConfigurationManager.AppSettings["ReceiptItemFilePath"]) + file);
-            return file;
-        }
+
+        //public string CheckFile(FileUpload filename)
+        //{
+        //    string ext = System.IO.Path.GetExtension(filename.FileName);
+        //    string file = filename.FileName;
+        //    filename.SaveAs(Server.MapPath(ConfigurationManager.AppSettings["ReceiptItemFilePath"]) + file);
+        //    return file;
+        //}
 
         protected void btnSubmitExpense_Click(object sender, EventArgs e)
         {            
