@@ -21,11 +21,13 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface
             if (!IsPostBack)
             {
                 InitializeExpenseReport();
+
             }
             else
             {
                 reportBuilder = new ExpenseReportBuilder();
-                reportBuilder = (ExpenseReportBuilder)Session["expenseReport"];            
+                //InitializeExpenseReport();
+                reportBuilder = (ExpenseReportBuilder)Session["expenseReportBuilder"];
             }
 
         }
@@ -42,7 +44,7 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface
             reportBuilder.expenseReport.CreatedBy = employee;
             reportBuilder.expenseReport.ExpenseToDept = employee.Dept;
 
-            Session["expenseReport"] = reportBuilder;
+            Session["expenseReportBuilder"] = reportBuilder;
 
             txtEmployeeName.Text = employee.FirstName + " " + employee.Surname;
             txtDepartment.Text = employee.Dept.DepartmentName;
@@ -70,7 +72,7 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface
 
             reportBuilder.AddExpenseItem(expenseItem);
 
-            Session["expenseReport"] = reportBuilder;
+            Session["expenseReportBuilder"] = reportBuilder;
 
 
             gvExpenseItems.DataSource = reportBuilder.expenseReport.ExpenseItems;
