@@ -189,7 +189,8 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
                 item.ExpenseDate = (DateTime)rdr["ExpenseDate"];
                 item.Location = (string)rdr["Location"];
                 item.Description = (string)rdr["Description"];
-                item.Amount = Convert.ToDouble(rdr["Amount"]);//as double? ?? default(double);  // for testing
+                item.Currency = (string)rdr["Currency"];
+                item.Amount = Convert.ToDouble(rdr["Amount"]);//as double? ?? default(double);
                 item.AudAmount = Convert.ToDouble(rdr["AudAmount"]);                            // rdr["AudAmount"] as double? ?? default(double);
                 item.ReceiptFileName = (string)rdr["ReceiptFileName"];
 
@@ -240,6 +241,15 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
             daFunctions.Command.Parameters.AddWithValue("@Status", status);
             daFunctions.Command.ExecuteNonQuery();
             daFunctions.Connection.Close();
+        }
+
+
+        public string GetFileName(int expenseId)
+        {
+            DataAccessFunctions daFunctions = new DataAccessFunctions();
+            daFunctions.Connection.Open();
+            daFunctions.Command.CommandText= "SELECT ReceiptFileName FROM ExpenseItem WHERE ExpenseHeaderId= '"+expenseId+"'  ";
+            return daFunctions.Command.ExecuteScalar().ToString();
         }
     }
 }
