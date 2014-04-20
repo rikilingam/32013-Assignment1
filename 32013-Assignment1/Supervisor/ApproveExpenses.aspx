@@ -15,6 +15,7 @@
             <Columns>
                 <asp:TemplateField>
                     <ItemTemplate>
+                        <br />
                         <asp:Button ID="btnItemDetails" runat="server" Text="Check Items" CommandName="Details" CommandArgument='<%#Container.DataItemIndex %>' />
                         &nbsp;&nbsp;
                         <asp:GridView ID="grdExpenseItems" runat="server">
@@ -31,6 +32,11 @@
                 <asp:TemplateField>
                     <ItemTemplate>
                         <asp:Button ID="Button1" runat="server" Height="27px" Text="Reject Expense" CommandName="RejectExpense" CommandArgument='<%#Container.DataItemIndex %>' />
+                    </ItemTemplate>
+                </asp:TemplateField>
+                <asp:TemplateField>
+                    <ItemTemplate>
+                        <asp:Button ID="Button2" runat="server" Text="Open Receipt" CommandName="OpenReceipt" CommandArgument='<%#Container.DataItemIndex %>' />
                     </ItemTemplate>
                 </asp:TemplateField>
             </Columns>

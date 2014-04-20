@@ -13,6 +13,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
 using System.IO;
+using System.Net;
 
 namespace ThreeAmigos.ExpenseManagement.UserInterface.Supervisor
 {
@@ -44,7 +45,7 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Supervisor
             GridView grvExpenseItems = (GridView)grdExpenseReport.Rows[rowindex].FindControl("grdExpenseItems");
 
             grdExpenseReport.Rows[rowindex].FindControl("btnCancelItems").Visible = false;
-            Session["ExpenseId"] = grdExpenseReport.Rows[rowindex].Cells[3].Text;
+            Session["ExpenseId"] = grdExpenseReport.Rows[rowindex].Cells[4].Text;
           
             if (e.CommandName == "Details")
             {
@@ -56,7 +57,7 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Supervisor
                 expReport =(List<ExpenseReport>) Session["ExpenseReport"]; 
                 for(int i=0;i<expReport.Count;i++)
                 {
-                    if (expReport[i].ExpenseId == Convert.ToInt32(grdExpenseReport.Rows[rowindex].Cells[3].Text))
+                    if (expReport[i].ExpenseId == Convert.ToInt32(grdExpenseReport.Rows[rowindex].Cells[4].Text))
                     {
                         grvExpenseItems.DataSource = expReport[i].ExpenseItems;
                         grvExpenseItems.DataBind();
@@ -74,7 +75,7 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Supervisor
                
                 for (int i = 0; i < expReport.Count; i++)
                 {
-                    if (expReport[i].ExpenseId == Convert.ToInt32(grdExpenseReport.Rows[rowindex].Cells[3].Text))
+                    if (expReport[i].ExpenseId == Convert.ToInt32(grdExpenseReport.Rows[rowindex].Cells[4].Text))
                     {
                       Session["ExpenseId"] = expReport[i].ExpenseId;
 
@@ -113,6 +114,15 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Supervisor
             {
                 expReportBuilder.SupervisorActionOnExpenseReport(Convert.ToInt32(Session["ExpenseId"]), Session["EmpUserId"] as Guid? ?? default(Guid), ReportStatus.RejectedBySupervisor.ToString());
                 gridBind();
+            }
+
+            else if (e.CommandName == "OpenReceipt")
+            {
+                int expenseId = Convert.ToInt32(grdExpenseReport.Rows[rowindex].Cells[4].Text);
+                string fileName = expReportBuilder.GetFileName(expenseId); 
+                string filePath=Server.MapPath("~/Receipts/"+fileName);
+                Response.ContentType = "application/pdf";
+                Response.WriteFile(filePath);
             }
             else
             {

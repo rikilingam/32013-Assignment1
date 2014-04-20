@@ -63,6 +63,11 @@ namespace ThreeAmigos.ExpenseManagement.BusinessLogic
         {
             exp.SupervisorActionOnExpenseReport(expenseid, empId,status);
         }
+
+        public string GetFileName(int expenseId)
+        {
+          return exp.GetFileName(expenseId);
+        }
        
     }
 }
