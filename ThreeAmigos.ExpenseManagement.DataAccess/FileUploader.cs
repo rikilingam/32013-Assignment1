@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Configuration;
 using System.IO;
+using System.Web.UI.WebControls;
 
 namespace ThreeAmigos.ExpenseManagement.BusinessLogic
 {
@@ -14,26 +15,30 @@ namespace ThreeAmigos.ExpenseManagement.BusinessLogic
 
         public FileUploader()
         {
-            destinationPath = ConfigurationManager.AppSettings["ReceiptFilePath"];
+            destinationPath = ConfigurationManager.AppSettings["ReceiptItemFilePath"];
         }
 
-        public void Upload(string sourceFile, string newfilename)
+        public string Upload(FileUpload fileUpload)
         {
-            if (CheckOutputPathExists() && CheckFileExist(sourceFile))
+            string newFileName="";
+
+            if (fileUpload.HasFile)
             {
-                File.Copy(sourceFile, destinationPath + newfilename);
+                newFileName = GenerateNewFileName() + ".pdf";
+
+                fileUpload.SaveAs(destinationPath + newFileName);
             }
+
+            return newFileName;
         }
 
-        private bool CheckFileExist(string sourceFile)
+        private string GenerateNewFileName()
         {
-            return File.Exists(sourceFile);        
+            Guid guid;
+            guid = Guid.NewGuid();
+
+            return guid.ToString();
         }
 
-        private bool CheckOutputPathExists()
-        {
-            return Directory.Exists(destinationPath);
-            
-        }
     }
 }

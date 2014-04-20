@@ -43,7 +43,6 @@
     <Compile Include="CalculateReportTotal.cs" />
     <Compile Include="CurrencyConverter.cs" />
     <Compile Include="ExpenseReportBuilder.cs" />
-    <Compile Include="FileUploader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

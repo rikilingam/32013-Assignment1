@@ -157,15 +157,6 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface {
         protected global::System.Web.UI.WebControls.RegularExpressionValidator revReceipt;
         
         /// <summary>
-        /// cvReceipt control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.CustomValidator cvReceipt;
-        
-        /// <summary>
         /// fileReceipt control.
         /// </summary>
         /// <remarks>

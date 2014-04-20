@@ -111,7 +111,6 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
             {
                 throw new Exception("Problem inserting expense item: " + ex.Message);
             }
-
         }
 
         public List<ExpenseReport> GetExpenseReportsByConsultant(Guid id, string status)

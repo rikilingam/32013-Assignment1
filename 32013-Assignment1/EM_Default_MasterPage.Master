@@ -1,9 +1,9 @@
 ﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="EM_Default_MasterPage.Master.cs" Inherits="ThreeAmigos.ExpenseManagement.UserInterface.EM_NoMembership_MasterPage" %>
 
 <!--
-    There are references to sites used develop this application
+    These are references to sites used develop this application
     1. Ramakrishna - DotNet Blog - http://ramakrishnapathuri.blogspot.com.au/2013/10/show-jquery-ui-dialog-popup-window-from.html
-    
+    2.Asp.Net Technical Blog -  http://dotnetfarrukhabbas.wordpress.com/2011/08/28/fileupload-control-file-type-and-file-size-validations/
      -->
 <!DOCTYPE html>
 
