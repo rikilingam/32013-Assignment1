@@ -14,7 +14,6 @@
     <script src="/Scripts/bootstrap.js"></script>
     <script src="/Scripts/moment.js"></script>
     <script src="/Scripts/bootstrap-datetimepicker.min.js"></script>
-
     <link href="/Content/bootstrap.css" rel="stylesheet" />
     <link href="/Content/bootstrap-theme.css" rel="stylesheet" />
     <link href="/Content/bootstrap-datetimepicker.min.css" rel="stylesheet" />

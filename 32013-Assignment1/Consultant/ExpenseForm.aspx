@@ -124,7 +124,7 @@
                         <div class="col-md-3 col-md-offset-1">
                             <div class="form-group">
                                 <label for="txtItemDate" class="control-label">Date</label>
-                                <asp:TextBox ID="txtItemDate" runat="server" placeholder="Item date" CssClass="form-control" Enabled="true" data-format="DD/MM/YYYY"></asp:TextBox>
+                                <asp:TextBox ID="txtItemDate" runat="server" placeholder="Item date" CssClass="form-control" Enabled="true" data-date-format="DD/MM/YYYY"></asp:TextBox>
                             </div>
                         </div>
 
