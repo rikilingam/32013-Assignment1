@@ -22,8 +22,7 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Supervisor
         ExpenseReportDAL eexp = new ExpenseReportDAL(); 
         double currentReportSum = 0;
         protected void Page_Load(object sender, EventArgs e)
-        { 
-
+        {
             if (!IsPostBack)
             {                
                 grdExpenseReport.DataSource = Session["ExpenseReport"];

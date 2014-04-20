@@ -73,6 +73,7 @@
     <Content Include="Content\EM_StyleSheet.css" />
     <Content Include="Consultant\ExpenseForm.aspx" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="CustomError\Error.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Login.aspx" />
@@ -170,6 +171,13 @@
     </Compile>
     <Compile Include="Consultant\ViewMyExpenses.aspx.designer.cs">
       <DependentUpon>ViewMyExpenses.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CustomError\Error.aspx.cs">
+      <DependentUpon>Error.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CustomError\Error.aspx.designer.cs">
+      <DependentUpon>Error.aspx</DependentUpon>
     </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>

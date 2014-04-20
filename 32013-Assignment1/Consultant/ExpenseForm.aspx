@@ -24,6 +24,13 @@
         });
 
     </script>
+    <script>
+        function OpenReceipt(receiptFileName)
+        {
+            var path = '<%=ConfigurationManager.AppSettings["ReceiptItemFilePath"].ToString() %>'
+            window.open(receiptFileName);    
+        }
+    </script>
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -188,7 +195,7 @@
 
                 <div class="modal-footer">
                     <asp:Button ID="btnAddItem" runat="server" Text="Add to Report" CssClass="btn btn-primary" ValidationGroup="vgExpenseItem" OnClick="btnAddItem_Click" />
-                    <asp:Button ID="btnItemClose" runat="server" Text="Close" CssClass="btn btn-default" />
+                    <asp:Button ID="btnItemClose" runat="server" Text="Close" CssClass="btn btn-default" OnClick="btnItemClose_Click" />
                 </div>
             </div>
             <!-- /.modal-content -->

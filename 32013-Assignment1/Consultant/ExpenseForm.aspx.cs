@@ -82,17 +82,13 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface
             gvExpenseItems.DataSource = reportBuilder.expenseReport.ExpenseItems;
             gvExpenseItems.DataBind();
 
+            ClearItemForm();
         }
-        
 
-        //public string CheckFile(FileUpload filename)
-        //{
-        //    string ext = System.IO.Path.GetExtension(filename.FileName);
-        //    string file = filename.FileName;
-        //    filename.SaveAs(Server.MapPath(ConfigurationManager.AppSettings["ReceiptItemFilePath"]) + file);
-        //    return file;
-        //}
-
+        protected void btnItemClose_Click(object sender, EventArgs e)
+        {
+            ClearItemForm();
+        }
 
         protected void btnSubmitExpense_Click(object sender, EventArgs e)
         {
@@ -106,32 +102,28 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface
 
         }
 
-        public void clear()
+        private void ClearItemForm()
         {
-            txtItemDate.Text = string.Empty;
-            txtExpenseDate.Text = string.Empty;
-            txtItemLocation.Text = string.Empty;
-            txtItemDescription.Text = string.Empty;
-            txtItemAmount.Text = string.Empty;
+            txtItemDate.Text = "";
+            txtExpenseDate.Text = "";
+            txtItemLocation.Text = "";
+            txtItemDescription.Text = "";
+            txtItemAmount.Text = "";
             ddlItemCurrency.SelectedValue = "AUD";
         }
 
-        protected void btnClear_Click(object sender, EventArgs e)
-        {
 
-        }
-
-        protected void cvReceipt_ServerValidate(object source, ServerValidateEventArgs args)
-        {
-            if (fileReceipt.PostedFile.ContentLength < 1)
-            {
-                args.IsValid = true;
-            }
-            else
-            {
-                args.IsValid = false;
-            }
-        }
+        //protected void cvReceipt_ServerValidate(object source, ServerValidateEventArgs args)
+        //{
+        //    if (fileReceipt.PostedFile.ContentLength < 1)
+        //    {
+        //        args.IsValid = true;
+        //    }
+        //    else
+        //    {
+        //        args.IsValid = false;
+        //    }
+        //}
 
         protected void lnkReceipt_Click(object sender, EventArgs e)
         {
@@ -141,7 +133,7 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface
 
             string path = ConfigurationManager.AppSettings["ReceiptItemFilePath"];
 
-            Response.Redirect(path+receiptFileName);
+            ClientScript.RegisterStartupScript(this.GetType(), "OpenReceipt", "OpenReceipt('"+path+receiptFileName+"');", true);
 
         }
     }
