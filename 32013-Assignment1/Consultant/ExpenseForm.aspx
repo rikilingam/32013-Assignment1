@@ -82,8 +82,8 @@
                                 <asp:BoundField DataField="Currency" HeaderText="Currency" />
                                 <asp:BoundField DataField="AudAmount" DataFormatString="{0:c}" HeaderText="AUD Amount" />
                                 <asp:TemplateField HeaderText="Receipt">
-                                    <ItemTemplate>
-                                        <asp:LinkButton ID="lnkReceipt" OnClick="lnkReceipt_Click" CommandArgument='<%#Bind("ReceiptFileName") %>' runat="server">pdf</asp:LinkButton>
+                                    <ItemTemplate>                                        
+                                        <asp:ImageButton ID="btnReceipt" ImageUrl="~/Image/img_pdf_icon.png" runat="server" OnClick="lnkReceipt_Click" CommandArgument='<%#Bind("ReceiptFileName") %>' />
                                     </ItemTemplate>
                                 </asp:TemplateField>
                             </Columns>

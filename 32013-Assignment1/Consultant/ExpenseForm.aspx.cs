@@ -126,9 +126,10 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface
         //}
 
         protected void lnkReceipt_Click(object sender, EventArgs e)
-        {
-            LinkButton btn = (LinkButton)(sender);
-            
+        {           
+
+            ImageButton btn = (ImageButton)(sender);
+
             string receiptFileName = btn.CommandArgument.ToString();
 
             string path = ConfigurationManager.AppSettings["ReceiptItemFilePath"];

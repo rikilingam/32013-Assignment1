@@ -76,6 +76,7 @@
     <Content Include="CustomError\Error.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Image\img_pdf_icon.png" />
     <Content Include="Login.aspx" />
     <Content Include="packages.config" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
