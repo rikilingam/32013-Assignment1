@@ -25,8 +25,8 @@ namespace ThreeAmigos.ExpenseManagement.BusinessLogic
             if (fileUpload.HasFile)
             {
                 newFileName = GenerateNewFileName() + ".pdf";
-
-                fileUpload.SaveAs(destinationPath + newFileName);
+                
+                fileUpload.SaveAs(System.Web.HttpContext.Current.Server.MapPath(destinationPath) + newFileName);
             }
 
             return newFileName;

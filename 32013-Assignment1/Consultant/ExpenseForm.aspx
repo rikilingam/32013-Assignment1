@@ -74,6 +74,11 @@
                                 <asp:BoundField DataField="Amount" DataFormatString="{0:c}" HeaderText="Amount" />
                                 <asp:BoundField DataField="Currency" HeaderText="Currency" />
                                 <asp:BoundField DataField="AudAmount" DataFormatString="{0:c}" HeaderText="AUD Amount" />
+                                <asp:TemplateField HeaderText="Receipt">
+                                    <ItemTemplate>
+                                        <asp:LinkButton ID="lnkReceipt" OnClick="lnkReceipt_Click" CommandArgument='<%#Bind("ReceiptFileName") %>' runat="server">pdf</asp:LinkButton>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
                             </Columns>
                         </asp:GridView>
                     </div>
@@ -165,7 +170,8 @@
                         <div class="col-md-6 col-md-offset-1">
                             <div class="form-group">
                                 <label for="fileReceipt" class="control-label">Receipt</label>
-                                (PDF files only) <asp:RegularExpressionValidator ID="revReceipt" runat="server" ErrorMessage="Invalid file type" ControlToValidate="fileReceipt" ValidationExpression="^.+\.((PDF)|(pdf)|(Pdf)|(PDf)|(pDF)|(pdF))$" ValidationGroup="vgExpenseItem" Text="*"></asp:RegularExpressionValidator>
+                                (PDF files only)
+                                <asp:RegularExpressionValidator ID="revReceipt" runat="server" ErrorMessage="Invalid file type" ControlToValidate="fileReceipt" ValidationExpression="^.+\.((PDF)|(pdf)|(Pdf)|(PDf)|(pDF)|(pdF))$" ValidationGroup="vgExpenseItem" Text="*"></asp:RegularExpressionValidator>
                                 <asp:FileUpload ID="fileReceipt" runat="server" CssClass="form-control"></asp:FileUpload>
 
                             </div>

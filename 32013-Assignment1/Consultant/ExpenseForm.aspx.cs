@@ -132,5 +132,17 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface
                 args.IsValid = false;
             }
         }
+
+        protected void lnkReceipt_Click(object sender, EventArgs e)
+        {
+            LinkButton btn = (LinkButton)(sender);
+            
+            string receiptFileName = btn.CommandArgument.ToString();
+
+            string path = ConfigurationManager.AppSettings["ReceiptItemFilePath"];
+
+            Response.Redirect(path+receiptFileName);
+
+        }
     }
 }
