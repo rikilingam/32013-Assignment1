@@ -21,7 +21,6 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Supervisor
         protected void btnSearchExpenses_Click(object sender, EventArgs e)
         {
             ExpenseReportDAL expenseReportDAL = new ExpenseReportDAL();
-
             rptExpenseReport.DataSource = expenseReportDAL.GetReportsBySupervisor(Convert.ToInt32(Session["empDepartment"]), ddlSearchFilter.SelectedValue);
             rptExpenseReport.DataBind();
         }
