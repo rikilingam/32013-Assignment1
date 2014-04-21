@@ -8,7 +8,7 @@ using System.Web.UI.WebControls;
 using ThreeAmigos.ExpenseManagement.BusinessLogic;
 using ThreeAmigos.ExpenseManagement.BusinessObject;
 using ThreeAmigos.ExpenseManagement.DataAccess;
- 
+
 namespace ThreeAmigos.ExpenseManagement.UserInterface.Consultant
 {
     public partial class ViewMyExpenses : System.Web.UI.Page
@@ -29,15 +29,6 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Consultant
             //gvDisplayExpenseReports.DataBind();
         }
 
-        public string GetReportTotalValue(List<ExpenseItem> expenseItems)
-        {
-            return CalculateReportTotal.ReportTotal(expenseItems).ToString();
-        }
-
-        protected void rptExpenseReport_ItemDataBound(object sender, RepeaterItemEventArgs e)
-        {
-            
-        }
 
 
         //protected void gvDisplayExpenseReports_RowDataBound(object sender, GridViewRowEventArgs e)

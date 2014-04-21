@@ -61,16 +61,16 @@
                                     </tr>
                                 </ItemTemplate>
                                 <FooterTemplate>
-                                    <tr class="info">
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td><%# GetReportTotalValue((List<ThreeAmigos.ExpenseManagement.BusinessObject.ExpenseItem>)Eval("ExpenseItems")) %></td>
-                                    </tr>
                                 </FooterTemplate>
                             </asp:Repeater>
+                            <tr class="info">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>Expense Total:</td>
+                                <td><%# Eval("ExpenseTotal")%></td>
+                            </tr>
                         </ItemTemplate>
                         <FooterTemplate>
                             </table>
