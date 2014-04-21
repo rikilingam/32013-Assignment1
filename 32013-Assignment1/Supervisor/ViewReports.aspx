@@ -34,6 +34,8 @@
                         <ItemTemplate>
                             <tr class="success">
                                 <th>Report Date: <%# Eval("CreateDate") %></th>
+                                <th>Approved Date: <%#Eval("ApprovedDate")%> </th>
+                                <th>Approved By: <%#Eval("ApprovedBy.FullName")%> </th>
                                 <th>Consultant: <%# Eval("CreatedBy.Fullname") %></th>
                                 <th>Department: <%# Eval("ExpenseToDept.DepartmentName") %></th>
                                 <th>Status: <%# Eval("Status") %></th>
@@ -61,17 +63,18 @@
                                     </tr>
                                 </ItemTemplate>
                                 <FooterTemplate>
-                                    <tr class="info">
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        
-                                    </tr>
                                 </FooterTemplate>
                             </asp:Repeater>
-                        </ItemTemplate>
+                                <tr class="info">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td><b>Expense Total:</b></td>
+                                <td><b><%# Eval("ExpenseTotal","{0:c}")%></b></td>
+                            </tr>
+                                </ItemTemplate>
                         <FooterTemplate>
                             </table>
                         </FooterTemplate>
