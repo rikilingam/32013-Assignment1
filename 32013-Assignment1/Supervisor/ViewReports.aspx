@@ -34,8 +34,8 @@
                         <ItemTemplate>
                             <tr class="success">
                                 <th>Report Date: <%# Eval("CreateDate") %></th>
-                                <th>Approved Date: <%#Eval("ApprovedDate")%> </th>
-                                <th>Approved By: <%#Eval("ApprovedBy.FullName")%> </th>
+                                <th>Supervisor Processed Date: <%# Eval("ApprovedDate") %> </th>
+                                <th>Supervisor: <%# Eval("ApprovedBy.FullName")%> </th>
                                 <th>Consultant: <%# Eval("CreatedBy.Fullname") %></th>
                                 <th>Department: <%# Eval("ExpenseToDept.DepartmentName") %></th>
                                 <th>Status: <%# Eval("Status") %></th>
