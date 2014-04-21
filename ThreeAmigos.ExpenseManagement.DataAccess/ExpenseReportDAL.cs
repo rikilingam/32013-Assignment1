@@ -142,7 +142,7 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
                     Employee createdBy = new Employee();
                     Employee approvedBy = new Employee();
                     Employee processedBy = new Employee();
-
+                    double expenseTotal;
                     report.ExpenseId = rdr["ExpenseId"] as int? ?? default(int);
                     report.CreateDate = (DateTime)rdr["CreateDate"];
                     report.ExpenseToDept = departmentDAL.GetDepartmentProfile(rdr["DepartmentId"] as int? ?? default(int));
@@ -151,7 +151,8 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
                     report.ApprovedBy = employeeDAL.GetEmployee(rdr["ApprovedById"] as Guid? ?? default(Guid));
                     report.ProcessedBy = employeeDAL.GetEmployee(rdr["ProcessedById"] as Guid? ?? default(Guid));
 
-                    report.ExpenseItems = GetExpenseItemsByExpenseId(report.ExpenseId);
+                    report.ExpenseItems = GetExpenseItemsByExpenseId(report.ExpenseId, out expenseTotal);
+                    report.ExpenseTotal = expenseTotal;
                     expenseReports.Add(report);
                 }
 
@@ -166,8 +167,9 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
 
         }
 
-        public List<ExpenseItem> GetExpenseItemsByExpenseId(int expenseid)
+        public List<ExpenseItem> GetExpenseItemsByExpenseId(int expenseid, out double expenseTotal)
         {
+            expenseTotal = 0;
 
             List<ExpenseItem> expenseItems = new List<ExpenseItem>();
 
@@ -193,7 +195,9 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
                 item.AudAmount = Convert.ToDouble(rdr["AudAmount"]);                            // rdr["AudAmount"] as double? ?? default(double);
                 item.ReceiptFileName = (string)rdr["ReceiptFileName"];
 
+                expenseTotal += item.AudAmount;
                 expenseItems.Add(item);
+
             }
 
             daFunctions.Connection.Close();

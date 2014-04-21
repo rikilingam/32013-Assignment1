@@ -16,7 +16,7 @@ namespace ThreeAmigos.ExpenseManagement.BusinessLogic
             {
                 foreach (ExpenseItem item in expenseItems)
                 {
-                    reportTotal += item.AudAmount;
+                    reportTotal = reportTotal+ item.AudAmount;
                 }
             }
 

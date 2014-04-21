@@ -26,6 +26,7 @@ namespace ThreeAmigos.ExpenseManagement.BusinessObject
 
         public ReportStatus Status { get; set; }
         public List<ExpenseItem> ExpenseItems {get;set;}
+        public double ExpenseTotal { get; set; }       
 
         public ExpenseReport()
         {
@@ -34,6 +35,8 @@ namespace ThreeAmigos.ExpenseManagement.BusinessObject
             ProcessedBy = new Employee();
             ExpenseToDept = new Department();
             ExpenseItems = new List<ExpenseItem>();
+            
         }
+
     }
 }

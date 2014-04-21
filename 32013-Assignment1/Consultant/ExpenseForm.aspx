@@ -73,7 +73,7 @@
 
                 <div class="row">
                     <div class="col-md-7">
-                        <asp:GridView ID="gvExpenseItems" runat="server" AutoGenerateColumns="False" CssClass="table">
+                        <asp:GridView ID="gvExpenseItems" runat="server" AutoGenerateColumns="False" CssClass="table" OnRowDataBound="gvExpenseItems_RowDataBound">
                             <Columns>
                                 <asp:BoundField DataField="ExpenseDate" DataFormatString="{0:d}" HeaderText="Date" />
                                 <asp:BoundField DataField="Location" HeaderText="Location" />
@@ -85,6 +85,7 @@
                                     <ItemTemplate>                                        
                                         <asp:ImageButton ID="btnReceipt" ImageUrl="~/Image/img_pdf_icon.png" runat="server" OnClick="lnkReceipt_Click" CommandArgument='<%#Bind("ReceiptFileName") %>' />
                                     </ItemTemplate>
+                                    <ItemStyle HorizontalAlign="Center" />
                                 </asp:TemplateField>
                             </Columns>
                         </asp:GridView>

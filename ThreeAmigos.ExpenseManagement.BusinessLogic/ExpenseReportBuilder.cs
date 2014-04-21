@@ -28,6 +28,7 @@ namespace ThreeAmigos.ExpenseManagement.BusinessLogic
         public void AddExpenseItem(ExpenseItem item)
         {
             expenseReport.ExpenseItems.Add(item);
+            expenseReport.ExpenseTotal += item.AudAmount;
         }
 
         /// <summary>

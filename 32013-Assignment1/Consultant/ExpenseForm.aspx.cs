@@ -10,6 +10,7 @@ using ThreeAmigos.ExpenseManagement.DataAccess;
 using ThreeAmigos.ExpenseManagement.BusinessObject;
 using System.Web.Security;
 using System.IO;
+using System.Globalization;
 
 namespace ThreeAmigos.ExpenseManagement.UserInterface
 {
@@ -59,30 +60,37 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface
 
         protected void btnAddItem_Click(object sender, EventArgs e)
         {
-
-            ExpenseItem expenseItem = new ExpenseItem();
-
-            expenseItem.ExpenseDate = DateTime.Parse(txtExpenseDate.Text);
-            expenseItem.Location = txtItemLocation.Text;
-            expenseItem.Description = txtItemDescription.Text;
-            expenseItem.Amount = Double.Parse(txtItemAmount.Text);
-            expenseItem.Currency = ddlItemCurrency.SelectedValue;
-            expenseItem.AudAmount = CurrencyConverter.ConvertToAUD(expenseItem.Currency, expenseItem.Amount);
-
-            if (fileReceipt.HasFile)
+            try
             {
-                FileUploader fileUploader = new FileUploader();
-                expenseItem.ReceiptFileName = fileUploader.Upload(fileReceipt);
-            }                     
+                ExpenseItem expenseItem = new ExpenseItem();
 
-            reportBuilder.AddExpenseItem(expenseItem);
+                expenseItem.ExpenseDate = Convert.ToDateTime(txtItemDate.Text);
+                expenseItem.Location = txtItemLocation.Text;
+                expenseItem.Description = txtItemDescription.Text;
+                expenseItem.Amount = Double.Parse(txtItemAmount.Text);
+                expenseItem.Currency = ddlItemCurrency.SelectedValue;
+                expenseItem.AudAmount = CurrencyConverter.ConvertToAUD(expenseItem.Currency, expenseItem.Amount);
 
-            Session["expenseReportBuilder"] = reportBuilder;
+                if (fileReceipt.HasFile)
+                {
+                    FileUploader fileUploader = new FileUploader();
+                    expenseItem.ReceiptFileName = fileUploader.Upload(fileReceipt);
 
-            gvExpenseItems.DataSource = reportBuilder.expenseReport.ExpenseItems;
-            gvExpenseItems.DataBind();
+                }
 
-            ClearItemForm();
+                reportBuilder.AddExpenseItem(expenseItem);
+
+                Session["expenseReportBuilder"] = reportBuilder;
+
+                gvExpenseItems.DataSource = reportBuilder.expenseReport.ExpenseItems;
+                gvExpenseItems.DataBind();
+
+                ClearItemForm();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("There was a problem inserting the expense item: " + ex.Message);
+            }
         }
 
         protected void btnItemClose_Click(object sender, EventArgs e)
@@ -105,25 +113,11 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface
         private void ClearItemForm()
         {
             txtItemDate.Text = "";
-            txtExpenseDate.Text = "";
             txtItemLocation.Text = "";
             txtItemDescription.Text = "";
             txtItemAmount.Text = "";
             ddlItemCurrency.SelectedValue = "AUD";
         }
-
-
-        //protected void cvReceipt_ServerValidate(object source, ServerValidateEventArgs args)
-        //{
-        //    if (fileReceipt.PostedFile.ContentLength < 1)
-        //    {
-        //        args.IsValid = true;
-        //    }
-        //    else
-        //    {
-        //        args.IsValid = false;
-        //    }
-        //}
 
         protected void lnkReceipt_Click(object sender, EventArgs e)
         {           
@@ -136,6 +130,19 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface
 
             ClientScript.RegisterStartupScript(this.GetType(), "OpenReceipt", "OpenReceipt('"+path+receiptFileName+"');", true);
 
+        }
+
+        protected void gvExpenseItems_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                ImageButton btn = (ImageButton)e.Row.FindControl("btnReceipt");
+
+                if (string.IsNullOrEmpty(btn.CommandArgument.ToString()))
+                {                    
+                    btn.Visible = false;
+                }
+            }
         }
     }
 }
