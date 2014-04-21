@@ -143,6 +143,7 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
                     Employee approvedBy = new Employee();
                     Employee processedBy = new Employee();
                     double expenseTotal;
+
                     report.ExpenseId = rdr["ExpenseId"] as int? ?? default(int);
                     report.CreateDate = (DateTime)rdr["CreateDate"];
                     report.ExpenseToDept = departmentDAL.GetDepartmentProfile(rdr["DepartmentId"] as int? ?? default(int));
@@ -208,7 +209,9 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
         // Below are the methods used by supervisor
         public List<ExpenseReport> GetReportsBySupervisor(int id,string status)
         {
-            string query = string.Format("SELECT * FROM ExpenseHeader WHERE DepartmentId ={0} and Status ='{1}' ", id,status);
+            DateTime today = DateTime.Today;
+            int month = today.Month;
+            string query = string.Format("SELECT * FROM ExpenseHeader WHERE  DepartmentId ={0} and Status ='{1}' and (MONTH(CONVERT (datetime, CONVERT (varchar(25), CreateDate, 112))) = {2})",id,status, month);
             return GetReportsFromDatabase(query);
         }
         public double SumOfExpenseApproved(int id)
@@ -253,6 +256,11 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
             daFunctions.Connection.Open();
             daFunctions.Command.CommandText= "SELECT ReceiptFileName FROM ExpenseItem WHERE ExpenseHeaderId= '"+expenseId+"'  ";
             return daFunctions.Command.ExecuteScalar().ToString();
+        }
+
+        public void getMonth()
+        {
+            
         }
     }
 }
