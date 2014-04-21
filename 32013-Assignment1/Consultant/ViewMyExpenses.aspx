@@ -1,6 +1,12 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/EM_Default_MasterPage.Master" AutoEventWireup="true" CodeBehind="ViewMyExpenses.aspx.cs" Inherits="ThreeAmigos.ExpenseManagement.UserInterface.Consultant.ViewMyExpenses" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+        <script>
+            function OpenReceipt(receiptFileName) {
+                var path = '<%=ConfigurationManager.AppSettings["ReceiptItemFilePath"].ToString() %>'
+            window.open(receiptFileName);
+        }
+    </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="panel panel-primary">
@@ -40,7 +46,7 @@
                                 <th></th>
                                 <th></th>
                             </tr>
-                            <asp:Repeater ID="rptExpenseItems" DataSource='<%# Eval("ExpenseItems") %>' runat="server">
+                            <asp:Repeater ID="rptExpenseItems" DataSource='<%# Eval("ExpenseItems") %>' runat="server" OnItemDataBound="rptExpenseItems_ItemDataBound">
                                 <HeaderTemplate>
                                     <tr>
                                         <th></th>
@@ -56,7 +62,7 @@
                                     <td><%# Eval("ExpenseDate") %></td>
                                     <td><%# Eval("Location") %></td>
                                     <td><%# Eval("Description") %></td>
-                                    <td><%# Eval("ReceiptFileName") %></td>
+                                    <td><asp:ImageButton ID="btnReceipt" ImageUrl="~/Image/img_pdf_icon.png" runat="server" OnClick="btnReceipt_Click" CommandArgument='<%# Eval("ReceiptFileName") %>' /></td>
                                     <td><%# Eval("AudAmount") %></td>
                                     </tr>
                                 </ItemTemplate>

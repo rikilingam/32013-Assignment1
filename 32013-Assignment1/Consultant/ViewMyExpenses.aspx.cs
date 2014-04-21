@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Security;
@@ -25,25 +26,31 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Consultant
             rptExpenseReport.DataSource = expenseReportDAL.GetExpenseReportsByConsultant((Guid)Membership.GetUser().ProviderUserKey, ddlSearchFilter.SelectedValue);
             rptExpenseReport.DataBind();
 
-            //gvDisplayExpenseReports.DataSource = expenseReportDAL.GetExpenseReportsByConsultant((Guid)Membership.GetUser().ProviderUserKey, ddlSearchFilter.SelectedValue);
-            //gvDisplayExpenseReports.DataBind();
         }
 
+        protected void btnReceipt_Click(object sender, ImageClickEventArgs e)
+        {
+            ImageButton btn = (ImageButton)(sender);
 
+            string receiptFileName = btn.CommandArgument.ToString();
 
-        //protected void gvDisplayExpenseReports_RowDataBound(object sender, GridViewRowEventArgs e)
-        //{
-        //    if (e.Row.RowType == DataControlRowType.DataRow)
-        //    {
-        //        int expenseId = (int)gvDisplayExpenseReports.DataKeys[e.Row.RowIndex].Value;
-        //        GridView gvExpenseItems = (GridView)e.Row.FindControl("gvExpenseItems");
-        //        List<ExpenseItem> expenseItems = new List<ExpenseItem>();
-        //        expenseItems = (string)e.Row.FindControl("expenseItems");
-        //        gvExpenseItems.DataSource = (ObjectDataSource)e.Row.FindControl("gvExpenseItems") ;
-        //        gvExpenseItems.DataBind();
-        //    }
-        //}
+            string path = ConfigurationManager.AppSettings["ReceiptItemFilePath"];
 
+            ClientScript.RegisterStartupScript(this.GetType(), "OpenReceipt", "OpenReceipt('" + path + receiptFileName + "');", true);
+        }
 
+        protected void rptExpenseItems_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+                // hides the receipt button if the expense item does not contain a receipt file name
+                ImageButton btn = (ImageButton)e.Item.FindControl("btnReceipt");
+                if (string.IsNullOrEmpty(btn.CommandArgument.ToString()))
+                {
+                    btn.Visible = false;
+                }
+
+            }
+        }
     }
 }

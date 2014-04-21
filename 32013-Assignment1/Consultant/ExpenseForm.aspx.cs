@@ -138,6 +138,7 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface
             {
                 ImageButton btn = (ImageButton)e.Row.FindControl("btnReceipt");
 
+                // hides the receipt button if the expense item does not contain a receipt file name
                 if (string.IsNullOrEmpty(btn.CommandArgument.ToString()))
                 {                    
                     btn.Visible = false;
