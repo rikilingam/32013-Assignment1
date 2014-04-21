@@ -10,8 +10,7 @@
     <p>
         &nbsp;</p>
     <p>
-        <asp:GridView ID="grdExpenseReport" runat="server" OnSelectedIndexChanged="GridView1_SelectedIndexChanged" BackColor="LightGoldenrodYellow" BorderColor="Tan" BorderWidth="1px" CellPadding="2" ForeColor="Black" GridLines="None" OnRowCommand="GridView1_RowCommand" OnRowCancelingEdit="GridView1_RowCancelingEdit" DataKeyNames="ExpenseId" Width="726px">
-            <AlternatingRowStyle BackColor="PaleGoldenrod" />
+        <asp:GridView ID="grdExpenseReport" runat="server" OnSelectedIndexChanged="GridView1_SelectedIndexChanged" BackColor="White" BorderColor="#CCCCCC" BorderWidth="1px" CellPadding="3" OnRowCommand="GridView1_RowCommand" OnRowCancelingEdit="GridView1_RowCancelingEdit" DataKeyNames="ExpenseId" Width="904px" BorderStyle="None">
             <Columns>
                 <asp:TemplateField>
                     <ItemTemplate>
@@ -40,14 +39,15 @@
                     </ItemTemplate>
                 </asp:TemplateField>
             </Columns>
-            <FooterStyle BackColor="Tan" />
-            <HeaderStyle BackColor="Tan" Font-Bold="True" />
-            <PagerStyle BackColor="PaleGoldenrod" ForeColor="DarkSlateBlue" HorizontalAlign="Center" />
-            <SelectedRowStyle BackColor="DarkSlateBlue" ForeColor="GhostWhite" />
-            <SortedAscendingCellStyle BackColor="#FAFAE7" />
-            <SortedAscendingHeaderStyle BackColor="#DAC09E" />
-            <SortedDescendingCellStyle BackColor="#E1DB9C" />
-            <SortedDescendingHeaderStyle BackColor="#C2A47B" />
+            <FooterStyle BackColor="White" ForeColor="#000066" />
+            <HeaderStyle BackColor="#006699" Font-Bold="True" ForeColor="White" />
+            <PagerStyle BackColor="White" ForeColor="#000066" HorizontalAlign="Left" />
+            <RowStyle ForeColor="#000066" />
+            <SelectedRowStyle BackColor="#669999" ForeColor="White" Font-Bold="True" />
+            <SortedAscendingCellStyle BackColor="#F1F1F1" />
+            <SortedAscendingHeaderStyle BackColor="#007DBB" />
+            <SortedDescendingCellStyle BackColor="#CAC9C9" />
+            <SortedDescendingHeaderStyle BackColor="#00547E" />
         </asp:GridView>
     </p>
     <p>
@@ -55,7 +55,11 @@
     <p>
         &nbsp;</p>
     <p>
-        <asp:SqlDataSource ID="SqlDataSource1" runat="server"></asp:SqlDataSource>
+        <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:localDatabase %>" SelectCommand="SELECT [CreateDate] FROM [ExpenseHeader] WHERE ([CreateDate] = @CreateDate)">
+            <SelectParameters>
+                <asp:Parameter DefaultValue="CreateDate.Month=4" Name="CreateDate" Type="DateTime" />
+            </SelectParameters>
+        </asp:SqlDataSource>
     </p>
     <p>
         &nbsp;</p>
