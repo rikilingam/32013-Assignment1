@@ -47,28 +47,10 @@ namespace ThreeAmigos.ExpenseManagement.BusinessLogic
         {
             return exp.GetReportsBySupervisor(id,status);
         }
-       
-        public double SumOfExpenseApproved(int id)
-        {
-            return exp.SumOfExpenseApproved(id);
-        }
-
-        // Ccalculates the budget remaining in a department
-        public double CalculateRemainingBudget(double budget, double totalSpent)
-        {
-            return budget - totalSpent;
-        }
-
-
+      
         public void SupervisorActionOnExpenseReport(int expenseid, Guid empId,string status)
         {
             exp.SupervisorActionOnExpenseReport(expenseid, empId,status);
-        }
-
-        public string GetFileName(int expenseId)
-        {
-          return exp.GetFileName(expenseId);
-        }
-       
+        }       
     }
 }
