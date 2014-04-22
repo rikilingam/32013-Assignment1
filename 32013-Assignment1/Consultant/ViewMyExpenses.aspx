@@ -39,7 +39,7 @@
                         </HeaderTemplate>
                         <ItemTemplate>
                             <tr class="success">
-                                <th>Report Date: <%# Eval("CreateDate") %></th>
+                                <th>Report Date: <%# Eval("CreateDate","{0:dd/MM/yyyy}") %></th>
                                 <th>Consultant: <%# Eval("CreatedBy.Fullname") %></th>
                                 <th>Department: <%# Eval("ExpenseToDept.DepartmentName") %></th>
                                 <th>Status: <%# Eval("Status") %></th>
@@ -59,12 +59,12 @@
                                 </HeaderTemplate>
                                 <ItemTemplate>
                                     <th></th>
-                                    <td><%# Eval("ExpenseDate") %></td>
+                                    <td><%# Eval("ExpenseDate","{0:dd/MM/yyyy}") %></td>
                                     <td><%# Eval("Location") %></td>
                                     <td><%# Eval("Description") %></td>
                                     <td>
                                         <asp:ImageButton ID="btnReceipt" ImageUrl="~/Image/img_pdf_icon.png" runat="server" OnClick="btnReceipt_Click" CommandArgument='<%# Eval("ReceiptFileName") %>' /></td>
-                                    <td><%# Eval("AudAmount") %></td>
+                                    <td><%# Eval("AudAmount","{0:c}") %></td>
                                     </tr>
                                 </ItemTemplate>
                                 <FooterTemplate>
