@@ -33,8 +33,8 @@
                         </HeaderTemplate>
                         <ItemTemplate>
                             <tr class="success">
-                                <th>Report Date: <%# Eval("CreateDate") %></th>
-                                <th>Supervisor Processed Date: <%# Eval("ApprovedDate") %> </th>
+                                <th>Report Date: <%# Eval("CreateDate","{0:dd/MM/yyyy}") %></th>
+                                <th>Supervisor Processed Date: <%# Eval("ApprovedDate","{0:dd/MM/yyyy}") %> </th>
                                 <th>Supervisor: <%# Eval("ApprovedBy.FullName")%> </th>
                                 <th>Consultant: <%# Eval("CreatedBy.Fullname") %></th>
                                 <th>Department: <%# Eval("ExpenseToDept.DepartmentName") %></th>

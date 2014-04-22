@@ -13,15 +13,17 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Supervisor
 {
     public partial class ViewMyExpenses : System.Web.UI.Page
     {
+        Employee emp = new Employee();
         protected void Page_Load(object sender, EventArgs e)
         {
-
+           
         }
 
         protected void btnSearchExpenses_Click(object sender, EventArgs e)
         {
+            emp = (Employee)Session["emp"]; 
             ExpenseReportDAL expenseReportDAL = new ExpenseReportDAL();
-            rptExpenseReport.DataSource = expenseReportDAL.GetReportsBySupervisor(Convert.ToInt32(Session["empDepartment"]), ddlSearchFilter.SelectedValue);
+            rptExpenseReport.DataSource = expenseReportDAL.GetReportsBySupervisor(emp.Dept.DepartmentId, ddlSearchFilter.SelectedValue);
             rptExpenseReport.DataBind();
         }
 
