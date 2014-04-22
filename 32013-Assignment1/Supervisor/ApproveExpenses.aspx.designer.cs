@@ -13,15 +13,6 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Supervisor {
     public partial class ApproveExpenses {
         
         /// <summary>
-        /// divDisplayExpenseReports control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divDisplayExpenseReports;
-        
-        /// <summary>
         /// rptExpenseReport control.
         /// </summary>
         /// <remarks>
