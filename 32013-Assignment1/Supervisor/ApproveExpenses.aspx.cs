@@ -27,7 +27,35 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Supervisor
             {                
                 grdExpenseReport.DataSource = Session["ExpenseReport"];
                 grdExpenseReport.DataBind();
+
+                rptExpenseReport.DataSource = Session["ExpenseReport"];
+                rptExpenseReport.DataBind();
             }              
+        }
+
+        protected void btnReceipt_Click(object sender, ImageClickEventArgs e)
+        {
+            ImageButton btn = (ImageButton)(sender);
+
+            string receiptFileName = btn.CommandArgument.ToString();
+
+            string path = ConfigurationManager.AppSettings["ReceiptItemFilePath"];
+
+            ClientScript.RegisterStartupScript(this.GetType(), "OpenReceipt", "OpenReceipt('" + path + receiptFileName + "');", true);
+        }
+
+        protected void rptExpenseItems_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+                // hides the receipt button if the expense item does not contain a receipt file name
+                ImageButton btn = (ImageButton)e.Item.FindControl("btnReceipt");
+                if (string.IsNullOrEmpty(btn.CommandArgument.ToString()))
+                {
+                    btn.Visible = false;
+                }
+
+            }
         }
 
         protected void GridView1_SelectedIndexChanged(object sender, EventArgs e)

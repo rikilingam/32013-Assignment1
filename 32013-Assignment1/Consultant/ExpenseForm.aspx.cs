@@ -48,7 +48,7 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface
 
             txtEmployeeName.Text = employee.FirstName + " " + employee.Surname;
             txtDepartment.Text = employee.Dept.DepartmentName;
-            txtExpenseDate.Text = reportBuilder.expenseReport.CreateDate.ToString();
+            txtExpenseDate.Text = reportBuilder.expenseReport.CreateDate.ToString("dd/MM/yyyy");
 
         }
 
@@ -99,13 +99,17 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface
         }
 
         protected void btnSubmitExpense_Click(object sender, EventArgs e)
-        {
+        {            
 
             if (reportBuilder.expenseReport.ExpenseItems.Count > 0)
             {
                 reportBuilder.SubmitExpenseReport();
 
                 Response.Redirect("/Default.aspx");
+            }
+            else
+            {
+                lblErrorMsg.Text = "The report does not contain any items!";
             }
 
         }
@@ -117,10 +121,11 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface
             txtItemDescription.Text = "";
             txtItemAmount.Text = "";
             ddlItemCurrency.SelectedValue = "AUD";
+            lblErrorMsg.Text = "";
         }
 
         protected void lnkReceipt_Click(object sender, EventArgs e)
-        {           
+        {
 
             ImageButton btn = (ImageButton)(sender);
 
@@ -128,7 +133,7 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface
 
             string path = ConfigurationManager.AppSettings["ReceiptItemFilePath"];
 
-            ClientScript.RegisterStartupScript(this.GetType(), "OpenReceipt", "OpenReceipt('"+path+receiptFileName+"');", true);
+            ClientScript.RegisterStartupScript(this.GetType(), "OpenReceipt", "OpenReceipt('" + path + receiptFileName + "');", true);
 
         }
 
@@ -140,7 +145,7 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface
 
                 // hides the receipt button if the expense item does not contain a receipt file name
                 if (string.IsNullOrEmpty(btn.CommandArgument.ToString()))
-                {                    
+                {
                     btn.Visible = false;
                 }
             }

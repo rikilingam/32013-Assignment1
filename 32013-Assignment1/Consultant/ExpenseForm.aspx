@@ -89,6 +89,7 @@
                                 </asp:TemplateField>
                             </Columns>
                         </asp:GridView>
+                        <asp:Label ID="lblErrorMsg" runat="server" Text=""></asp:Label>
                     </div>
                 </div>
 
@@ -124,7 +125,7 @@
                     <div class="row">
                         <div class="col-md-3 col-md-offset-1">
                             <div class="form-group">
-                                <label for="txtItemDate" class="control-label">Date</label>
+                                <label for="txtItemDate" class="control-label">Date</label><asp:RequiredFieldValidator ID="rfvItemDate" runat="server" ValidationGroup="vgExpenseItem" ControlToValidate="txtItemDate" Text="*"  ErrorMessage="Date of expense required" ></asp:RequiredFieldValidator><asp:RegularExpressionValidator ID="regexItemDate" runat="server" Text="*" ValidationGroup="vgExpenseItem" ControlToValidate="txtItemDate"  ErrorMessage="Invalid date for expense item" ValidationExpression="^(((((0[1-9])|(1\d)|(2[0-8]))/((0[1-9])|(1[0-2])))|((31/((0[13578])|(1[02])))|((29|30)/((0[1,3-9])|(1[0-2])))))/((20[0-9][0-9]))|((((0[1-9])|(1\d)|(2[0-8]))/((0[1-9])|(1[0-2])))|((31/((0[13578])|(1[02])))|((29|30)/((0[1,3-9])|(1[0-2])))))/((19[0-9][0-9]))|(29/02/20(([02468][048])|([13579][26])))|(29/02/19(([02468][048])|([13579][26]))))$"></asp:RegularExpressionValidator>
                                 <asp:TextBox ID="txtItemDate" runat="server" placeholder="Item date" CssClass="form-control" Enabled="true" data-date-format="DD/MM/YYYY"></asp:TextBox>
                             </div>
                         </div>
@@ -135,7 +136,7 @@
                         <div class="col-md-6 col-md-offset-1">
                             <div class="form-group">
                                 <label for="txtItemLocation" class="control-label">Location</label>
-                                <asp:RequiredFieldValidator ID="rfvLocation" runat="server" ErrorMessage="Location of expense" ControlToValidate="txtItemLocation" ValidationGroup="vgExpenseItem">*</asp:RequiredFieldValidator>
+                                <asp:RequiredFieldValidator ID="rfvLocation" runat="server" ErrorMessage="Location of expense" ControlToValidate="txtItemLocation" ValidationGroup="vgExpenseItem" Text="*"></asp:RequiredFieldValidator>
                                 <asp:TextBox ID="txtItemLocation" runat="server" placeholder="Location" CssClass="form-control" Enabled="true"></asp:TextBox>
                             </div>
                         </div>
