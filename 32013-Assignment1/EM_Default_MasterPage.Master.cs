@@ -27,36 +27,30 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface
 
             //enable navigation items for each role the current users is a member of
             if (myRoles.Length > 0)
-            {
+            {                
+                EmployeeDAL employeeDAL = new EmployeeDAL();
+                Employee emp = new Employee();
+                Session["emp"] = employeeDAL.GetEmployee((Guid)Membership.GetUser().ProviderUserKey);
+
                 foreach (string role in myRoles)
                 {
                     if (role == "Consultant")
                     {
-                        Employee emp = new Employee();
+                       // Employee emp = new Employee();
                         //Session["userId"] = emp.FetchUserId(HttpContext.Current.User.Identity.Name);
                         navConsultant.Visible = true;
 
                     }
                     else if (role == "Supervisor")
                     {
-                        double totalSpent = 0;
-                        navSupervisor.Visible = true;
-                        Employee emp = new Employee();
-                        EmployeeDAL employeeDAL = new EmployeeDAL();
-                        ExpenseReportBuilder expReport = new ExpenseReportBuilder();
-
-                        emp = employeeDAL.GetEmployee((Guid)Membership.GetUser().ProviderUserKey);
-                        Session["EmpUserId"] = emp.UserId;
-                        Session["EmpDepartment"] = emp.Dept.DepartmentId;
-                        Session["ExpenseReport"] = expReport.GetReportsBySupervisor((int)Session["EmpDepartment"], ReportStatus.Submitted.ToString());
-
-                        totalSpent = expReport.SumOfExpenseApproved((int)(Session["EmpDepartment"]));
-                        Session["totalSpent"] = totalSpent;
-                        Session["remainingBudget"] = expReport.CalculateRemainingBudget(Convert.ToDouble(ConfigurationManager.AppSettings["DepartmentMonthlyBudget"]), totalSpent);  
+                       navSupervisor.Visible = true;     
                     }
+
+
                     else if (role == "Accounts")
                     {
                         navAccounts.Visible = true;
+                       
                     }
                 }
             }
