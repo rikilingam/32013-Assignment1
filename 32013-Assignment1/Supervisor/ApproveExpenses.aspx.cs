@@ -19,18 +19,69 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Supervisor
 {
     public partial class ApproveExpenses : System.Web.UI.Page
     {
-        ExpenseReportDAL eexp = new ExpenseReportDAL(); 
-        double currentReportSum = 0;
+        ExpenseReportBuilder expReportBuilder = new ExpenseReportBuilder();
+        Employee emp = new Employee();
+        List<ExpenseReport> expenseReport = new List<ExpenseReport>();
+
         protected void Page_Load(object sender, EventArgs e)
         {
+            emp = (Employee)Session["emp"];
+            expenseReport = expReportBuilder.GetReportsBySupervisor(emp.Dept.DepartmentId, ReportStatus.Submitted.ToString());
             if (!IsPostBack)
-            {                
-                grdExpenseReport.DataSource = Session["ExpenseReport"];
-                grdExpenseReport.DataBind();
-
-                rptExpenseReport.DataSource = Session["ExpenseReport"];
+            {
+                rptExpenseReport.DataSource = expenseReport;
                 rptExpenseReport.DataBind();
-            }              
+            }
+        }
+
+        protected void rptExpenseReport_ItemCommand(object source, RepeaterCommandEventArgs e)
+        {
+            BudgetTracker budget = new BudgetTracker();
+            double totalSpent = budget.SumOfExpenseApproved(emp.Dept.DepartmentId);
+            double moneyRemaining = budget.CalculateRemainingBudget(Convert.ToDouble(ConfigurationManager.AppSettings["DepartmentMonthlyBudget"]), totalSpent);
+
+            if (e.CommandName == "RejectExpense")
+            {
+                ImageButton btn = (ImageButton)e.Item.FindControl("btnReject");
+                int expenseId = Convert.ToInt32(btn.CommandArgument);
+                expReportBuilder.SupervisorActionOnExpenseReport(expenseId, emp.UserId, ReportStatus.RejectedBySupervisor.ToString());
+                repBind();
+            }
+            else if (e.CommandName == "ApproveExpense")
+            {
+                ImageButton btn = (ImageButton)e.Item.FindControl("btnApprove");
+                string[] arg = new string[2];
+                arg = e.CommandArgument.ToString().Split(',');
+                int expenseId = Convert.ToInt32(arg[0]);
+                double total = Convert.ToDouble(arg[1]);
+
+                if (total > moneyRemaining)
+                {
+                    DialogResult UserReply = MessageBox.Show("Approving this expense will cross the total monthly budget...You want to approve?", "Important Question", MessageBoxButtons.YesNo);
+                    if (UserReply.ToString() == "Yes")
+                    {
+                        expReportBuilder.SupervisorActionOnExpenseReport(expenseId, emp.UserId, ReportStatus.ApprovedBySupervisor.ToString());
+                        repBind();
+                    }
+                    else
+                    {
+                        expReportBuilder.SupervisorActionOnExpenseReport(expenseId, emp.UserId, ReportStatus.RejectedBySupervisor.ToString());
+                        repBind();
+                    }
+                }
+                else
+                {
+                    expReportBuilder.SupervisorActionOnExpenseReport(expenseId, emp.UserId, ReportStatus.ApprovedBySupervisor.ToString());
+                    repBind();
+                }
+            }
+        }
+
+        protected void repBind()
+        {
+            expenseReport = expReportBuilder.GetReportsBySupervisor(emp.Dept.DepartmentId, ReportStatus.Submitted.ToString());
+            rptExpenseReport.DataSource = expenseReport;
+            rptExpenseReport.DataBind();
         }
 
         protected void btnReceipt_Click(object sender, ImageClickEventArgs e)
@@ -58,117 +109,7 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Supervisor
             }
         }
 
-        protected void GridView1_SelectedIndexChanged(object sender, EventArgs e)
-        {
 
-        }
-
-        protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
-        {
-            ExpenseReportBuilder expReportBuilder = new ExpenseReportBuilder();
-            int rowindex = Convert.ToInt32(e.CommandArgument.ToString());
-            
-            // find child gridview control to show items in expense report
-            GridView grvExpenseItems = (GridView)grdExpenseReport.Rows[rowindex].FindControl("grdExpenseItems");
-
-            grdExpenseReport.Rows[rowindex].FindControl("btnCancelItems").Visible = false;
-            Session["ExpenseId"] = grdExpenseReport.Rows[rowindex].Cells[4].Text;
-          
-            if (e.CommandName == "Details")
-            {
-                grdExpenseReport.Rows[rowindex].FindControl("btnCancelItems").Visible = true;
-                grdExpenseReport.Rows[rowindex].FindControl("btnItemDetails").Visible = false;
-
-              //  ExpenseReportDAL expenseReportDAL = new ExpenseReportDAL();
-                List<ExpenseReport> expReport = new List<ExpenseReport>();                
-                expReport =(List<ExpenseReport>) Session["ExpenseReport"]; 
-                for(int i=0;i<expReport.Count;i++)
-                {
-                    if (expReport[i].ExpenseId == Convert.ToInt32(grdExpenseReport.Rows[rowindex].Cells[4].Text))
-                    {
-                        grvExpenseItems.DataSource = expReport[i].ExpenseItems;
-                        grvExpenseItems.DataBind();
-                        grvExpenseItems.Visible = true;
-                    break;
-                    }                
-                }
-            }
-
-            else if (e.CommandName == "ApproveExpense")
-            {   
-                List<ExpenseReport> expReport = new List<ExpenseReport>();
-                expReport =(List<ExpenseReport>) Session["ExpenseReport"];
-
-               
-                for (int i = 0; i < expReport.Count; i++)
-                {
-                    if (expReport[i].ExpenseId == Convert.ToInt32(grdExpenseReport.Rows[rowindex].Cells[4].Text))
-                    {
-                      Session["ExpenseId"] = expReport[i].ExpenseId;
-
-                      // Use to check the sum of all items in the expense report
-                      for (int a = 0; a < expReport[i].ExpenseItems.Count; a++)
-                      {
-                        currentReportSum= CalculateReportTotal.ReportTotal(expReport[i].ExpenseItems);
-                      }
-                    }   
-                
-                 }
-
-                if (currentReportSum > Convert.ToDouble(Session["remainingBudget"]))
-                {
-                    DialogResult UserReply = MessageBox.Show("Approving this expense will cross the total monthly budget...You want to approve?", "Important Question", MessageBoxButtons.YesNo);
-                    if (UserReply.ToString() == "Yes")
-                    {
-                        expReportBuilder.SupervisorActionOnExpenseReport(Convert.ToInt32(Session["ExpenseId"]), Session["EmpUserId"] as Guid? ?? default(Guid), ReportStatus.ApprovedBySupervisor.ToString());
-                        gridBind();                 
-                    }
-                    else
-                    {
-                        expReportBuilder.SupervisorActionOnExpenseReport(Convert.ToInt32(Session["ExpenseId"]), Session["EmpUserId"] as Guid? ?? default(Guid), ReportStatus.RejectedBySupervisor.ToString());
-                        gridBind();  
-                    }
-                }
-
-                else
-                {
-                    expReportBuilder.SupervisorActionOnExpenseReport(Convert.ToInt32(Session["ExpenseId"]), Session["EmpUserId"] as Guid? ?? default(Guid), ReportStatus.ApprovedBySupervisor.ToString());
-                    gridBind();  
-                }          
-            }
-
-            else if (e.CommandName == "RejectExpense")
-            {
-                expReportBuilder.SupervisorActionOnExpenseReport(Convert.ToInt32(Session["ExpenseId"]), Session["EmpUserId"] as Guid? ?? default(Guid), ReportStatus.RejectedBySupervisor.ToString());
-                gridBind();
-            }
-
-            else if (e.CommandName == "OpenReceipt")
-            {
-                int expenseId = Convert.ToInt32(grdExpenseReport.Rows[rowindex].Cells[4].Text);
-                string fileName = expReportBuilder.GetFileName(expenseId); 
-                string filePath=Server.MapPath("~/Receipts/"+fileName);
-                Response.ContentType = "application/pdf";
-                Response.WriteFile(filePath);
-            }
-            else
-            {
-                // child gridview  display false when cancel button raise event
-                grvExpenseItems.Visible = false;
-                grdExpenseReport.Rows[rowindex].FindControl("btnItemDetails").Visible = true;
-            }
-        }
-
-        protected void GridView1_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
-        {
-           
-        }
-
-        protected void gridBind()
-        {
-            Session["ExpenseReport"] = eexp.GetReportsBySupervisor((int)Session["EmpDepartment"], ReportStatus.Submitted.ToString());
-            grdExpenseReport.DataSource = Session["ExpenseReport"];
-            grdExpenseReport.DataBind();
-        }
     }
+
 }
