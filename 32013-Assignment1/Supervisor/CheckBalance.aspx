@@ -13,23 +13,15 @@
                 <div class="row">
                     <div class="col-md-2">
 
-                        <strong>Search Filter:</strong>
-                        <asp:DropDownList ID="ddlCheckFilter" runat="server" CssClass="form-control">
-                            <asp:ListItem Value="Money Spent">Money Spent</asp:ListItem>
-                            <asp:ListItem Value="Money Remaining">Money Remaining</asp:ListItem>
-                           </asp:DropDownList>
-                        <asp:Button ID="btnBalanceCheck" runat="server" Text="Check" CssClass="btn btn-primary" OnClick="btnBalanceCheck_Click" />
+                    <asp:Label ID="lblMoneySpent" runat="server" Height="22px" Width="302px"></asp:Label>
+                        <br />
+                        <br />
+                    <asp:Label ID="lblMoneyRemaining" itemStyle-wrap="false" runat="server" Height="22px" Width="302px"></asp:Label>
+                    <br />
                     </div>
 
                     <br />
-                    <br />
 
-                </div>
-                <div class="row">
-                    <asp:Label ID="lblMoneyRemaining" runat="server"></asp:Label>
-                    <br />
-                    <asp:Label ID="lblMoneySpent" runat="server"></asp:Label>
-                    <br />
                 </div>
             </div>
         </div>
