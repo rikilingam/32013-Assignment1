@@ -151,7 +151,7 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
                     report.CreatedBy = employeeDAL.GetEmployee(rdr["CreatedById"] as Guid? ?? default(Guid));
                     report.ApprovedBy = employeeDAL.GetEmployee(rdr["ApprovedById"] as Guid? ?? default(Guid));
                     report.ProcessedBy = employeeDAL.GetEmployee(rdr["ProcessedById"] as Guid? ?? default(Guid));
-
+                    report.ApprovedDate = rdr["ApprovedDate"] as DateTime? ?? default(DateTime);
                     report.ExpenseItems = GetExpenseItemsByExpenseId(report.ExpenseId, out expenseTotal);
                     report.ExpenseTotal = expenseTotal;
                     expenseReports.Add(report);
@@ -176,7 +176,7 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
 
             DataAccessFunctions daFunctions = new DataAccessFunctions();
 
-            string query = String.Format("SELECT * FROM ExpenseItem WHERE ExpenseHeaderId={0}", expenseid); 
+            string query = String.Format("SELECT * FROM ExpenseItem WHERE ExpenseHeaderId={0}", expenseid);
 
             daFunctions.Connection.Open();
             daFunctions.Command.CommandText = query;
@@ -204,37 +204,28 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
             daFunctions.Connection.Close();
             return expenseItems;
         }
-    
+
 
         // Below are the methods used by supervisor
-        public List<ExpenseReport> GetReportsBySupervisor(int id,string status)
+        public List<ExpenseReport> GetReportsBySupervisor(int id, string status)
         {
-            DateTime today = DateTime.Today;
-            int month = today.Month;
-            string query = string.Format("SELECT * FROM ExpenseHeader WHERE  DepartmentId ={0} and Status ='{1}' and (MONTH(CONVERT (datetime, CONVERT (varchar(25), CreateDate, 112))) = {2})",id,status, month);
+            string query = string.Format("SELECT * FROM ExpenseHeader WHERE  DepartmentId ={0} and Status ='{1}'", id, status);
             return GetReportsFromDatabase(query);
         }
-        public double SumOfExpenseApproved(int id)
+        public double SumOfExpenseApproved(int DeptId)
         {
             double totalExpenseApproved = 0;
-            string query = string.Format("SELECT * FROM ExpenseHeader WHERE DepartmentId ='{0}' and Status ='{1}' ", id, ReportStatus.ApprovedBySupervisor);
+            string query = string.Format("SELECT * FROM ExpenseHeader WHERE DepartmentId ='{0}' and Status ='{1}' ", DeptId, ReportStatus.ApprovedBySupervisor);
             List<ExpenseReport> expenseReports = new List<ExpenseReport>();
             expenseReports = GetReportsFromDatabase(query);
-            totalExpenseApproved = SumOfExpenseItem(expenseReports);
+            for (int i = 0; i < expenseReports.Count; i++)
+            {
+                totalExpenseApproved = totalExpenseApproved + expenseReports[i].ExpenseTotal;
+            }
             return totalExpenseApproved;
 
         }
-        public double SumOfExpenseItem(List<ExpenseReport> rep)
-        {
-            double sum = 0;
-            foreach (var item in rep)
-            {
-                for (int i = 0; i < item.ExpenseItems.Count; i++)
-                    sum = sum + item.ExpenseItems[i].AudAmount;
-            }
-            return sum;
-        }
-        public void SupervisorActionOnExpenseReport(int expenseId, Guid empId,string status)
+        public void SupervisorActionOnExpenseReport(int expenseId, Guid empId, string status)
         {
             string query = "update ExpenseHeader set ApprovedById=@ApprovedById,  ApprovedDate=@ApprovedDate,Status=@Status where ExpenseId='" + expenseId + "'";
             //  where Username='" + username + "'";                                  
@@ -247,20 +238,6 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
             daFunctions.Command.Parameters.AddWithValue("@Status", status);
             daFunctions.Command.ExecuteNonQuery();
             daFunctions.Connection.Close();
-        }
-
-
-        public string GetFileName(int expenseId)
-        {
-            DataAccessFunctions daFunctions = new DataAccessFunctions();
-            daFunctions.Connection.Open();
-            daFunctions.Command.CommandText= "SELECT ReceiptFileName FROM ExpenseItem WHERE ExpenseHeaderId= '"+expenseId+"'  ";
-            return daFunctions.Command.ExecuteScalar().ToString();
-        }
-
-        public void getMonth()
-        {
-            
         }
     }
 }
