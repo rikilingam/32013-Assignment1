@@ -355,14 +355,14 @@ namespace ThreeAmigos.ExpenseManagement.Test
             }
         }
 
-        [TestMethod]
-        public void ExpenseReportBuilder_CalcualateRemainingBudget_AreEqaul()
-        {
-            ExpenseReportBuilder expReportBuilder=new ExpenseReportBuilder(); 
-            double expected = 44;
-            double actual = expReportBuilder.CalculateRemainingBudget(100, 56);
-            Assert.AreEqual(expected, actual);
-        }
+        //[TestMethod]
+        //public void ExpenseReportBuilder_CalcualateRemainingBudget_AreEqaul()
+        //{
+        //    ExpenseReportBuilder expReportBuilder=new ExpenseReportBuilder(); 
+        //    double expected = 44;
+        //    double actual = expReportBuilder.CalculateRemainingBudget(100, 56);
+        //    Assert.AreEqual(expected, actual);
+        //}
 
         private bool CheckDatabaseForReportStatus(int id)
         {
