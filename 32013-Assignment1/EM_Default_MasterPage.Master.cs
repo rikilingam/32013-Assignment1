@@ -29,7 +29,7 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface
             if (myRoles.Length > 0)
             {                
                 EmployeeDAL employeeDAL = new EmployeeDAL();
-                Employee emp = new Employee();
+                //Employee emp = new Employee();
                 Session["emp"] = employeeDAL.GetEmployee((Guid)Membership.GetUser().ProviderUserKey);
 
                 foreach (string role in myRoles)

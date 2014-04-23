@@ -35,7 +35,7 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
                 {
                     department.DepartmentId = rdr["DepartmentId"] as int? ?? default(int);
                     department.DepartmentName = (string)rdr["DepartmentName"];
-                    department.MonthlyBudget = rdr["MonthlyBudget"] as double? ?? default(double);
+                    department.MonthlyBudget = rdr["MonthlyBudget"] as decimal? ?? default(decimal);
                 }
 
                 daFunctions.Connection.Close();

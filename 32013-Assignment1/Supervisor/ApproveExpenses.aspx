@@ -6,7 +6,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
    
-  
+    <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
     
     <div class="panel panel-primary">
         <div class="panel-heading">
@@ -16,7 +16,7 @@
         <div class="panel-body">
             <div class="container-fluid">
                 <div class="row">
-                    <asp:Repeater ID="rptExpenseReport" runat="server" OnItemCommand="rptExpenseReport_ItemCommand">
+                    <asp:Repeater ID="rptExpenseReport" runat="server">
                         <HeaderTemplate>
                             <table class="table">
                         </HeaderTemplate>
@@ -31,7 +31,7 @@
                                 <th></th>
 
                             </tr>
-                            <asp:Repeater ID="rptExpenseItems" DataSource='<%# Eval("ExpenseItems") %>' runat="server" OnItemDataBound="rptExpenseItems_ItemDataBound">
+                            <asp:Repeater ID="rptExpenseItems" DataSource='<%# Eval("ExpenseItems") %>' runat="server" OnItemDataBound="rptExpenseItems_ItemDataBound" >
                                 <HeaderTemplate>
                                     <tr>
                                         <th></th>
@@ -63,8 +63,8 @@
                                 <td></td>
                                 <td><b>Expense Total:</b></td>
                                 <td><b><%# Eval("ExpenseTotal","{0:c}")%></b></td>
-                                <td><asp:ImageButton ID="btnApprove" ImageUrl="~/Image/img_approve.png" ImageAlign="Middle" runat="server" CommandName="ApproveExpense" CommandArgument='<%#Eval("ExpenseId") + ","+Eval("ExpenseTotal") %>' />&nbsp;&nbsp;
-                                    <asp:ImageButton ID="btnReject" ImageUrl="~/Image/img_reject.png" ImageAlign="Middle" runat="server" CommandName="RejectExpense" CommandArgument='<%# Eval("ExpenseId") %>' /></td>
+                                <td><asp:ImageButton ID="btnApprove" ImageUrl="~/Image/img_approve.png" ImageAlign="Middle" runat="server" CommandName="ApproveExpense" CommandArgument='<%#Eval("ExpenseId") + ","+Eval("ExpenseTotal") %>' OnClick="btnApprove_Click" />&nbsp;&nbsp;
+                                    <asp:ImageButton ID="btnReject" ImageUrl="~/Image/img_reject.png" ImageAlign="Middle" runat="server" CommandName="RejectExpense" CommandArgument='<%# Eval("ExpenseId") %>' OnClick="btnReject_Click" /></td>
                                 </tr>
                             <tr>
                                 <td></td>
