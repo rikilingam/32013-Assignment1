@@ -16,15 +16,16 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Supervisor
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            Employee emp = new Employee();
-            emp =(Employee) Session["emp"];
-            
-            BudgetTracker budget = new BudgetTracker();
-            decimal totalSpent = budget.SumOfExpenseApproved(emp.Dept.DepartmentId);
-            decimal moneyRemaining = budget.CalculateRemainingBudget(Convert.ToDecimal(ConfigurationManager.AppSettings["DepartmentMonthlyBudget"]),totalSpent);
+           Employee emp = new Employee();
+           emp =(Employee) Session["emp"];
+                    
+           BudgetTracker budget = new BudgetTracker();
+           budget.DepartmentBudget(emp.Dept.MonthlyBudget, emp.Dept.DepartmentId);            
+           decimal moneyRemaining = budget.RemainingAmount;
+           decimal totalExpenseAmount = budget.TotalExpenseAmount;
+           lblMoneySpent.Text = "Total money spent so far is : AU$ " + totalExpenseAmount.ToString();
+           lblMoneyRemaining.Text = "Total money remaining is : AU$ " + moneyRemaining.ToString();
           
-            lblMoneySpent.Text = "Total money spent so far is : AU$ " + totalSpent.ToString();
-            lblMoneyRemaining.Text = "Total money remaining is : AU$ " + moneyRemaining.ToString();
-          }
+        }
     }
 }
