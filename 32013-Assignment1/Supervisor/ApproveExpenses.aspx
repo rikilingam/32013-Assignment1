@@ -5,9 +5,9 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-   
+   <p>
     <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
-    
+    </p>
     <div class="panel panel-primary">
         <div class="panel-heading">
             <h3 class="panel-title">Expenses awaiting approval</h3>
@@ -87,23 +87,4 @@
     </div>
 
 
-    <p>
-        &nbsp;</p>
-    <p>
-        &nbsp;
-    </p>
-    <p>
-        &nbsp;
-    </p>
-    <p>
-        &nbsp;</p>
-    <p>
-        &nbsp;
-    </p>
-    <p>
-        &nbsp;
-    </p>
-    <p>
-        &nbsp;
-    </p>
 </asp:Content>

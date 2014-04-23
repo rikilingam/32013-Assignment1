@@ -40,24 +40,46 @@ namespace ThreeAmigos.ExpenseManagement.BusinessLogic
             }
         }
 
+        public decimal BudgetAmount
+        {
+            get { return budgetAmount; }
+        }
+
+        // setups the budget tracker track departmental budget
         public void DepartmentBudget(decimal deptBudget, int deptId)
         {
             budgetAmount = deptBudget;
             totalExpenseAmount = spendTracker.TotalExpenseAmountByDept(deptId);
         }
 
+        // setups the budget tracker track company budget
         public void CompanyBudget()
         {
             budgetAmount = decimal.Parse(ConfigurationManager.AppSettings["CompanyMonthlyBudget"]);
             totalExpenseAmount = spendTracker.TotalExpenseAmountByCompany();
         }
 
-        public decimal RemainingAmount()
+        public decimal RemainingAmount
         {
-            return budgetAmount - totalExpenseAmount;
+            get
+            {
+                return budgetAmount - totalExpenseAmount;
+            }
         }
 
+        public bool IsBudgetExceeded(decimal amount)
+        {
 
+            if ((budgetAmount - (totalExpenseAmount + amount)) < 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
 
 
         public decimal SumOfExpenseApproved(int DeptId)

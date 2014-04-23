@@ -20,8 +20,7 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Supervisor
         ExpenseReportBuilder expReportBuilder=  new ExpenseReportBuilder();
         Employee emp = new Employee();
         BudgetTracker budget = new BudgetTracker();
-                 
-        //List<ExpenseReport> expenseReport = new List<ExpenseReport>();
+       
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -46,13 +45,20 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Supervisor
                 Session["emp"] = emp;
             }
 
-            budget.DepartmentBudget(emp.Dept.MonthlyBudget, emp.Dept.DepartmentId);
+           budget.DepartmentBudget(emp.Dept.MonthlyBudget, emp.Dept.DepartmentId);
+           Session["budget"] = budget;
+            UpdateBudgetMessage();
 
-            Label1.Text = "dept budget: " + emp.Dept.MonthlyBudget.ToString() + " budget: " + budget.RemainingAmount();
             rptExpenseReport.DataSource = expReportBuilder.GetReportsBySupervisor(emp.Dept.DepartmentId, ReportStatus.Submitted.ToString());
             rptExpenseReport.DataBind();
+
+
         }
 
+        private void UpdateBudgetMessage()
+        {
+            Label1.Text = string.Format("You currently have <b>{0}</b> remaining from your departments monthly budget of <b>{1}</b>.",String.Format("{0:c}",budget.RemainingAmount),String.Format("{0:c}",budget.BudgetAmount));
+        }
 
         protected void rptExpenseItems_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
@@ -85,26 +91,28 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Supervisor
             string[] arg = new string[2];
             arg = btn.CommandArgument.ToString().Split(',');
             int expenseId = Convert.ToInt32(arg[0]);
-            decimal total = Convert.ToDecimal(arg[1]);
+            decimal expenseTotal = Convert.ToDecimal(arg[1]);
 
-            if (total > budget.RemainingAmount())
+            budget = (BudgetTracker)Session["budget"];
+
+
+            if ((budget.RemainingAmount - expenseTotal) < 0)
             {
-                DialogResult UserReply = MessageBox.Show("Approving this expense will cross the total monthly budget...You want to approve?", "Important Question", MessageBoxButtons.YesNo);
+                DialogResult UserReply = MessageBox.Show("Approving this expense " + expenseTotal + " will cross the total monthly budget...You want to approve?", "Important Question", MessageBoxButtons.YesNo);
                 if (UserReply.ToString() == "Yes")
                 {
                     expReportBuilder.SupervisorActionOnExpenseReport(expenseId, emp.UserId, ReportStatus.ApprovedBySupervisor.ToString());
-                    
+
                 }
                 else
                 {
                     expReportBuilder.SupervisorActionOnExpenseReport(expenseId, emp.UserId, ReportStatus.RejectedBySupervisor.ToString());
-                    
                 }
             }
             else
             {
                 expReportBuilder.SupervisorActionOnExpenseReport(expenseId, emp.UserId, ReportStatus.ApprovedBySupervisor.ToString());
-                
+
             }
 
             InitializeRepeater();

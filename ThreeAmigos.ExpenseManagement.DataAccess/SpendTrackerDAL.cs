@@ -20,7 +20,7 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
 
         public decimal TotalExpenseAmountByDept(int deptId)
         {
-            string query = string.Format("SELECT SUM(AudAmount) FROM ExpenseItem i LEFT OUTER JOIN ExpenseHeader h on i.ExpenseHeaderId = h.ExpenseId WHERE h.DepartmentId={0} AND h.Status='{1}'", deptId, ReportStatus.ApprovedByAccountant);
+            string query = string.Format("SELECT SUM(AudAmount) FROM ExpenseItem i LEFT OUTER JOIN ExpenseHeader h on i.ExpenseHeaderId = h.ExpenseId WHERE h.DepartmentId={0} AND h.Status in ('{1}','{2}')", deptId, ReportStatus.ApprovedByAccountant, ReportStatus.ApprovedBySupervisor);
 
             return GetExpenseTotal(query);
         }
