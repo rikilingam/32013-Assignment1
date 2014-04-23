@@ -11,21 +11,21 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
     public class SpendTrackerDAL
     {
 
-        public double TotalExpenseAmountBySupervisor(int supervisorId)
+        public decimal TotalExpenseAmountBySupervisor(int supervisorId)
         {
-            string query = string.Format("SELECT SUM(AudAmount) FROM ExpenseItem i LEFT OUTER JOIN ExpenseHeader h on i.ExpenseHeaderId = h.ExpenseId WHERE h.ApprovedById={0} AND h.Status={1}", supervisorId, ReportStatus.ApprovedByAccountant);
+            string query = string.Format("SELECT SUM(AudAmount) FROM ExpenseItem i LEFT OUTER JOIN ExpenseHeader h on i.ExpenseHeaderId = h.ExpenseId WHERE h.ApprovedById={0} AND h.Status='{1}'", supervisorId, ReportStatus.ApprovedByAccountant);
 
             return GetExpenseTotal(query);        
         }
 
-        public double TotalExpenseAmountByDept(int deptId)
+        public decimal TotalExpenseAmountByDept(int deptId)
         {
-            string query = string.Format("SELECT SUM(AudAmount) FROM ExpenseItem i LEFT OUTER JOIN ExpenseHeader h on i.ExpenseHeaderId = h.ExpenseId WHERE h.DepartmentId={0} AND h.Status={1}", deptId, ReportStatus.ApprovedByAccountant);
+            string query = string.Format("SELECT SUM(AudAmount) FROM ExpenseItem i LEFT OUTER JOIN ExpenseHeader h on i.ExpenseHeaderId = h.ExpenseId WHERE h.DepartmentId={0} AND h.Status='{1}'", deptId, ReportStatus.ApprovedByAccountant);
 
             return GetExpenseTotal(query);
         }
 
-        public double TotalExpenseAmountByCompany()
+        public decimal TotalExpenseAmountByCompany()
         {
          
             string query = string.Format("SELECT SUM(AudAmount) FROM ExpenseItem i LEFT OUTER JOIN ExpenseHeader h on i.ExpenseHeaderId = h.ExpenseId WHERE h.Status={0}", ReportStatus.ApprovedByAccountant);
@@ -33,14 +33,23 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
             return GetExpenseTotal(query);
         }
 
-        private double GetExpenseTotal(string query)
+        private decimal GetExpenseTotal(string query)
         {
-            double totalExpense = 0;
+            decimal totalExpense = 0;
             DataAccessFunctions daFunctions = new DataAccessFunctions();
-                        
+
             daFunctions.Command.CommandText = query;
 
-            totalExpense = daFunctions.Command.ExecuteScalar() as double? ?? default(double);
+            try
+            {
+                daFunctions.Connection.Open();
+                totalExpense = daFunctions.Command.ExecuteScalar() as decimal? ?? default(decimal);
+                daFunctions.Connection.Close();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Unable to execute method GetExpenseTotal: " + ex.Message);
+            }
 
             return totalExpense;
         }

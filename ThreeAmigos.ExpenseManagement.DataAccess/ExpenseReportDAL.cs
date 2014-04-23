@@ -212,6 +212,7 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
             string query = string.Format("SELECT * FROM ExpenseHeader WHERE  DepartmentId ={0} and Status ='{1}'", id, status);
             return GetReportsFromDatabase(query);
         }
+
         public double SumOfExpenseApproved(int DeptId)
         {
             double totalExpenseApproved = 0;
@@ -225,6 +226,10 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
             return totalExpenseApproved;
 
         }
+
+
+        
+
         public void SupervisorActionOnExpenseReport(int expenseId, Guid empId, string status)
         {
             string query = "update ExpenseHeader set ApprovedById=@ApprovedById,  ApprovedDate=@ApprovedDate,Status=@Status where ExpenseId='" + expenseId + "'";
@@ -238,6 +243,11 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
             daFunctions.Command.Parameters.AddWithValue("@Status", status);
             daFunctions.Command.ExecuteNonQuery();
             daFunctions.Connection.Close();
+        }
+
+        public object GetReportsByAccount(string p)
+        {
+            throw new NotImplementedException();
         }
     }
 }

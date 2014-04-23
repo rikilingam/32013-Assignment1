@@ -11,8 +11,8 @@ namespace ThreeAmigos.ExpenseManagement.BusinessLogic
 {
     public class BudgetTracker
     {
-        private double budgetAmount;
-        private double totalExpenseAmount;
+        private decimal budgetAmount;
+        private decimal totalExpenseAmount;
         
         ExpenseReportDAL exp;
 
@@ -26,7 +26,7 @@ namespace ThreeAmigos.ExpenseManagement.BusinessLogic
             totalExpenseAmount = 0;
         }
 
-        public double TotalExpenseAmount
+        public decimal TotalExpenseAmount
         {
             get
             {
@@ -40,7 +40,7 @@ namespace ThreeAmigos.ExpenseManagement.BusinessLogic
             }
         }
 
-        public void DepartmentBudget(double deptBudget, int deptId)
+        public void DepartmentBudget(decimal deptBudget, int deptId)
         {
             budgetAmount = deptBudget;
             totalExpenseAmount = spendTracker.TotalExpenseAmountByDept(deptId);
@@ -48,11 +48,11 @@ namespace ThreeAmigos.ExpenseManagement.BusinessLogic
 
         public void CompanyBudget()
         {
-            budgetAmount = double.Parse(ConfigurationManager.AppSettings["CompanyMonthlyBudget"]);
+            budgetAmount = decimal.Parse(ConfigurationManager.AppSettings["CompanyMonthlyBudget"]);
             totalExpenseAmount = spendTracker.TotalExpenseAmountByCompany();
         }
 
-        public double RemainingAmount()
+        public decimal RemainingAmount()
         {
             return budgetAmount - totalExpenseAmount;
         }

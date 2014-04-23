@@ -51,6 +51,11 @@ namespace ThreeAmigos.ExpenseManagement.BusinessLogic
         public void SupervisorActionOnExpenseReport(int expenseid, Guid empId,string status)
         {
             exp.SupervisorActionOnExpenseReport(expenseid, empId,status);
-        }       
+        }
+
+        public void AccountantActionOnExpenseReport(int p1, Guid guid, string p2)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

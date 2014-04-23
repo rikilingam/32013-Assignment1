@@ -127,11 +127,11 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Accounts
 
             else if (e.CommandName == "OpenReceipt")
             {
-                int expenseId = Convert.ToInt32(grdExpenseAccountReport.Rows[rowindex].Cells[4].Text);
-                string fileName = expReportBuilder.GetFileName(expenseId);
-                string filePath = Server.MapPath("~/Receipts/" + fileName);
-                Response.ContentType = "application/pdf";
-                Response.WriteFile(filePath);
+                //int expenseId = Convert.ToInt32(grdExpenseAccountReport.Rows[rowindex].Cells[4].Text);
+                //string fileName = expReportBuilder.GetFileName(expenseId);
+                //string filePath = Server.MapPath("~/Receipts/" + fileName);
+                //Response.ContentType = "application/pdf";
+                //Response.WriteFile(filePath);
             }
             else
             {
