@@ -13,9 +13,9 @@ namespace ThreeAmigos.ExpenseManagement.BusinessObject
         public DateTime ExpenseDate { get; set; }
         public string Location { get; set; }
         public string Description { get; set; }
-        public double Amount { get; set; }
+        public decimal Amount { get; set; }
         public string Currency { get; set; }
-        public double AudAmount { get; set; }
+        public decimal AudAmount { get; set; }
         public string ReceiptFileName { get; set; }
 
         public ExpenseItem()

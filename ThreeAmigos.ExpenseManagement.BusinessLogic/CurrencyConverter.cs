@@ -11,9 +11,9 @@ namespace ThreeAmigos.ExpenseManagement.BusinessLogic
 
     public static class CurrencyConverter
     {
-        public static double ConvertToAUD(string currency, double amount)
+        public static decimal ConvertToAUD(string currency, decimal amount)
         {
-            double rate = 0;
+            decimal rate = 0;
             bool isRateValid = false;
 
             if (currency == Currency.AUD.ToString())
@@ -22,8 +22,8 @@ namespace ThreeAmigos.ExpenseManagement.BusinessLogic
             }
             else if (currency == Currency.CNY.ToString())
             {
-                isRateValid = double.TryParse(ConfigurationManager.AppSettings["CNY"], out rate);
-
+                isRateValid = decimal.TryParse(ConfigurationManager.AppSettings["CNY"], out rate);
+                
                 if (isRateValid = true && rate > 0)
                 {
                     return amount * rate;
@@ -32,7 +32,7 @@ namespace ThreeAmigos.ExpenseManagement.BusinessLogic
             }
             else if (currency == Currency.EUR.ToString())
             {
-                isRateValid = double.TryParse(ConfigurationManager.AppSettings["EUR"], out rate);
+                isRateValid = decimal.TryParse(ConfigurationManager.AppSettings["EUR"], out rate);
 
                 if (isRateValid = true && rate > 0)
                 {

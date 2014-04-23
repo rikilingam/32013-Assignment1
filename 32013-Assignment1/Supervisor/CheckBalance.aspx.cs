@@ -20,8 +20,8 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Supervisor
             emp =(Employee) Session["emp"];
             
             BudgetTracker budget = new BudgetTracker();
-            double totalSpent = budget.SumOfExpenseApproved(emp.Dept.DepartmentId);
-            double moneyRemaining = budget.CalculateRemainingBudget(Convert.ToDouble(ConfigurationManager.AppSettings["DepartmentMonthlyBudget"]),totalSpent);
+            decimal totalSpent = budget.SumOfExpenseApproved(emp.Dept.DepartmentId);
+            decimal moneyRemaining = budget.CalculateRemainingBudget(Convert.ToDecimal(ConfigurationManager.AppSettings["DepartmentMonthlyBudget"]),totalSpent);
           
             lblMoneySpent.Text = "Total money spent so far is : AU$ " + totalSpent.ToString();
             lblMoneyRemaining.Text = "Total money remaining is : AU$ " + moneyRemaining.ToString();

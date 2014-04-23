@@ -20,7 +20,7 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Accounts
     public partial class ProcessExpenses : System.Web.UI.Page
     {
         ExpenseReportDAL eexp = new ExpenseReportDAL();
-        double currentReportSum = 0;
+        decimal currentReportSum = 0;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -97,7 +97,7 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Accounts
                     }
                 }
 
-                if (currentReportSum > Convert.ToDouble(Session["remainingBudget"]))
+                if (currentReportSum > Convert.ToDecimal(Session["remainingBudget"]))
                 {
                     DialogResult UserReply = MessageBox.Show("Approving this expense will cross the total monthly budget...You want to approve?", "Important Question", MessageBoxButtons.YesNo);
                     if (UserReply.ToString() == "Yes")

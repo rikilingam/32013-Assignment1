@@ -67,7 +67,7 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface
                 expenseItem.ExpenseDate = Convert.ToDateTime(txtItemDate.Text);
                 expenseItem.Location = txtItemLocation.Text;
                 expenseItem.Description = txtItemDescription.Text;
-                expenseItem.Amount = Double.Parse(txtItemAmount.Text);
+                expenseItem.Amount = Convert.ToDecimal(txtItemAmount.Text);
                 expenseItem.Currency = ddlItemCurrency.SelectedValue;
                 expenseItem.AudAmount = CurrencyConverter.ConvertToAUD(expenseItem.Currency, expenseItem.Amount);
 

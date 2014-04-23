@@ -9,9 +9,9 @@ namespace ThreeAmigos.ExpenseManagement.BusinessLogic
 {
     public class CalculateReportTotal
     {
-        public static double ReportTotal(List<ExpenseItem> expenseItems)
+        public static decimal ReportTotal(List<ExpenseItem> expenseItems)
         {
-            double reportTotal=0;
+            decimal reportTotal=0;
             if (expenseItems!= null && expenseItems.Count > 0)
             {
                 foreach (ExpenseItem item in expenseItems)

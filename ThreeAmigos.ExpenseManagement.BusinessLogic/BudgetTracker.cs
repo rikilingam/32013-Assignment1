@@ -60,13 +60,13 @@ namespace ThreeAmigos.ExpenseManagement.BusinessLogic
 
 
 
-        public double SumOfExpenseApproved(int DeptId)
+        public decimal SumOfExpenseApproved(int DeptId)
         {
             return exp.SumOfExpenseApproved(DeptId);
         }
 
         // Calculates the budget remaining in a department
-        public double CalculateRemainingBudget(double budget, double totalSpent)
+        public decimal CalculateRemainingBudget(decimal budget, decimal totalSpent)
         {
             return budget - totalSpent;
         }

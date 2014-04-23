@@ -82,7 +82,7 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
         /// Inserts the each expense item into the database,
         /// with a foreign key of expenseId
         /// </summary>
-        private void InsertExpenseItem(int expenseId, DateTime expenseDate, string location, string description, double amount, string currency, double audAmount, string receiptFileName)
+        private void InsertExpenseItem(int expenseId, DateTime expenseDate, string location, string description, decimal amount, string currency, decimal audAmount, string receiptFileName)
         {
             DataAccessFunctions daFunctions = new DataAccessFunctions();
             //string query = String.Format("INSERT INTO ExpenseItem (ExpenseHeaderId, ExpenseDate, Location, Description, Amount, Currency,AudAmount,ReceiptFileName) VALUES({0},'{1}','{2}','{3}',{4},'{5}',{6},'{7}')", expenseId, expenseDate, location, description, amount, currency, audAmount, receiptFileName);
@@ -142,7 +142,7 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
                     Employee createdBy = new Employee();
                     Employee approvedBy = new Employee();
                     Employee processedBy = new Employee();
-                    double expenseTotal;
+                    decimal expenseTotal;
 
                     report.ExpenseId = rdr["ExpenseId"] as int? ?? default(int);
                     report.CreateDate = (DateTime)rdr["CreateDate"];
@@ -168,7 +168,7 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
 
         }
 
-        public List<ExpenseItem> GetExpenseItemsByExpenseId(int expenseid, out double expenseTotal)
+        public List<ExpenseItem> GetExpenseItemsByExpenseId(int expenseid, out decimal expenseTotal)
         {
             expenseTotal = 0;
 
@@ -192,8 +192,8 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
                 item.Location = (string)rdr["Location"];
                 item.Description = (string)rdr["Description"];
                 item.Currency = (string)rdr["Currency"];
-                item.Amount = Convert.ToDouble(rdr["Amount"]);//as double? ?? default(double);
-                item.AudAmount = Convert.ToDouble(rdr["AudAmount"]);                            // rdr["AudAmount"] as double? ?? default(double);
+                item.Amount = rdr["Amount"] as decimal? ?? default(decimal);
+                item.AudAmount = rdr["AudAmount"] as decimal? ?? default(decimal);
                 item.ReceiptFileName = (string)rdr["ReceiptFileName"];
 
                 expenseTotal += item.AudAmount;
@@ -213,9 +213,9 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
             return GetReportsFromDatabase(query);
         }
 
-        public double SumOfExpenseApproved(int DeptId)
+        public decimal SumOfExpenseApproved(int DeptId)
         {
-            double totalExpenseApproved = 0;
+            decimal totalExpenseApproved = 0;
             string query = string.Format("SELECT * FROM ExpenseHeader WHERE DepartmentId ='{0}' and Status ='{1}' ", DeptId, ReportStatus.ApprovedBySupervisor);
             List<ExpenseReport> expenseReports = new List<ExpenseReport>();
             expenseReports = GetReportsFromDatabase(query);

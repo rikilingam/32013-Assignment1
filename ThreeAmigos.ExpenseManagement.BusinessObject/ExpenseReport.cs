@@ -11,22 +11,17 @@ namespace ThreeAmigos.ExpenseManagement.BusinessObject
     public class ExpenseReport
     {
         public int ExpenseId { get; set; }
-        //public int DepartmentId { get; set; }
         public Department ExpenseToDept { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime ApprovedDate { get; set; }
         public DateTime ProcessedDate { get; set; }
-        //public Guid CreatedById { get; set; }
-        //public Guid ApprovedById { get; set; }
-        //public Guid ProcessedById { get; set; }
-
         public Employee CreatedBy { get; set; }
         public Employee ApprovedBy { get; set; }
         public Employee ProcessedBy { get; set; }
 
         public ReportStatus Status { get; set; }
         public List<ExpenseItem> ExpenseItems {get;set;}
-        public double ExpenseTotal { get; set; }       
+        public decimal ExpenseTotal { get; set; }       
 
         public ExpenseReport()
         {

@@ -134,7 +134,7 @@ namespace ThreeAmigos.ExpenseManagement.Test
             item.ExpenseDate = DateTime.Now;
             item.Location = "Brisbane";
             item.Description = "Mouse and Keyboard";
-            item.Amount = 10.50;
+            item.Amount = 10.50M;
             item.Currency = "AUD";
             item.AudAmount = item.Amount;
 
@@ -329,8 +329,8 @@ namespace ThreeAmigos.ExpenseManagement.Test
         {
             ExpenseReportDAL expenseReportDAL = new ExpenseReportDAL();
             int deptId = 1;
-            double actual= expenseReportDAL.SumOfExpenseApproved(deptId);
-            double expected = 133;        
+            decimal actual= expenseReportDAL.SumOfExpenseApproved(deptId);
+            decimal expected = 133;        
             Assert.AreEqual(expected, actual);
         }
 
