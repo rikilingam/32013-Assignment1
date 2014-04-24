@@ -14,22 +14,21 @@
         <div class="panel-body">
             <div class="container-fluid">
                 <div class="row">
-                    <asp:Repeater ID="rptExpenseReport" runat="server" onItemDataBound="FormatRepeaterRow">
+                    <asp:Repeater ID="rptExpenseReport" runat="server" onItemDataBound="FormatRepeaterRow" >
                         <HeaderTemplate>
                             <table class="table">
                         </HeaderTemplate>
-                        <ItemTemplate>
+                        <ItemTemplate> 
                             <tr class="success">
-                                <th>Report Date: <%# Eval("CreateDate","{0:dd/MM/yyyy}") %></th>
-                                <th>Consultant: <%# Eval("CreatedBy.Fullname") %></th>
+                                <th>Report Date: <asp:Label ID="lblDate" runat ="server" Text = '<%# Eval("CreateDate","{0:dd/MM/yyyy}") %>' /> </th>
+                                <th>Consultant: <asp:Label ID="lblConsultant" runat ="server" Text = '<%# Eval("CreatedBy.Fullname") %>' /> </th>
+                                <th>Department: <asp:Label ID="lblDepartment" runat ="server" Text = '<%# Eval("ExpenseToDept.DepartmentName") %>' /> </th>
+                                <th>Status: <asp:Label ID="lblStatus" runat ="server" Text = '<%# Eval("Status") %>' /> </th>
                                 <th><asp:Label ID="lblDepartmentId" Visible ="false" runat="server" Text='<%#Eval("DepartmentId")%>'/> </th> 
                                 <th><asp:Label ID="lblExpense" Visible ="false" runat="server" Text='<%# Eval("ExpenseTotal")%>' /></th>
-                                <th>Department: <%# Eval("ExpenseToDept.DepartmentName") %></th>
-                                <th>Status: <%# Eval("Status") %></th>
                                 <th></th>
                                 <th></th>
                                 <th></th>
-
                             </tr>
                             <asp:Repeater ID="rptExpenseItems" DataSource='<%# Eval("ExpenseItems") %>' runat="server" OnItemDataBound="rptExpenseItems_ItemDataBound" >
                                 <HeaderTemplate>

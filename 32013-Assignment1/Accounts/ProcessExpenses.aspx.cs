@@ -133,16 +133,24 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Accounts
                 decimal deptBudgetProcessed = deptBudget.SumOfExpenseProcessed(deptID);
                 
                 Label lblExpense = e.Item.FindControl("lblExpense") as Label;
-                decimal exp = Convert.ToDecimal (lblExpense.Text);  // get the amount of the expense
+                decimal exp = Convert.ToDecimal (lblExpense.Text);  // get the amount of the expense report
 
                 // get the monthly budget of the department
                 decimal temp = decimal.Parse(ConfigurationManager.AppSettings["DepartmentMonthlyBudget"]);
 
-                Label lblExp = e.Item.FindControl("lblExp") as Label; // get the label to highlight if over budget
+                Label lblDate = e.Item.FindControl("lblDate") as Label; // get the label to highlight if over budget
+                Label lblConsultant = e.Item.FindControl("lblConsultant") as Label;
+                Label lblDepartment = e.Item.FindControl("lblDepartment") as Label;
+                Label lblStatus = e.Item.FindControl("lblStatus") as Label;
+                Label lblExp = e.Item.FindControl("lblExp") as Label;
 
                 // the expense of the report is more than the remaining budget of the department
                 if (exp > temp - deptBudgetProcessed)
                 {
+                    lblDate.BackColor = System.Drawing.Color.Yellow;
+                    lblConsultant.BackColor = System.Drawing.Color.Yellow;
+                    lblDepartment.BackColor = System.Drawing.Color.Yellow;
+                    lblStatus.BackColor = System.Drawing.Color.Yellow;
                     lblExp.BackColor = System.Drawing.Color.Yellow;
                 }
             } 
