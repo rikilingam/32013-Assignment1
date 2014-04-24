@@ -228,7 +228,19 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
 
         }
 
+        public decimal SumOfExpenseProcessed(int DeptId)
+        {
+            decimal totalExpenseProcessed = 0;
+            string query = string.Format("SELECT * FROM ExpenseHeader WHERE DepartmentId ='{0}' and Status ='{1}' ", DeptId, ReportStatus.ApprovedByAccountant);
+            List<ExpenseReport> expenseReports = new List<ExpenseReport>();
+            expenseReports = GetReportsFromDatabase(query);
+            for (int i = 0; i < expenseReports.Count; i++)
+            {
+                totalExpenseProcessed = totalExpenseProcessed + expenseReports[i].ExpenseTotal;
+            }
+            return totalExpenseProcessed;
 
+        }
         
 
         public void SupervisorActionOnExpenseReport(int expenseId, Guid empId, string status)
