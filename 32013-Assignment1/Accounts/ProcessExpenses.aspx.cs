@@ -19,8 +19,7 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Accounts
     {
         ExpenseReportBuilder expReportBuilder = new ExpenseReportBuilder();
         Employee emp = new Employee();
-        BudgetTracker budget = new BudgetTracker();
-
+        BudgetTracker comBudget = new BudgetTracker();  // company budget
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -29,7 +28,6 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Accounts
                 InitializeRepeater();
             }
         }
-
 
         protected void InitializeRepeater()
         {
@@ -45,19 +43,17 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Accounts
                 Session["emp"] = emp;
             }
 
-            budget.DepartmentBudget(emp.Dept.MonthlyBudget, emp.Dept.DepartmentId);
-            Session["budget"] = budget;
+            comBudget.CompanyBudget();
+            Session["comBudget"] = comBudget;
             UpdateBudgetMessage();
 
             rptExpenseReport.DataSource = expReportBuilder.GetReportsByAccountant(ReportStatus.ApprovedBySupervisor.ToString());
             rptExpenseReport.DataBind();
-
-
         }
 
         private void UpdateBudgetMessage()
         {
-            Label1.Text = string.Format("You currently have <b>{0}</b> remaining from your departments monthly budget of <b>{1}</b>.", String.Format("{0:c}", budget.RemainingAmount), String.Format("{0:c}", budget.BudgetAmount));
+            Label1.Text = string.Format("You currently have <b>{0}</b> remaining from the company monthly budget of <b>{1}</b>.", String.Format("{0:c}", comBudget.RemainingAmount)  , String.Format("{0:c}", comBudget.BudgetAmount));
         }
 
         protected void rptExpenseItems_ItemDataBound(object sender, RepeaterItemEventArgs e)
@@ -70,18 +66,14 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Accounts
                 {
                     btn.Visible = false;
                 }
-
             }
         }
 
         protected void btnReceipt_Click(object sender, ImageClickEventArgs e)
         {
             ImageButton btn = (ImageButton)(sender);
-
             string receiptFileName = btn.CommandArgument.ToString();
-
             string path = ConfigurationManager.AppSettings["ReceiptItemFilePath"];
-
             ClientScript.RegisterStartupScript(this.GetType(), "OpenReceipt", "OpenReceipt('" + path + receiptFileName + "');", true);
         }
 
@@ -93,16 +85,12 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Accounts
             int expenseId = Convert.ToInt32(arg[0]);
             decimal expenseTotal = Convert.ToDecimal(arg[1]);
 
-            budget = (BudgetTracker)Session["budget"];
-
-
-            if ((budget.RemainingAmount - expenseTotal) < 0)
+            if (expenseTotal > comBudget.RemainingAmount)
             {
-                DialogResult UserReply = MessageBox.Show("Approving this expense " + expenseTotal + " will cross the total monthly budget...You want to approve?", "Important Question", MessageBoxButtons.YesNo);
+                DialogResult UserReply = MessageBox.Show("Approving this expense " + expenseTotal + " will cross the total monthly budget of the company. Do you want to approve?", "Important Question", MessageBoxButtons.YesNo);
                 if (UserReply.ToString() == "Yes")
                 {
                     expReportBuilder.AccountantActionOnExpenseReport(expenseId, emp.UserId, ReportStatus.ApprovedByAccountant.ToString());
-
                 }
                 else
                 {
@@ -112,7 +100,6 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Accounts
             else
             {
                 expReportBuilder.AccountantActionOnExpenseReport(expenseId, emp.UserId, ReportStatus.ApprovedByAccountant.ToString());
-
             }
 
             InitializeRepeater();
@@ -125,9 +112,6 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Accounts
             expReportBuilder.AccountantActionOnExpenseReport(expenseId, emp.UserId, ReportStatus.RejectedByAccountant.ToString());
 
             InitializeRepeater();
-        }
-
-
-
+        }        
     }
 }

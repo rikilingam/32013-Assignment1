@@ -22,6 +22,7 @@
                             <tr class="success">
                                 <th>Report Date: <%# Eval("CreateDate","{0:dd/MM/yyyy}") %></th>
                                 <th>Consultant: <%# Eval("CreatedBy.Fullname") %></th>
+                                <th>Dept ID: <%# Eval("DepartmentId") %></th>
                                 <th>Department: <%# Eval("ExpenseToDept.DepartmentName") %></th>
                                 <th>Status: <%# Eval("Status") %></th>
                                 <th></th>
