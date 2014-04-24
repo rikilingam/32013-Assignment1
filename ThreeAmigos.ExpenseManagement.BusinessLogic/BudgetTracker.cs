@@ -92,5 +92,12 @@ namespace ThreeAmigos.ExpenseManagement.BusinessLogic
         {
             return budget - totalSpent;
         }
+
+
+        public decimal SumOfExpenseProcessed(int DeptId)
+        {
+            return exp.SumOfExpenseProcessed(DeptId);
+        }
+
     }
 }
