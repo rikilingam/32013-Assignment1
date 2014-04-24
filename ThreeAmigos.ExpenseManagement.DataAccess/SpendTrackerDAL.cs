@@ -28,7 +28,7 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
         public decimal TotalExpenseAmountByCompany()
         {
          
-            string query = string.Format("SELECT SUM(AudAmount) FROM ExpenseItem i LEFT OUTER JOIN ExpenseHeader h on i.ExpenseHeaderId = h.ExpenseId WHERE h.Status={0}", ReportStatus.ApprovedByAccountant);
+            string query = string.Format("SELECT SUM(AudAmount) FROM ExpenseItem i LEFT OUTER JOIN ExpenseHeader h on i.ExpenseHeaderId = h.ExpenseId WHERE h.Status= '{0}'", ReportStatus.ApprovedByAccountant);
          
             return GetExpenseTotal(query);
         }
