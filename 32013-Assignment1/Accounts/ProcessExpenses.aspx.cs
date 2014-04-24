@@ -115,6 +115,13 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Accounts
             InitializeRepeater();
         }
 
+
+        /// <summary>
+        /// Highlight expense report that will result in a department going over budget
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+ 
         protected void FormatRepeaterRow(Object sender, RepeaterItemEventArgs e)
         {
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
@@ -125,11 +132,13 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Accounts
                 // get the total amount of expenses which were approved by accountant
                 decimal deptBudgetProcessed = deptBudget.SumOfExpenseProcessed(deptID);
                 
-                Label lblExp = e.Item.FindControl("lblExpense") as Label;
-                decimal exp = Convert.ToDecimal (lblExp.Text);  // get the amount of the expense
+                Label lblExpense = e.Item.FindControl("lblExpense") as Label;
+                decimal exp = Convert.ToDecimal (lblExpense.Text);  // get the amount of the expense
 
                 // get the monthly budget of the department
                 decimal temp = decimal.Parse(ConfigurationManager.AppSettings["DepartmentMonthlyBudget"]);
+
+                Label lblExp = e.Item.FindControl("lblExp") as Label; // get the label to highlight if over budget
 
                 // the expense of the report is more than the remaining budget of the department
                 if (exp > temp - deptBudgetProcessed)
