@@ -2,54 +2,91 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <p>
-        <br />
-        Process Expenses</p>
-    <p>
-        <asp:GridView ID="grdExpenseAccountReport" runat="server" OnSelectedIndexChanged="GridView1_SelectedIndexChanged" BackColor="LightGoldenrodYellow" BorderColor="Tan" BorderWidth="1px" CellPadding="2" ForeColor="Black" GridLines="None" OnRowCommand="GridView1_RowCommand" OnRowCancelingEdit="GridView1_RowCancelingEdit" DataKeyNames="ExpenseId" Width="726px">
-            <AlternatingRowStyle BackColor="PaleGoldenrod" />
-            <Columns>
-                <asp:TemplateField>
-                    <ItemTemplate>
-                        <br />
-                        <asp:Button ID="btnItemDetails" runat="server" Text="Check Items" CommandName="Details" CommandArgument='<%#Container.DataItemIndex %>' />
-                        &nbsp;&nbsp;
-                        <asp:GridView ID="grdExpenseItems" runat="server">
-                        </asp:GridView>
-                        <asp:Button ID="btnCancelItems" runat="server" Text="Cancel" Visible="False" CommandName="Cancel" CommandArgument='<%#Container.DataItemIndex %>' />
-                        <br />
-                    </ItemTemplate>
-                </asp:TemplateField>
-                <asp:TemplateField>
-                    <ItemTemplate>
-                        <asp:Button ID="btnApproveExpense" runat="server" Text="Approve Expense" CommandName="ApproveExpense" CommandArgument='<%#Container.DataItemIndex %>'/>
-                    </ItemTemplate>
-                </asp:TemplateField>
-                <asp:TemplateField>
-                    <ItemTemplate>
-                        <asp:Button ID="Button1" runat="server" Height="27px" Text="Reject Expense" CommandName="RejectExpense" CommandArgument='<%#Container.DataItemIndex %>' />
-                    </ItemTemplate>
-                </asp:TemplateField>
-                <asp:TemplateField>
-                    <ItemTemplate>
-                        <asp:Button ID="Button2" runat="server" Text="Open Receipt" CommandName="OpenReceipt" CommandArgument='<%#Container.DataItemIndex %>' />
-                    </ItemTemplate>
-                </asp:TemplateField>
-            </Columns>
-            <FooterStyle BackColor="Tan" />
-            <HeaderStyle BackColor="Tan" Font-Bold="True" />
-            <PagerStyle BackColor="PaleGoldenrod" ForeColor="DarkSlateBlue" HorizontalAlign="Center" />
-            <SelectedRowStyle BackColor="DarkSlateBlue" ForeColor="GhostWhite" />
-            <SortedAscendingCellStyle BackColor="#FAFAE7" />
-            <SortedAscendingHeaderStyle BackColor="#DAC09E" />
-            <SortedDescendingCellStyle BackColor="#E1DB9C" />
-            <SortedDescendingHeaderStyle BackColor="#C2A47B" />
-        </asp:GridView>
+
+   <p>
+    <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
     </p>
-    <p>
-        <asp:SqlDataSource ID="SqlDataSource1" runat="server"></asp:SqlDataSource>
-        <asp:Label ID="lblTest" runat="server" Text="Test"></asp:Label>
-    </p>
-    <p>
-        &nbsp;</p>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">Expenses awaiting approval</h3>
+        </div>
+
+        <div class="panel-body">
+            <div class="container-fluid">
+                <div class="row">
+                    <asp:Repeater ID="rptExpenseReport" runat="server">
+                        <HeaderTemplate>
+                            <table class="table">
+                        </HeaderTemplate>
+                        <ItemTemplate>
+                            <tr class="success">
+                                <th>Report Date: <%# Eval("CreateDate","{0:dd/MM/yyyy}") %></th>
+                                <th>Consultant: <%# Eval("CreatedBy.Fullname") %></th>
+                                <th>Department: <%# Eval("ExpenseToDept.DepartmentName") %></th>
+                                <th>Status: <%# Eval("Status") %></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+
+                            </tr>
+                            <asp:Repeater ID="rptExpenseItems" DataSource='<%# Eval("ExpenseItems") %>' runat="server" OnItemDataBound="rptExpenseItems_ItemDataBound" >
+                                <HeaderTemplate>
+                                    <tr>
+                                        <th></th>
+                                        <th>Expense Date</th>
+                                        <th>Location</th>
+                                        <th>Description</th>
+                                        <th>Receipt</th>
+                                        <th>Amount (AUD)</th>
+                                        <th>Authorise</th>
+                                    </tr>
+                                </HeaderTemplate>
+                                <ItemTemplate>
+                                    <td></td>
+                                    <td><%# Eval("ExpenseDate","{0:dd/MM/yyyy}") %></td>
+                                    <td><%# Eval("Location") %></td>
+                                    <td><%# Eval("Description") %></td>
+                                    <td><asp:ImageButton ID="btnReceipt" ImageUrl="~/Image/img_pdf_icon.png" runat="server" OnClick="btnReceipt_Click" CommandArgument='<%# Eval("ReceiptFileName") %>' /></td>
+                                    <td><%# Eval("AudAmount","{0:c}") %></td>
+                                    <td></td>
+                                    </tr>
+                                </ItemTemplate>
+                                <FooterTemplate>
+                                </FooterTemplate>
+                            </asp:Repeater>
+                            <tr class="info">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td><b>Expense Total:</b></td>
+                                <td><b><%# Eval("ExpenseTotal","{0:c}")%></b></td>
+                                <td><asp:ImageButton ID="btnApprove" ImageUrl="~/Image/img_approve.png" ImageAlign="Middle" runat="server" CommandName="ApproveExpense" CommandArgument='<%#Eval("ExpenseId") + ","+Eval("ExpenseTotal") %>' OnClick="btnApprove_Click" />&nbsp;&nbsp;
+                                    <asp:ImageButton ID="btnReject" ImageUrl="~/Image/img_reject.png" ImageAlign="Middle" runat="server" CommandName="RejectExpense" CommandArgument='<%# Eval("ExpenseId") %>' OnClick="btnReject_Click" /></td>
+                                </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </ItemTemplate>
+                        <FooterTemplate>
+                            </table>
+                        </FooterTemplate>
+                    </asp:Repeater>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
 </asp:Content>

@@ -12,146 +12,122 @@ using ThreeAmigos.ExpenseManagement.DataAccess;
 using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
-using System.IO;
-using System.Net;
 
 namespace ThreeAmigos.ExpenseManagement.UserInterface.Accounts
 {
     public partial class ProcessExpenses : System.Web.UI.Page
     {
-        ExpenseReportDAL eexp = new ExpenseReportDAL();
-        decimal currentReportSum = 0;
+        ExpenseReportBuilder expReportBuilder = new ExpenseReportBuilder();
+        Employee emp = new Employee();
+        BudgetTracker budget = new BudgetTracker();
+
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
-                InitializeExpenseAccountReport();    
+                InitializeRepeater();
+            }
+        }
+
+
+        protected void InitializeRepeater()
+        {
+
+            if (Session["emp"] != null)
+            {
+                emp = (Employee)Session["emp"];
             }
             else
             {
-                lblTest.Text = "New";
-                grdExpenseAccountReport.DataSource = Session["ExpenseAccountReport"];
-                grdExpenseAccountReport.DataBind();
+                EmployeeDAL employeeDAL = new EmployeeDAL();
+                emp = employeeDAL.GetEmployee((Guid)Membership.GetUser().ProviderUserKey);
+                Session["emp"] = emp;
+            }
+
+            budget.DepartmentBudget(emp.Dept.MonthlyBudget, emp.Dept.DepartmentId);
+            Session["budget"] = budget;
+            UpdateBudgetMessage();
+
+            rptExpenseReport.DataSource = expReportBuilder.GetReportsByAccountant(ReportStatus.ApprovedBySupervisor.ToString());
+            rptExpenseReport.DataBind();
+
+
+        }
+
+        private void UpdateBudgetMessage()
+        {
+            Label1.Text = string.Format("You currently have <b>{0}</b> remaining from your departments monthly budget of <b>{1}</b>.", String.Format("{0:c}", budget.RemainingAmount), String.Format("{0:c}", budget.BudgetAmount));
+        }
+
+        protected void rptExpenseItems_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+                // hides the receipt button if the expense item does not contain a receipt file name
+                ImageButton btn = (ImageButton)e.Item.FindControl("btnReceipt");
+                if (string.IsNullOrEmpty(btn.CommandArgument.ToString()))
+                {
+                    btn.Visible = false;
+                }
+
             }
         }
 
-        private void InitializeExpenseAccountReport()
+        protected void btnReceipt_Click(object sender, ImageClickEventArgs e)
         {
-            gridBind();            
+            ImageButton btn = (ImageButton)(sender);
+
+            string receiptFileName = btn.CommandArgument.ToString();
+
+            string path = ConfigurationManager.AppSettings["ReceiptItemFilePath"];
+
+            ClientScript.RegisterStartupScript(this.GetType(), "OpenReceipt", "OpenReceipt('" + path + receiptFileName + "');", true);
         }
 
-
-        protected void GridView1_SelectedIndexChanged(object sender, EventArgs e)
+        protected void btnApprove_Click(object sender, ImageClickEventArgs e)
         {
+            ImageButton btn = (ImageButton)(sender);
+            string[] arg = new string[2];
+            arg = btn.CommandArgument.ToString().Split(',');
+            int expenseId = Convert.ToInt32(arg[0]);
+            decimal expenseTotal = Convert.ToDecimal(arg[1]);
 
-        }
+            budget = (BudgetTracker)Session["budget"];
 
-        protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
-        {
-            ExpenseReportBuilder expReportBuilder = new ExpenseReportBuilder();
-            int rowindex = Convert.ToInt32(e.CommandArgument.ToString());
 
-            // find child gridview control to show items in expense report
-            GridView grvExpenseItems = (GridView)grdExpenseAccountReport.Rows[rowindex].FindControl("grdExpenseItems");
-
-            grdExpenseAccountReport.Rows[rowindex].FindControl("btnCancelItems").Visible = false;
-            Session["ExpenseId"] = grdExpenseAccountReport.Rows[rowindex].Cells[4].Text;
-
-            if (e.CommandName == "Details")
+            if ((budget.RemainingAmount - expenseTotal) < 0)
             {
-                grdExpenseAccountReport.Rows[rowindex].FindControl("btnCancelItems").Visible = true;
-                grdExpenseAccountReport.Rows[rowindex].FindControl("btnItemDetails").Visible = false;
-
-                //  ExpenseReportDAL expenseReportDAL = new ExpenseReportDAL();
-                List<ExpenseReport> expReport = new List<ExpenseReport>();
-                expReport = (List<ExpenseReport>)Session["ExpenseAccountReport"];
-                for (int i = 0; i < expReport.Count; i++)
+                DialogResult UserReply = MessageBox.Show("Approving this expense " + expenseTotal + " will cross the total monthly budget...You want to approve?", "Important Question", MessageBoxButtons.YesNo);
+                if (UserReply.ToString() == "Yes")
                 {
-                    if (expReport[i].ExpenseId == Convert.ToInt32(grdExpenseAccountReport.Rows[rowindex].Cells[4].Text))
-                    {
-                        grvExpenseItems.DataSource = expReport[i].ExpenseItems;
-                        grvExpenseItems.DataBind();
-                        grvExpenseItems.Visible = true;
-                        break;
-                    }
+                    expReportBuilder.AccountantActionOnExpenseReport(expenseId, emp.UserId, ReportStatus.ApprovedByAccountant.ToString());
+
                 }
-            }
-
-            else if (e.CommandName == "ApproveExpense")
-            {
-                List<ExpenseReport> expReport = new List<ExpenseReport>();
-                expReport = (List<ExpenseReport>)Session["ExpenseAccountReport"];
-
-
-                for (int i = 0; i < expReport.Count; i++)
-                {
-                    if (expReport[i].ExpenseId == Convert.ToInt32(grdExpenseAccountReport.Rows[rowindex].Cells[4].Text))
-                    {
-                        Session["ExpenseId"] = expReport[i].ExpenseId;
-
-                        // Use to check the sum of all items in the expense report
-                        for (int a = 0; a < expReport[i].ExpenseItems.Count; a++)
-                        {
-                            currentReportSum = CalculateReportTotal.ReportTotal(expReport[i].ExpenseItems);
-                        }
-                    }
-                }
-
-                if (currentReportSum > Convert.ToDecimal(Session["remainingBudget"]))
-                {
-                    DialogResult UserReply = MessageBox.Show("Approving this expense will cross the total monthly budget...You want to approve?", "Important Question", MessageBoxButtons.YesNo);
-                    if (UserReply.ToString() == "Yes")
-                    {
-                        expReportBuilder.AccountantActionOnExpenseReport(Convert.ToInt32(Session["ExpenseId"]), Session["EmpUserId"] as Guid? ?? default(Guid), ReportStatus.ApprovedByAccountant.ToString());
-                        gridBind();
-                    }
-                    else
-                    {
-                        expReportBuilder.AccountantActionOnExpenseReport(Convert.ToInt32(Session["ExpenseId"]), Session["EmpUserId"] as Guid? ?? default(Guid), ReportStatus.RejectedByAccountant.ToString());
-                        gridBind();
-                    }
-                }
-
                 else
                 {
-                    expReportBuilder.AccountantActionOnExpenseReport(Convert.ToInt32(Session["ExpenseId"]), Session["EmpUserId"] as Guid? ?? default(Guid), ReportStatus.ApprovedByAccountant.ToString());
-                    gridBind();
+                    expReportBuilder.AccountantActionOnExpenseReport(expenseId, emp.UserId, ReportStatus.RejectedByAccountant.ToString());
                 }
-            }
-
-            else if (e.CommandName == "RejectExpense")
-            {
-                expReportBuilder.AccountantActionOnExpenseReport(Convert.ToInt32(Session["ExpenseId"]), Session["EmpUserId"] as Guid? ?? default(Guid), ReportStatus.RejectedByAccountant.ToString());
-                gridBind();
-            }
-
-            else if (e.CommandName == "OpenReceipt")
-            {
-                //int expenseId = Convert.ToInt32(grdExpenseAccountReport.Rows[rowindex].Cells[4].Text);
-                //string fileName = expReportBuilder.GetFileName(expenseId);
-                //string filePath = Server.MapPath("~/Receipts/" + fileName);
-                //Response.ContentType = "application/pdf";
-                //Response.WriteFile(filePath);
             }
             else
             {
-                // child gridview  display false when cancel button raise event
-                grvExpenseItems.Visible = false;
-                grdExpenseAccountReport.Rows[rowindex].FindControl("btnItemDetails").Visible = true;
+                expReportBuilder.AccountantActionOnExpenseReport(expenseId, emp.UserId, ReportStatus.ApprovedByAccountant.ToString());
+
             }
+
+            InitializeRepeater();
         }
 
-        protected void GridView1_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
+        protected void btnReject_Click(object sender, ImageClickEventArgs e)
         {
+            ImageButton btn = (ImageButton)(sender);
+            int expenseId = Convert.ToInt32(btn.CommandArgument);
+            expReportBuilder.AccountantActionOnExpenseReport(expenseId, emp.UserId, ReportStatus.RejectedByAccountant.ToString());
 
+            InitializeRepeater();
         }
 
-        protected void gridBind()
-        {
-            lblTest.Text = "UTS";
-            Session["ExpenseAccountReport"] = eexp.GetReportsByAccount(ReportStatus.ApprovedBySupervisor.ToString());
-            grdExpenseAccountReport.DataSource = Session["ExpenseAccountReport"];
-            grdExpenseAccountReport.DataBind();
-        }
+
+
     }
 }
