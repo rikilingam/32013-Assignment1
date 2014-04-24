@@ -32,7 +32,6 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Accounts
 
         protected void InitializeRepeater()
         {
-
             if (Session["emp"] != null)
             {
                 emp = (Employee)Session["emp"];
@@ -43,12 +42,11 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Accounts
                 emp = employeeDAL.GetEmployee((Guid)Membership.GetUser().ProviderUserKey);
                 Session["emp"] = emp;
             }
-
             comBudget.CompanyBudget();
             Session["comBudget"] = comBudget;
             UpdateBudgetMessage();
-
-            rptExpenseReport.DataSource = expReportBuilder.GetReportsByAccountant(ReportStatus.ApprovedBySupervisor.ToString());
+            rptExpenseReport.DataSource = 
+                expReportBuilder.GetReportsByAccountant(ReportStatus.ApprovedBySupervisor.ToString());
             rptExpenseReport.DataBind();
         }
 
@@ -138,8 +136,9 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Accounts
                 // get the monthly budget of the department
                 decimal temp = decimal.Parse(ConfigurationManager.AppSettings["DepartmentMonthlyBudget"]);
 
-                Label lblDate = e.Item.FindControl("lblDate") as Label; // get the label to highlight if over budget
+                Label lblDate = e.Item.FindControl("lblDate") as Label; // get the labels to highlight if over budget
                 Label lblConsultant = e.Item.FindControl("lblConsultant") as Label;
+                Label lblSupervisor = e.Item.FindControl("lblSupervisor") as Label;
                 Label lblDepartment = e.Item.FindControl("lblDepartment") as Label;
                 Label lblStatus = e.Item.FindControl("lblStatus") as Label;
                 Label lblExp = e.Item.FindControl("lblExp") as Label;
@@ -149,6 +148,7 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Accounts
                 {
                     lblDate.BackColor = System.Drawing.Color.Yellow;
                     lblConsultant.BackColor = System.Drawing.Color.Yellow;
+                    lblSupervisor.BackColor = System.Drawing.Color.Yellow;
                     lblDepartment.BackColor = System.Drawing.Color.Yellow;
                     lblStatus.BackColor = System.Drawing.Color.Yellow;
                     lblExp.BackColor = System.Drawing.Color.Yellow;
