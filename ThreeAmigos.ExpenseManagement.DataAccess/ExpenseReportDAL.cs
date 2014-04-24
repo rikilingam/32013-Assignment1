@@ -249,5 +249,27 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
         {
             throw new NotImplementedException();
         }
+
+        // Below are the methods used by supervisor
+        public List<ExpenseReport> GetReportsByAccountant(string status)
+        {
+            string query = string.Format("SELECT * FROM ExpenseHeader WHERE Status ='{0}'", status);
+            return GetReportsFromDatabase(query);
+        }
+
+        public void AccountantActionOnExpenseReport(int expenseId, Guid empId, string status)
+        {
+            string query = "update ExpenseHeader set ProcessedById=@ProcessedById,  ProcessedDate=@ProcessedDate,Status=@Status where ExpenseId='" + expenseId + "'";
+            //  where Username='" + username + "'";                                  
+            DataAccessFunctions daFunctions = new DataAccessFunctions();
+            daFunctions.Connection.Open();
+
+            daFunctions.Command = new SqlCommand(query, daFunctions.Connection);
+            daFunctions.Command.Parameters.AddWithValue("@ProcessedById", empId);
+            daFunctions.Command.Parameters.AddWithValue("@ProcessedDate", DateTime.Now);
+            daFunctions.Command.Parameters.AddWithValue("@Status", status);
+            daFunctions.Command.ExecuteNonQuery();
+            daFunctions.Connection.Close();
+        }
     }
 }
