@@ -14,7 +14,7 @@
         <div class="panel-body">
             <div class="container-fluid">
                 <div class="row">
-                    <asp:Repeater ID="rptExpenseReport" runat="server">
+                    <asp:Repeater ID="rptExpenseReport" runat="server" onItemDataBound="FormatRepeaterRow">
                         <HeaderTemplate>
                             <table class="table">
                         </HeaderTemplate>
@@ -22,7 +22,7 @@
                             <tr class="success">
                                 <th>Report Date: <%# Eval("CreateDate","{0:dd/MM/yyyy}") %></th>
                                 <th>Consultant: <%# Eval("CreatedBy.Fullname") %></th>
-                                <th>Dept ID: <%# Eval("DepartmentId") %></th>
+                                <th><asp:Label ID="lblDepartmentId" runat="server" Text='<%#Eval("DepartmentId")%>' /> </th> 
                                 <th>Department: <%# Eval("ExpenseToDept.DepartmentName") %></th>
                                 <th>Status: <%# Eval("Status") %></th>
                                 <th></th>
@@ -61,7 +61,7 @@
                                 <td></td>
                                 <td></td>
                                 <td><b>Expense Total:</b></td>
-                                <td><b><%# Eval("ExpenseTotal","{0:c}")%></b></td>
+                                <td><b><asp:Label ID="lblExpense" runat="server" Text='<%# Eval("ExpenseTotal")%>' /></b></td>
                                 <td><asp:ImageButton ID="btnApprove" ImageUrl="~/Image/img_approve.png" ImageAlign="Middle" runat="server" CommandName="ApproveExpense" CommandArgument='<%#Eval("ExpenseId") + ","+Eval("ExpenseTotal") %>' OnClick="btnApprove_Click" />&nbsp;&nbsp;
                                     <asp:ImageButton ID="btnReject" ImageUrl="~/Image/img_reject.png" ImageAlign="Middle" runat="server" CommandName="RejectExpense" CommandArgument='<%# Eval("ExpenseId") %>' OnClick="btnReject_Click" /></td>
                                 </tr>

@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.Security;
-using System.Windows.Forms;
+//using System.Windows.Forms;
 using ThreeAmigos.ExpenseManagement.BusinessLogic;
 using ThreeAmigos.ExpenseManagement.BusinessObject;
 using ThreeAmigos.ExpenseManagement.DataAccess;
@@ -20,6 +20,7 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Accounts
         ExpenseReportBuilder expReportBuilder = new ExpenseReportBuilder();
         Employee emp = new Employee();
         BudgetTracker comBudget = new BudgetTracker();  // company budget
+        BudgetTracker deptBudget = new BudgetTracker(); // department budget
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -85,22 +86,22 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Accounts
             int expenseId = Convert.ToInt32(arg[0]);
             decimal expenseTotal = Convert.ToDecimal(arg[1]);
 
-            if (expenseTotal > comBudget.RemainingAmount)
-            {
-                DialogResult UserReply = MessageBox.Show("Approving this expense " + expenseTotal + " will cross the total monthly budget of the company. Do you want to approve?", "Important Question", MessageBoxButtons.YesNo);
-                if (UserReply.ToString() == "Yes")
-                {
+            //if (expenseTotal > comBudget.RemainingAmount)
+            //{
+                //DialogResult UserReply = MessageBox.Show("Approving this expense " + expenseTotal + " will cross the total monthly budget of the company. Do you want to approve?", "Important Question", MessageBoxButtons.YesNo);
+                //if (UserReply.ToString() == "Yes")
+                //{
                     expReportBuilder.AccountantActionOnExpenseReport(expenseId, emp.UserId, ReportStatus.ApprovedByAccountant.ToString());
-                }
-                else
-                {
-                    expReportBuilder.AccountantActionOnExpenseReport(expenseId, emp.UserId, ReportStatus.RejectedByAccountant.ToString());
-                }
-            }
-            else
-            {
-                expReportBuilder.AccountantActionOnExpenseReport(expenseId, emp.UserId, ReportStatus.ApprovedByAccountant.ToString());
-            }
+                //}
+                //else
+                //{
+                    //expReportBuilder.AccountantActionOnExpenseReport(expenseId, emp.UserId, ReportStatus.RejectedByAccountant.ToString());
+            //    }
+            //}
+            //else
+            //{
+            //    expReportBuilder.AccountantActionOnExpenseReport(expenseId, emp.UserId, ReportStatus.ApprovedByAccountant.ToString());
+            //}
 
             InitializeRepeater();
         }
@@ -112,6 +113,30 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Accounts
             expReportBuilder.AccountantActionOnExpenseReport(expenseId, emp.UserId, ReportStatus.RejectedByAccountant.ToString());
 
             InitializeRepeater();
-        }        
+        }
+
+        protected void FormatRepeaterRow(Object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
+            {
+                Label lblDept = e.Item.FindControl("lblDepartmentId") as Label;
+                int deptID = Convert.ToInt16(lblDept.Text);  // get department ID of the expense report
+                  
+                // get the total amount of expenses which were approved by accountant
+                decimal deptBudgetProcessed = deptBudget.SumOfExpenseProcessed(deptID);
+                
+                Label lblExp = e.Item.FindControl("lblExpense") as Label;
+                decimal exp = Convert.ToDecimal (lblExp.Text);  // get the amount of the expense
+
+                // get the monthly budget of the department
+                decimal temp = decimal.Parse(ConfigurationManager.AppSettings["DepartmentMonthlyBudget"]);
+
+                // the expense of the report is more than the remaining budget of the department
+                if (exp > temp - deptBudgetProcessed)
+                {
+                    lblExp.BackColor = System.Drawing.Color.Yellow;
+                }
+            } 
+        }
     }
 }
