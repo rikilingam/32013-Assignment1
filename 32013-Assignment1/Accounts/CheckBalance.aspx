@@ -1,29 +1,28 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="CheckBalance.aspx.cs" Inherits="ThreeAmigos.ExpenseManagement.UserInterface.Accounts.CheckBalance" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/EM_Default_MasterPage.Master" AutoEventWireup="true" CodeBehind="CheckBalance.aspx.cs" Inherits="ThreeAmigos.ExpenseManagement.UserInterface.Accounts.CheckBalance" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">Check Balances</h3>
+        </div>
+        <div class="panel-body">
+            <div class="container-fluid">
 
-<!DOCTYPE html>
+                <div class="row">
+                    <div class="col-md-2">
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-    <title></title>
-</head>
-<body>
-    <form id="form1" runat="server">
-    <div>
-    
-        Check Monthly Budget Remain</div>
-        <asp:DropDownList ID="ddlFilter" runat="server" Height="25px" Width="216px">
-            <asp:ListItem>Money spent</asp:ListItem>
-            <asp:ListItem>Money remaining</asp:ListItem>
-            <asp:ListItem></asp:ListItem>
-        </asp:DropDownList>
-        <br />
-        <br />
-        <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Text="Search" />
-        <br />
-        <asp:Label ID="lblMoneySpent" runat="server" Text="Label"></asp:Label>
-        <br />
-        <asp:Label ID="lblMoneyRemaining" runat="server" Text="Label"></asp:Label>
-        <br />
-    </form>
-</body>
-</html>
+                    <asp:Label ID="lblMoneySpent" runat="server" Height="22px" Width="302px"></asp:Label>
+                        <br />
+                        <br />
+                    <asp:Label ID="lblMoneyRemaining" runat="server" Height="22px" Width="302px"></asp:Label>
+                    <br />
+                    </div>
+
+                    <br />
+
+                </div>
+            </div>
+        </div>
+    </div>
+</asp:Content>
