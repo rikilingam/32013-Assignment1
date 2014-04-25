@@ -167,8 +167,6 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Accounts
 
         protected string HighlightOverBudget(decimal amount, Department dept)
         {
-            SpendTrackerDAL spendTrack = new SpendTrackerDAL();
-
             BudgetTracker deptBudget = new BudgetTracker();
             deptBudget.DepartmentBudget(dept.MonthlyBudget,dept.DepartmentId);
 
