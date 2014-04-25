@@ -23,7 +23,7 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Supervisor
         {
             emp = (Employee)Session["emp"]; 
             ExpenseReportDAL expenseReportDAL = new ExpenseReportDAL();
-            rptExpenseReport.DataSource = expenseReportDAL.GetReportsBySupervisor(emp.Dept.DepartmentId, ddlSearchFilter.SelectedValue);
+            rptExpenseReport.DataSource = expenseReportDAL.GetReportsByDepartment(emp.Dept.DepartmentId, ddlSearchFilter.SelectedValue);
             rptExpenseReport.DataBind();
         }
 

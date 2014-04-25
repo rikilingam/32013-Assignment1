@@ -45,7 +45,7 @@ namespace ThreeAmigos.ExpenseManagement.BusinessLogic
         //BELOW METHODS ARE USED FOR SUPERVISORS FUNCTIONS
         public List<ExpenseReport> GetReportsBySupervisor(int id,string status)
         {
-            return exp.GetReportsBySupervisor(id,status);
+            return exp.GetReportsByDepartment(id,status);
         }
       
         public void SupervisorActionOnExpenseReport(int expenseid, Guid empId,string status)
@@ -61,7 +61,7 @@ namespace ThreeAmigos.ExpenseManagement.BusinessLogic
         /// <returns></returns>
         public List<ExpenseReport> GetReportsByAccountant(string status)
         {
-            return exp.GetReportsByAccountant(status);
+            return exp.GetReportsByStatus(status);
         }
 
         /// <summary>
@@ -69,10 +69,10 @@ namespace ThreeAmigos.ExpenseManagement.BusinessLogic
         /// </summary>
         /// <param name="status"></param>
         /// <returns></returns>
-        public List<Employee> GetExpenseReportsBySupervisor()
-        {
-            return exp.GetExpenseReportsBySupervisor();
-        }
+        //public List<Employee> GetExpenseReportsBySupervisor()
+        //{
+        //    return exp.GetReportsBySupervisor();
+        //}
 
         /// <summary>
         /// Update status of expense report. Affect ExpenseHeader table

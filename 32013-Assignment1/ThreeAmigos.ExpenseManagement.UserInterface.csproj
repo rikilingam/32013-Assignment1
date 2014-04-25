@@ -59,7 +59,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Accounts\CheckBalance.aspx" />
-    <Content Include="Accounts\CheckExpenseApproved.aspx" />
     <Content Include="Accounts\ProcessExpenses.aspx" />
     <Content Include="App_Data\ExpenseManager.mdf" />
     <Content Include="App_Data\ExpenseManager_log.ldf">
@@ -148,9 +147,7 @@
     <Content Include="Scripts\moment.min.js" />
     <Content Include="Supervisor\CheckBalance.aspx" />
     <Content Include="Supervisor\ViewReports.aspx" />
-    <Content Include="WebForm1.aspx" />
     <Content Include="Supervisor\ApproveExpenses.aspx" />
-    <Content Include="Test1.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -162,13 +159,6 @@
     </Compile>
     <Compile Include="Accounts\CheckBalance.aspx.designer.cs">
       <DependentUpon>CheckBalance.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Accounts\CheckExpenseApproved.aspx.cs">
-      <DependentUpon>CheckExpenseApproved.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Accounts\CheckExpenseApproved.aspx.designer.cs">
-      <DependentUpon>CheckExpenseApproved.aspx</DependentUpon>
     </Compile>
     <Compile Include="Accounts\ProcessExpenses.aspx.cs">
       <DependentUpon>ProcessExpenses.aspx</DependentUpon>
@@ -245,20 +235,6 @@
     </Compile>
     <Compile Include="Supervisor\ViewReports.aspx.designer.cs">
       <DependentUpon>ViewReports.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Test1.aspx.cs">
-      <DependentUpon>Test1.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Test1.aspx.designer.cs">
-      <DependentUpon>Test1.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="WebForm1.aspx.cs">
-      <DependentUpon>WebForm1.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="WebForm1.aspx.designer.cs">
-      <DependentUpon>WebForm1.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

@@ -27,8 +27,7 @@
                                 <th>Department: <asp:Label ID="lblDepartment" runat ="server" Text = '<%# Eval("ExpenseToDept.DepartmentName") %>' /> </th>
                                 <th>Status: <asp:Label ID="lblStatus" runat ="server" Text = '<%# Eval("Status") %>' /> </th>
                                 <th><asp:Label ID="lblDepartmentId" Visible ="false" runat="server" Text='<%#Eval("ExpenseToDept.DepartmentId")%>'/> </th> 
-                                <th><asp:Label ID="lblExpense" Visible ="false" runat="server" Text='<%# Eval("ExpenseTotal")%>' /></th>
-                                <th></th>
+                                <th><asp:Label ID="lblExpense" Visible ="false" runat="server" Text='<%# Eval("ExpenseTotal")%>' /></th>                                
                             </tr>
                             <asp:Repeater ID="rptExpenseItems" DataSource='<%# Eval("ExpenseItems") %>' runat="server" OnItemDataBound="rptExpenseItems_ItemDataBound" >
                                 <HeaderTemplate>
@@ -39,7 +38,7 @@
                                         <th>Description</th>
                                         <th>Receipt</th>
                                         <th>Amount (AUD)</th>
-                                        <th>Authorise</th>
+                                        <th>Authorise</th>                                    
                                     </tr>
                                 </HeaderTemplate>
                                 <ItemTemplate>
@@ -58,8 +57,7 @@
                             <tr style='<%#HighlightOverBudget((decimal)Eval("ExpenseTotal"),(ThreeAmigos.ExpenseManagement.BusinessObject.Department)Eval("ExpenseToDept")) %>'>
                                 <td></td>
                                 <td></td>
-                                <td>
-                                    <asp:Label ID="lblOverBudget" runat="server" Text=""></asp:Label></td>
+                                <td><asp:Label ID="lblOverBudget" runat="server" Text=""></asp:Label></td>
                                 <td></td>
                                 <td><b>Expense Total:</b></td>
                                 <td><b><asp:Label ID="lblExp" runat="server" Text='<%# Eval("ExpenseTotal","{0:c}")%>' /> </b></td>

@@ -315,7 +315,7 @@ namespace ThreeAmigos.ExpenseManagement.Test
            //   string status = ReportStatus.RejectedByAccountant.ToString();
            //   string status = ReportStatus.RejectedBySupervisor.ToString();
 
-                reports = expenseReportDAL.GetReportsBySupervisor(deptId, status);
+                reports = expenseReportDAL.GetReportsByDepartment(deptId, status);
                 Assert.IsTrue(reports.Count > 0, "No data in expense report");
                 foreach (ExpenseReport report in reports)
                 {
