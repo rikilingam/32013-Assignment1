@@ -4,7 +4,8 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
    <p>
-    <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
+    <asp:Label ID="lblBudgetMessage" runat="server" Text="Label"></asp:Label>
+    <asp:Label ID="lblTest" runat="server" Text="Label"></asp:Label>
     </p>
     <div class="panel panel-primary">
         <div class="panel-heading">

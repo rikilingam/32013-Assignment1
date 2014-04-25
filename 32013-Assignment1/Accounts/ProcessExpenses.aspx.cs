@@ -24,24 +24,15 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Accounts
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            emp = (Employee)Session["emp"];
             if (!IsPostBack)
             {
                 InitializeRepeater();
             }
         }
-
+       
         protected void InitializeRepeater()
         {
-            if (Session["emp"] != null)
-            {
-                emp = (Employee)Session["emp"];
-            }
-            else
-            {
-                EmployeeDAL employeeDAL = new EmployeeDAL();
-                emp = employeeDAL.GetEmployee((Guid)Membership.GetUser().ProviderUserKey);
-                Session["emp"] = emp;
-            }
             comBudget.CompanyBudget();
             Session["comBudget"] = comBudget;
             UpdateBudgetMessage();
@@ -52,7 +43,8 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Accounts
 
         private void UpdateBudgetMessage()
         {
-            Label1.Text = string.Format("You currently have <b>{0}</b> remaining from the company monthly budget of <b>{1}</b>.", String.Format("{0:c}", comBudget.RemainingAmount)  , String.Format("{0:c}", comBudget.BudgetAmount));
+            lblBudgetMessage.Text = string.Format("You currently have <b>{0}</b> remaining from the company monthly budget of <b>{1}</b>.", String.Format("{0:c}", comBudget.RemainingAmount)  , String.Format("{0:c}", comBudget.BudgetAmount));
+            lblTest.Text = emp.Fullname.ToString() + "  " + emp.UserId.ToString();
         }
 
         protected void rptExpenseItems_ItemDataBound(object sender, RepeaterItemEventArgs e)
@@ -89,7 +81,7 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Accounts
                 //DialogResult UserReply = MessageBox.Show("Approving this expense " + expenseTotal + " will cross the total monthly budget of the company. Do you want to approve?", "Important Question", MessageBoxButtons.YesNo);
                 //if (UserReply.ToString() == "Yes")
                 //{
-                    expReportBuilder.AccountantActionOnExpenseReport(expenseId, emp.UserId, ReportStatus.ApprovedByAccountant.ToString());
+            expReportBuilder.AccountantActionOnExpenseReport(expenseId, emp.UserId, ReportStatus.ApprovedByAccountant.ToString());
                 //}
                 //else
                 //{
