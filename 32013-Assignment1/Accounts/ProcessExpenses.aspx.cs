@@ -165,6 +165,12 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Accounts
         //    } 
         //}
 
+        /// <summary>
+        /// Highlight the footer of expense report if the amount will result in the department budget being exceeded
+        /// </summary>
+        /// <param name="amount">Total amount of the expense report</param>
+        /// <param name="dept">Department expensed to</param>
+        /// <returns>background styling</returns>
         protected string HighlightOverBudget(decimal amount, Department dept)
         {
             BudgetTracker deptBudget = new BudgetTracker();
