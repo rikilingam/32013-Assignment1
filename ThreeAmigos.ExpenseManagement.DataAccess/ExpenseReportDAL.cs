@@ -236,7 +236,16 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
         /// <returns>Expense reports</returns>
         public List<ExpenseReport> GetExpenseReportsByConsultant(Guid id, string status)
         {
-            string query = String.Format("SELECT * FROM ExpenseHeader WHERE CreatedById='{0}' and Status LIKE '{1}'", id, status);
+            string query;
+
+            if (status == "Pending")
+            {
+                query = string.Format("SELECT * FROM ExpenseHeader WHERE CreatedById='{0}' and Status in ('{1}','{2}')", id, ReportStatus.ApprovedBySupervisor, ReportStatus.Submitted);
+            }
+            else
+            {
+                query = string.Format("SELECT * FROM ExpenseHeader WHERE CreatedById='{0}' and Status LIKE '{1}'", id, status);
+            }            
 
             return GetReportsFromDatabase(query);
         }

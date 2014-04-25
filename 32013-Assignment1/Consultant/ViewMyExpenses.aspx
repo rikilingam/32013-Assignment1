@@ -21,9 +21,9 @@
 
                         <strong>Search Filter:</strong>
                         <asp:DropDownList ID="ddlSearchFilter" runat="server" CssClass="form-control">
-                            <asp:ListItem Value="%">All Submitted</asp:ListItem>
-                            <asp:ListItem Value="ApprovedBySupervisor">All Approved</asp:ListItem>
-                            <asp:ListItem Value="Submitted">Pending Approval</asp:ListItem>
+                            <asp:ListItem Value="Submitted">All Submitted</asp:ListItem>
+                            <asp:ListItem Value="ApprovedByAccountant">All Approved</asp:ListItem>
+                            <asp:ListItem Value="Pending">Pending Approval</asp:ListItem>
                         </asp:DropDownList>
                         <asp:Button ID="btnSearchExpenses" runat="server" Text="Search" CssClass="btn btn-primary" OnClick="btnSearchExpenses_Click" />
                     </div>
