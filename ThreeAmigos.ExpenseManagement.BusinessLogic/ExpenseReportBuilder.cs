@@ -54,11 +54,32 @@ namespace ThreeAmigos.ExpenseManagement.BusinessLogic
         }
 
         //BELOW METHODS ARE USED FOR ACCOUNTANT
+        /// <summary>
+        /// Get list of expense report. Used for displaying for accountant approval
+        /// </summary>
+        /// <param name="status"></param>
+        /// <returns></returns>
         public List<ExpenseReport> GetReportsByAccountant(string status)
         {
             return exp.GetReportsByAccountant(status);
         }
 
+        /// <summary>
+        /// Get list of amounts of expenses approved by each individual supervisor 
+        /// </summary>
+        /// <param name="status"></param>
+        /// <returns></returns>
+        public List<Employee> GetExpenseReportsBySupervisor()
+        {
+            return exp.GetExpenseReportsBySupervisor();
+        }
+
+        /// <summary>
+        /// Update status of expense report. Affect ExpenseHeader table
+        /// </summary>
+        /// <param name="expenseid"></param>
+        /// <param name="empId"></param>
+        /// <param name="status"></param>
         public void AccountantActionOnExpenseReport(int expenseid, Guid empId, string status)
         {
             exp.AccountantActionOnExpenseReport(expenseid, empId, status);

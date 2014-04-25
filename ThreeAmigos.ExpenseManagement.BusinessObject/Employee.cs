@@ -17,6 +17,9 @@ namespace ThreeAmigos.ExpenseManagement.BusinessObject
         public string Role { get; set; }
         public Guid UserId { get; set; }
 
+        //the total expense approved (in case the employee is a supervisor)
+        public decimal ExpenseApproved { get; set; } 
+
         public Employee()
         {
             UserId = new Guid();
