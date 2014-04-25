@@ -1,38 +1,71 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="CheckExpenseApproved.aspx.cs" Inherits="ThreeAmigos.ExpenseManagement.UserInterface.Accounts.CheckExpenseApproved" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/EM_Default_MasterPage.Master" AutoEventWireup="true" CodeBehind="CheckExpenseApproved.aspx.cs" Inherits="ThreeAmigos.ExpenseManagement.UserInterface.Accounts.CheckExpenseApproved" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
-<!DOCTYPE html>
+    <div class="panel panel-primary">
+        <div class="row">
+            <div class="col-md-2">
+                <asp:Label ID="lblBudgetMessage" runat="server" Height="22px" Width="302px"></asp:Label>
+                <br />
+                <asp:Label ID="lblMoneyRemaining" runat="server" Height="22px" Width="302px"></asp:Label>
+                <br />
+                </div>
+                <br />
+        </div>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-    <title></title>
-</head>
-<body>
-    <form id="form1" runat="server">
-    <div>
-    
-        <asp:Label ID="Label1" runat="server" Text="Amount of expenses Approved"></asp:Label>
-&nbsp;by each supervisor:</div>
-        <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" DataKeyNames="EmployeeId" DataSourceID="SqlAmountApproved">
-            <Columns>
-                <asp:BoundField DataField="EmployeeId" HeaderText="EmployeeId" InsertVisible="False" ReadOnly="True" SortExpression="EmployeeId" />
-                <asp:BoundField DataField="FirstName" HeaderText="FirstName" SortExpression="FirstName" />
-                <asp:BoundField DataField="Surname" HeaderText="Surname" SortExpression="Surname" />
-                <asp:BoundField DataField="Total Amount" HeaderText="Total Amount" ReadOnly="True" SortExpression="Total Amount" />
-            </Columns>
-        </asp:GridView>
-        <asp:SqlDataSource ID="SqlAmountApproved" runat="server" ConnectionString="<%$ ConnectionStrings:localDatabase %>" SelectCommand="SELECT A.EmployeeId,  A.FirstName,  A.Surname, SUM(C.AudAmount) AS &quot;Total Amount&quot; FROM Employee AS A INNER JOIN ExpenseHeader AS B ON A.UserId = B.ApprovedById INNER JOIN ExpenseItem AS C ON B.ExpenseId = C.ExpenseHeaderId 
-WHERE (B.Status = 'ApprovedBySupervisor') OR (B.Status = 'ApprovedByAccount')
-GROUP BY A.EmployeeId,  A.FirstName,  A.Surname
-"></asp:SqlDataSource>
-        <br />
-        Total amount of expenses approved for the entire company:<asp:GridView ID="GridView2" runat="server" AutoGenerateColumns="False" DataSourceID="SqlAmountProcessedAll">
-            <Columns>
-                <asp:BoundField DataField="Total Amount" HeaderText="Total Amount" ReadOnly="True" SortExpression="Total Amount" />
-            </Columns>
-        </asp:GridView>
-        <asp:SqlDataSource ID="SqlAmountProcessedAll" runat="server" ConnectionString="<%$ ConnectionStrings:localDatabase %>" SelectCommand="SELECT SUM(B.AudAmount) AS &quot;Total Amount&quot;
-FROM ExpenseHeader AS A INNER JOIN ExpenseItem AS B ON A.ExpenseId = B.ExpenseHeaderId
-WHERE (A.Status = 'ApprovedBySupervisor') OR (A.Status = 'ApprovedByAccount')"></asp:SqlDataSource>
-    </form>
-</body>
-</html>
+        <div class="panel-heading">
+            <h3 class="panel-title">Expenses approved by supervisor</h3>
+        </div>
+
+        <div class="panel-body">
+            <div class="container-fluid">
+                <div class="row">
+                    <asp:Repeater ID="rptExpenseReport" runat="server" onItemDataBound="FormatRepeaterRow" >
+                        <HeaderTemplate>
+                            <table class="table">
+                        </HeaderTemplate>
+                        <ItemTemplate> 
+                            <tr class="success">
+                                <th>Department: <asp:Label ID="lblDepartment" runat ="server" Text = '<%# Eval("ExpenseToDept.DepartmentName") %>' /> </th>
+                                <th>Supervisor: <asp:Label ID="lblSupervisor" runat ="server" Text = '<%# Eval("ApprovedBy.Fullname") %>' /> </th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th><b>Expense Total:</b></th>
+                                <td><b><asp:Label ID="Label1" runat="server" Text='<%# Eval("ExpenseTotal","{0:c}")%>' /> </b></td>
+                                <th></th>
+                            </tr>
+
+                            <tr class="info">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </ItemTemplate>
+                        <FooterTemplate>
+                            </table>
+                        </FooterTemplate>
+                    </asp:Repeater>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</asp:Content>
