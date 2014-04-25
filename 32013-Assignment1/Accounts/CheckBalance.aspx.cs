@@ -17,7 +17,7 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Accounts
 		protected void Page_Load(object sender, EventArgs e)
 		{         
             BudgetTracker budget = new BudgetTracker();
-            budget.CompanyBudget();           
+            budget.CompanyBudget();             
             decimal moneyRemaining = budget.RemainingAmount;
             decimal totalExpenseAmount = budget.TotalExpenseAmount;
             lblMoneySpent.Text =     "Total money spent so far is: AU$ " + totalExpenseAmount.ToString();
