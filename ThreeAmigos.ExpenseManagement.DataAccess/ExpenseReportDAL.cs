@@ -17,7 +17,7 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
         /// <summary>
         /// Inserts the expense report into the database
         /// </summary>
-        /// <param name="expenseReport"></param>
+        /// <param name="expenseReport">Expense report object</param>
         public void ProcessExpense(ExpenseReport expenseReport)
         {
             expenseReport.ExpenseId = InsertExpenseHeader(expenseReport.CreatedBy.UserId, expenseReport.CreateDate, expenseReport.ExpenseToDept.DepartmentId, expenseReport.Status.ToString());

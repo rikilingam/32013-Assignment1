@@ -45,18 +45,18 @@ namespace ThreeAmigos.ExpenseManagement.BusinessLogic
             get { return budgetAmount; }
         }
 
-        // setups the budget tracker track departmental budget
+        // setups the budget tracker to track departments budget
         public void DepartmentBudget(decimal deptBudget, int deptId)
         {
             budgetAmount = deptBudget;
-            totalExpenseAmount = spendTracker.TotalExpenseAmountByDept(deptId);
+            totalExpenseAmount = spendTracker.TotalExpenseAmountByDept(deptId, DateTime.Now.Month);
         }
 
-        // setups the budget tracker track company budget
+        // setups the budget tracker to track company budget
         public void CompanyBudget()
         {
             budgetAmount = decimal.Parse(ConfigurationManager.AppSettings["CompanyMonthlyBudget"]);
-            totalExpenseAmount = spendTracker.TotalExpenseAmountByCompany();
+            totalExpenseAmount = spendTracker.TotalExpenseAmountByCompany(DateTime.Now.Month);
         }
 
         public decimal RemainingAmount
@@ -67,9 +67,9 @@ namespace ThreeAmigos.ExpenseManagement.BusinessLogic
             }
         }
 
+        //Checks if the budget will be exceeded if additional expense amount is approved
         public bool IsBudgetExceeded(decimal amount)
         {
-
             if ((budgetAmount - (totalExpenseAmount + amount)) < 0)
             {
                 return true;
@@ -78,26 +78,7 @@ namespace ThreeAmigos.ExpenseManagement.BusinessLogic
             {
                 return false;
             }
-
         }
-
-
-        //public decimal SumOfExpenseApproved(int DeptId)
-        //{
-        //    return exp.SumOfExpenseApproved(DeptId);
-        //}
-
-        //// Calculates the budget remaining in a department
-        //public decimal CalculateRemainingBudget(decimal budget, decimal totalSpent)
-        //{
-        //    return budget - totalSpent;
-        //}
-
-
-        //public decimal SumOfExpenseProcessed(int DeptId)
-        //{
-        //    return exp.SumOfExpenseProcessed(DeptId);
-        //}
 
     }
 }
