@@ -58,6 +58,8 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Accounts\CheckBalance.aspx" />
+    <Content Include="Accounts\CheckExpenseApproved.aspx" />
     <Content Include="Accounts\ProcessExpenses.aspx" />
     <Content Include="App_Data\ExpenseManager.mdf" />
     <Content Include="App_Data\ExpenseManager_log.ldf">
@@ -154,6 +156,20 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Accounts\CheckBalance.aspx.cs">
+      <DependentUpon>CheckBalance.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Accounts\CheckBalance.aspx.designer.cs">
+      <DependentUpon>CheckBalance.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Accounts\CheckExpenseApproved.aspx.cs">
+      <DependentUpon>CheckExpenseApproved.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Accounts\CheckExpenseApproved.aspx.designer.cs">
+      <DependentUpon>CheckExpenseApproved.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Accounts\ProcessExpenses.aspx.cs">
       <DependentUpon>ProcessExpenses.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

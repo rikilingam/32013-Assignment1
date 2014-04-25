@@ -1,5 +1,7 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/EM_Default_MasterPage.Master" AutoEventWireup="true" CodeBehind="ProcessExpenses.aspx.cs" Inherits="ThreeAmigos.ExpenseManagement.UserInterface.Accounts.ProcessExpenses" %>
+﻿<%@ Assembly Name="ThreeAmigos.ExpenseManagement.BusinessObject" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/EM_Default_MasterPage.Master" AutoEventWireup="true" CodeBehind="ProcessExpenses.aspx.cs" Inherits="ThreeAmigos.ExpenseManagement.UserInterface.Accounts.ProcessExpenses" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
@@ -14,12 +16,12 @@
         <div class="panel-body">
             <div class="container-fluid">
                 <div class="row">
-                    <asp:Repeater ID="rptExpenseReport" runat="server" onItemDataBound="FormatRepeaterRow" >
+                    <asp:Repeater ID="rptExpenseReport" runat="server">
                         <HeaderTemplate>
                             <table class="table">
                         </HeaderTemplate>
                         <ItemTemplate> 
-                            <tr class="success">
+                            <tr class="info">
                                 <th>Report Date: <asp:Label ID="lblDate" runat ="server" Text = '<%# Eval("CreateDate","{0:dd/MM/yyyy}") %>' /> </th>
                                 <th>Consultant: <asp:Label ID="lblConsultant" runat ="server" Text = '<%# Eval("CreatedBy.Fullname") %>' /> </th>
                                 <th>Supervisor: <asp:Label ID="lblSupervisor" runat ="server" Text = '<%# Eval("ApprovedBy.Fullname") %>' /> </th>
@@ -54,10 +56,11 @@
                                 <FooterTemplate>
                                 </FooterTemplate>
                             </asp:Repeater>
-                            <tr class="info">
+                            <tr style='<%#HighlightOverBudget((decimal)Eval("ExpenseTotal"),(ThreeAmigos.ExpenseManagement.BusinessObject.Department)Eval("ExpenseToDept")) %>'>
                                 <td></td>
                                 <td></td>
-                                <td></td>
+                                <td>
+                                    <asp:Label ID="lblOverBudget" runat="server" Text=""></asp:Label></td>
                                 <td></td>
                                 <td><b>Expense Total:</b></td>
                                 <td><b><asp:Label ID="lblExp" runat="server" Text='<%# Eval("ExpenseTotal","{0:c}")%>' /> </b></td>
