@@ -24,6 +24,7 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Supervisor
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            emp = (Employee)Session["emp"];
             if (!IsPostBack)
             {
                 InitializeRepeater();
@@ -33,26 +34,11 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Supervisor
 
         protected void InitializeRepeater()
         {
-
-            if (Session["emp"] != null)
-            {
-                emp = (Employee)Session["emp"];
-            }
-            else
-            {
-                EmployeeDAL employeeDAL = new EmployeeDAL();
-                emp = employeeDAL.GetEmployee((Guid)Membership.GetUser().ProviderUserKey);
-                Session["emp"] = emp;
-            }
-
            budget.DepartmentBudget(emp.Dept.MonthlyBudget, emp.Dept.DepartmentId);
            Session["budget"] = budget;
-            UpdateBudgetMessage();
-
-            rptExpenseReport.DataSource = expReportBuilder.GetReportsBySupervisor(emp.Dept.DepartmentId, ReportStatus.Submitted.ToString());
-            rptExpenseReport.DataBind();
-
-
+           UpdateBudgetMessage();
+           rptExpenseReport.DataSource = expReportBuilder.GetReportsBySupervisor(emp.Dept.DepartmentId, ReportStatus.Submitted.ToString());
+           rptExpenseReport.DataBind();
         }
 
         private void UpdateBudgetMessage()
