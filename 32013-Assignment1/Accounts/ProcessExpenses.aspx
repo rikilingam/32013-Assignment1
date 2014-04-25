@@ -26,7 +26,7 @@
                                 <th>Supervisor: <asp:Label ID="lblSupervisor" runat ="server" Text = '<%# Eval("CreatedBy.Fullname") %>' /> </th>
                                 <th>Department: <asp:Label ID="lblDepartment" runat ="server" Text = '<%# Eval("ExpenseToDept.DepartmentName") %>' /> </th>
                                 <th>Status: <asp:Label ID="lblStatus" runat ="server" Text = '<%# Eval("Status") %>' /> </th>
-                                <th><asp:Label ID="lblDepartmentId" Visible ="false" runat="server" Text='<%#Eval("DepartmentId")%>'/> </th> 
+                                <th><asp:Label ID="lblDepartmentId" Visible ="false" runat="server" Text='<%#Eval("ExpenseToDept.DepartmentId")%>'/> </th> 
                                 <th><asp:Label ID="lblExpense" Visible ="false" runat="server" Text='<%# Eval("ExpenseTotal")%>' /></th>
                                 <th></th>
                             </tr>

@@ -43,8 +43,10 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Accounts
 
         private void UpdateBudgetMessage()
         {
-            lblBudgetMessage.Text = string.Format("You currently have <b>{0}</b> remaining from the company monthly budget of <b>{1}</b>.", String.Format("{0:c}", comBudget.RemainingAmount)  , String.Format("{0:c}", comBudget.BudgetAmount));
-            lblTest.Text = emp.Fullname.ToString() + "  " + emp.UserId.ToString();
+            lblBudgetMessage.Text = 
+                string.Format("You currently have <b>{0}</b> remaining from the company monthly budget of <b>{1}</b>.", 
+                String.Format("{0:c}", comBudget.RemainingAmount)  , 
+                String.Format("{0:c}", comBudget.BudgetAmount));
         }
 
         protected void rptExpenseItems_ItemDataBound(object sender, RepeaterItemEventArgs e)
@@ -105,38 +107,40 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Accounts
             InitializeRepeater();
         }
 
-
         /// <summary>
         /// Highlight expense report that will result in a department going over budget
         /// </summary>
         /// <param name="sender"></param>
-        /// <param name="e"></param>
- 
+        /// <param name="e"></param> 
         protected void FormatRepeaterRow(Object sender, RepeaterItemEventArgs e)
         {
             if (e.Item.ItemType == ListItemType.AlternatingItem || e.Item.ItemType == ListItemType.Item)
             {
+                // get department ID of the expense report
                 Label lblDept = e.Item.FindControl("lblDepartmentId") as Label;
-                int deptID = Convert.ToInt16(lblDept.Text);  // get department ID of the expense report
+                int deptID = Convert.ToInt16(lblDept.Text);  
                   
                 // get the total amount of expenses which were approved by accountant
-                decimal deptBudgetProcessed = deptBudget.SumOfExpenseProcessed(deptID);
+                SpendTrackerDAL spendTrack = new SpendTrackerDAL();
+                decimal deptBudgetProcessed = spendTrack.TotalExpenseAmountByDeptProcessed(deptID);
+                //decimal deptBudgetProcessed = deptBudget.SumOfExpenseProcessed(deptID);
                 
                 Label lblExpense = e.Item.FindControl("lblExpense") as Label;
                 decimal exp = Convert.ToDecimal (lblExpense.Text);  // get the amount of the expense report
 
                 // get the monthly budget of the department
-                decimal temp = decimal.Parse(ConfigurationManager.AppSettings["DepartmentMonthlyBudget"]);
+                decimal deptBudget = decimal.Parse(ConfigurationManager.AppSettings["DepartmentMonthlyBudget"]);
 
-                Label lblDate = e.Item.FindControl("lblDate") as Label; // get the labels to highlight if over budget
+                // get the labels to highlight if over budget
+                Label lblDate = e.Item.FindControl("lblDate") as Label; 
                 Label lblConsultant = e.Item.FindControl("lblConsultant") as Label;
                 Label lblSupervisor = e.Item.FindControl("lblSupervisor") as Label;
                 Label lblDepartment = e.Item.FindControl("lblDepartment") as Label;
                 Label lblStatus = e.Item.FindControl("lblStatus") as Label;
                 Label lblExp = e.Item.FindControl("lblExp") as Label;
 
-                // the expense of the report is more than the remaining budget of the department
-                if (exp > temp - deptBudgetProcessed)
+                // highlight if the expense of the report is more than the remaining budget of the department
+                if (exp > deptBudget - deptBudgetProcessed)
                 {
                     lblDate.BackColor = System.Drawing.Color.Yellow;
                     lblConsultant.BackColor = System.Drawing.Color.Yellow;
