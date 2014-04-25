@@ -300,52 +300,125 @@ namespace ThreeAmigos.ExpenseManagement.Test
             }
         }
 
-
-
+        
         // Below are Tests For Supervisors Functions
 
         [TestMethod]
-        public void ExpenseReportDAL_GetReportBySupervisor_IsTrue()
+        public void ExpenseReportDAL_GetReportBySupervisor_StatusIsSubmitted_IsTrue()
         {
             ExpenseReportDAL expenseReportDAL = new ExpenseReportDAL();
             List<ExpenseReport> reports = new List<ExpenseReport>();
-            int deptId = 1;
 
-                string status = ReportStatus.ApprovedBySupervisor.ToString();
-           //   string status = ReportStatus.RejectedByAccountant.ToString();
-           //   string status = ReportStatus.RejectedBySupervisor.ToString();
+            int deptId = 3;
+            string status = ReportStatus.Submitted.ToString();
+            reports = expenseReportDAL.GetReportsByDepartment(deptId, status);
+            Assert.IsTrue(reports.Count > 0, "No data in expense report");
+            foreach (ExpenseReport report in reports)
+            {
+                Assert.IsTrue(report.ExpenseItems.Count > 0, "No item in expense report");
+            }
 
-                reports = expenseReportDAL.GetReportsByDepartment(deptId, status);
-                Assert.IsTrue(reports.Count > 0, "No data in expense report");
-                foreach (ExpenseReport report in reports)
-                {
-                    Assert.IsTrue(report.ExpenseItems.Count > 0, "No item in expense report");
-                }
-        
         }
 
         [TestMethod]
-        public void ExpenseReportDAL_SumOfExpenseApproved_AreEqual()
+        public void ExpenseReportDAL_GetReportBySupervisor_StatusIsApprovedBySupervisor_IsTrue()
         {
             ExpenseReportDAL expenseReportDAL = new ExpenseReportDAL();
-            int deptId = 1;
-            decimal actual= expenseReportDAL.SumOfExpenseApproved(deptId);
-            decimal expected = 133;        
-            Assert.AreEqual(expected, actual);
+            List<ExpenseReport> reports = new List<ExpenseReport>();
+
+            int deptId = 3;
+            string status = ReportStatus.ApprovedBySupervisor.ToString();
+            reports = expenseReportDAL.GetReportsByDepartment(deptId, status);
+            Assert.IsTrue(reports.Count > 0, "No data in expense report");
+            foreach (ExpenseReport report in reports)
+            {
+                Assert.IsTrue(report.ExpenseItems.Count > 0, "No item in expense report");
+            }
+
         }
 
         [TestMethod]
-        public void ExpenseReportDAL_SupervisorActionOnExpenseReport_ActionSuccess()
+        public void ExpenseReportDAL_GetReportBySupervisor_StatusIsRejectedBySupervisor_IsTrue()
+        {
+            ExpenseReportDAL expenseReportDAL = new ExpenseReportDAL();
+            List<ExpenseReport> reports = new List<ExpenseReport>();
+
+            int deptId = 3;
+            string status = ReportStatus.RejectedBySupervisor.ToString();
+            reports = expenseReportDAL.GetReportsByDepartment(deptId, status);
+            Assert.IsTrue(reports.Count > 0, "No data in expense report");
+            foreach (ExpenseReport report in reports)
+            {
+                Assert.IsTrue(report.ExpenseItems.Count > 0, "No item in expense report");
+            }
+
+        }
+
+        [TestMethod]
+        public void ExpenseReportDAL_GetReportBySupervisor_StatusIsRejectedByAccountant_IsTrue()
+        {
+            ExpenseReportDAL expenseReportDAL = new ExpenseReportDAL();
+            List<ExpenseReport> reports = new List<ExpenseReport>();
+
+            int deptId = 3;
+            string status = ReportStatus.RejectedByAccountant.ToString();
+            reports = expenseReportDAL.GetReportsByDepartment(deptId, status);
+            Assert.IsTrue(reports.Count > 0, "No data in expense report");
+            foreach (ExpenseReport report in reports)
+            {
+                Assert.IsTrue(report.ExpenseItems.Count > 0, "No item in expense report");
+            }
+
+        }
+
+        [TestMethod]
+        public void ExpenseReportDAL_GetReportBySupervisor_StatusIsApprovedByAccountant_IsTrue()
+        {
+            ExpenseReportDAL expenseReportDAL = new ExpenseReportDAL();
+            List<ExpenseReport> reports = new List<ExpenseReport>();
+
+            int deptId = 3;
+            string status = ReportStatus.ApprovedByAccountant.ToString();
+            reports = expenseReportDAL.GetReportsByDepartment(deptId, status);
+            Assert.IsTrue(reports.Count > 0, "No data in expense report");
+            foreach (ExpenseReport report in reports)
+            {
+                Assert.IsTrue(report.ExpenseItems.Count > 0, "No item in expense report");
+            }
+
+        }
+        
+        [TestMethod]
+        public void ExpenseReportDAL_SupervisorActionOnExpenseReport_Approve_ActionSuccess()
         {
             ExpenseReportDAL expenseReportDAL = new ExpenseReportDAL();
             ExpenseReport expenseReport = new ExpenseReport();
             ExpenseItem expenseItem = new ExpenseItem();
 
-            int expenseId = 31;
+            int expenseId = 76;
             Guid approvedBy = new Guid("651c58ff-c87a-4721-9f13-33caef1a12fe");
             DateTime approvedDate = DateTime.Now;
-           // string status = "ApprovedBySupervisor";
-           string status = "RejectedBySupervisor";
+            string status = "ApprovedBySupervisor";
+            using (TransactionScope testTransaction = new TransactionScope())
+            {
+                expenseReportDAL.SupervisorActionOnExpenseReport(expenseId, approvedBy, status);
+                Assert.IsTrue(CheckDatabaseForReportStatus(expenseId));
+                testTransaction.Dispose();
+                
+            }
+        }
+
+        [TestMethod]
+        public void ExpenseReportDAL_SupervisorActionOnExpenseReport_Reject_ActionSuccess()
+        {
+            ExpenseReportDAL expenseReportDAL = new ExpenseReportDAL();
+            ExpenseReport expenseReport = new ExpenseReport();
+            ExpenseItem expenseItem = new ExpenseItem();
+
+            int expenseId = 76;
+            Guid approvedBy = new Guid("651c58ff-c87a-4721-9f13-33caef1a12fe");
+            DateTime approvedDate = DateTime.Now;
+            string status = "RejectedBySupervisor";
 
             using (TransactionScope testTransaction = new TransactionScope())
             {
@@ -354,15 +427,6 @@ namespace ThreeAmigos.ExpenseManagement.Test
                 testTransaction.Dispose();
             }
         }
-
-        //[TestMethod]
-        //public void ExpenseReportBuilder_CalcualateRemainingBudget_AreEqaul()
-        //{
-        //    ExpenseReportBuilder expReportBuilder=new ExpenseReportBuilder(); 
-        //    double expected = 44;
-        //    double actual = expReportBuilder.CalculateRemainingBudget(100, 56);
-        //    Assert.AreEqual(expected, actual);
-        //}
 
         private bool CheckDatabaseForReportStatus(int id)
         {
