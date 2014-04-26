@@ -33,6 +33,7 @@
                                 <th></th>
                                 <th></th>
                                 <th></th>
+                                <th></th>
                             </tr>
 
                             <tr class="info">
@@ -48,6 +49,7 @@
                                 <td></td>
                             </tr>
                             <tr>
+                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
