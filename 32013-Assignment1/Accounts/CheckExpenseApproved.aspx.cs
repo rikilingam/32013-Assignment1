@@ -37,7 +37,7 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Accounts
             UpdateBudgetMessage();
 
             rptExpenseReport.DataSource =
-                expReportBuilder.GetExpenseReportsBySupervisor();
+                expReportBuilder.GetExpenseReportsBySupervisor(DateTime.Now.Month);
             rptExpenseReport.DataBind();
         }
 

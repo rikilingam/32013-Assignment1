@@ -12,7 +12,7 @@
         </div>
 
         <div class="panel-heading">
-            <h3 class="panel-title">Total expenses approved by individual supervisor</h3>
+            <h3 class="panel-title">Expense reports approved by supervisor</h3>
         </div>
 
         <div class="panel-body">
@@ -36,7 +36,8 @@
                             </tr>
 
                             <tr class="info">
-                                <td><b>Total amount approved: <asp:Label ID="lblSupervisor" runat ="server" Text = '<%# Eval("ExpenseApproved","{0:c}") %>' /> </b></td>
+                                <td><b>Total of expense reports: <asp:Label ID="lblSupervisor" runat ="server" Text = '<%# Eval("AmountApproved") %>' /> </b></td>
+                                <td><b>Total expense: <asp:Label ID="Label2" runat ="server" Text = '<%# Eval("ExpenseApproved","{0:c}") %>' /> </b></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
