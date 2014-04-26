@@ -17,10 +17,10 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Supervisor
 {
     public partial class ApproveExpenses : System.Web.UI.Page
     {
-        ExpenseReportBuilder expReportBuilder=  new ExpenseReportBuilder();
+        ExpenseReportBuilder expReportBuilder = new ExpenseReportBuilder();
         Employee emp = new Employee();
         BudgetTracker budget = new BudgetTracker();
-       
+
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -34,16 +34,27 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Supervisor
 
         protected void InitializeRepeater()
         {
-           budget.DepartmentBudget(emp.Dept.MonthlyBudget, emp.Dept.DepartmentId);
-           Session["budget"] = budget;
-           UpdateBudgetMessage();
-           rptExpenseReport.DataSource = expReportBuilder.GetReportsBySupervisor(emp.Dept.DepartmentId, ReportStatus.Submitted.ToString());
-           rptExpenseReport.DataBind();
+            if (Session["emp"] != null)
+            {
+                budget.DepartmentBudget(emp.Dept.MonthlyBudget, emp.Dept.DepartmentId);
+                Session["budget"] = budget;
+            }
+            else
+            {
+                EmployeeDAL employeeDAL = new EmployeeDAL();
+                emp = employeeDAL.GetEmployee((Guid)Membership.GetUser().ProviderUserKey);
+                budget.DepartmentBudget(emp.Dept.MonthlyBudget, emp.Dept.DepartmentId);
+                Session["budget"] = budget;
+            }
+
+            UpdateBudgetMessage();
+            rptExpenseReport.DataSource = expReportBuilder.GetReportsBySupervisor(emp.Dept.DepartmentId, ReportStatus.Submitted.ToString());
+            rptExpenseReport.DataBind();
         }
 
         private void UpdateBudgetMessage()
         {
-            Label1.Text = string.Format("You currently have <b>{0}</b> remaining from your departments monthly budget of <b>{1}</b>.",String.Format("{0:c}",budget.RemainingAmount),String.Format("{0:c}",budget.BudgetAmount));
+            Label1.Text = string.Format("You currently have <b>{0}</b> remaining from your departments monthly budget of <b>{1}</b>.", String.Format("{0:c}", budget.RemainingAmount), String.Format("{0:c}", budget.BudgetAmount));
         }
 
         protected void rptExpenseItems_ItemDataBound(object sender, RepeaterItemEventArgs e)
@@ -56,9 +67,9 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Supervisor
                 {
                     btn.Visible = false;
                 }
-
             }
         }
+
 
         protected void btnReceipt_Click(object sender, ImageClickEventArgs e)
         {

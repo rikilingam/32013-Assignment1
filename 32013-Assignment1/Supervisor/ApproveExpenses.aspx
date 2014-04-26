@@ -3,10 +3,16 @@
 
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <script>
+        function OpenReceipt(receiptFileName) {
+            var path = '<%=ConfigurationManager.AppSettings["ReceiptItemFilePath"].ToString() %>'
+                window.open(receiptFileName);
+            }
+    </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-   <p>
-    <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
+    <p>
+        <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
     </p>
     <div class="panel panel-primary">
         <div class="panel-heading">
@@ -31,7 +37,7 @@
                                 <th></th>
 
                             </tr>
-                            <asp:Repeater ID="rptExpenseItems" DataSource='<%# Eval("ExpenseItems") %>' runat="server" OnItemDataBound="rptExpenseItems_ItemDataBound" >
+                            <asp:Repeater ID="rptExpenseItems" DataSource='<%# Eval("ExpenseItems") %>' runat="server" OnItemDataBound="rptExpenseItems_ItemDataBound">
                                 <HeaderTemplate>
                                     <tr>
                                         <th></th>
@@ -63,9 +69,10 @@
                                 <td></td>
                                 <td><b>Expense Total:</b></td>
                                 <td><b><%# Eval("ExpenseTotal","{0:c}")%></b></td>
-                                <td><asp:ImageButton ID="btnApprove" ImageUrl="~/Image/img_approve.png" ImageAlign="Middle" runat="server" CommandName="ApproveExpense" CommandArgument='<%#Eval("ExpenseId") + ","+Eval("ExpenseTotal") %>' OnClick="btnApprove_Click" />&nbsp;&nbsp;
+                                <td>
+                                    <asp:ImageButton ID="btnApprove" ImageUrl="~/Image/img_approve.png" ImageAlign="Middle" runat="server" CommandName="ApproveExpense" CommandArgument='<%#Eval("ExpenseId") + ","+Eval("ExpenseTotal") %>' OnClick="btnApprove_Click" />&nbsp;&nbsp;
                                     <asp:ImageButton ID="btnReject" ImageUrl="~/Image/img_reject.png" ImageAlign="Middle" runat="server" CommandName="RejectExpense" CommandArgument='<%# Eval("ExpenseId") %>' OnClick="btnReject_Click" /></td>
-                                </tr>
+                            </tr>
                             <tr>
                                 <td></td>
                                 <td></td>

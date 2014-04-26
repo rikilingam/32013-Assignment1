@@ -62,8 +62,7 @@
                                     <td><%# Eval("ExpenseDate","{0:dd/MM/yyyy}") %></td>
                                     <td><%# Eval("Location") %></td>
                                     <td><%# Eval("Description") %></td>
-                                    <td>
-                                        <asp:ImageButton ID="btnReceipt" ImageUrl="~/Image/img_pdf_icon.png" runat="server" OnClick="btnReceipt_Click" CommandArgument='<%# Eval("ReceiptFileName") %>' /></td>
+                                    <td><asp:ImageButton ID="btnReceipt" ImageUrl="~/Image/img_pdf_icon.png" runat="server" OnClick="btnReceipt_Click" CommandArgument='<%# Eval("ReceiptFileName") %>' /></td>
                                     <td><%# Eval("AudAmount","{0:c}") %></td>
                                     </tr>
                                 </ItemTemplate>

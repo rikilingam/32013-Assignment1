@@ -1,6 +1,12 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/EM_Default_MasterPage.Master" AutoEventWireup="true" CodeBehind="ViewReports.aspx.cs" Inherits="ThreeAmigos.ExpenseManagement.UserInterface.Supervisor.ViewMyExpenses" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <script>
+        function OpenReceipt(receiptFileName) {
+            var path = '<%=ConfigurationManager.AppSettings["ReceiptItemFilePath"].ToString() %>'
+                window.open(receiptFileName);
+            }
+    </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="panel panel-primary">
@@ -38,11 +44,9 @@
                                 <th>Supervisor: <%# Eval("ApprovedBy.FullName")%> </th>
                                 <th>Consultant: <%# Eval("CreatedBy.Fullname") %></th>
                                 <th>Department: <%# Eval("ExpenseToDept.DepartmentName") %></th>
-                                <th>Status: <%# Eval("Status") %></th>
-                                <th></th>
-                                <th></th>
+                                <th>Status: <%# Eval("Status") %></th>                                
                             </tr>
-                            <asp:Repeater ID="rptExpenseItems" DataSource='<%# Eval("ExpenseItems") %>' runat="server">
+                            <asp:Repeater ID="rptExpenseItems" DataSource='<%# Eval("ExpenseItems") %>' runat="server" OnItemDataBound="rptExpenseItems_ItemDataBound">
                                 <HeaderTemplate>
                                     <tr>
                                         <th></th>
@@ -50,31 +54,32 @@
                                         <th>Location</th>
                                         <th>Description</th>
                                         <th>Receipt</th>
-                                        <th>Amount (AUD)</th>
+                                        <th>Amount (AUD)</th>                                        
                                     </tr>
                                 </HeaderTemplate>
                                 <ItemTemplate>
-                                    <th></th>
-                                    <td><%# Eval("ExpenseDate") %></td>
-                                    <td><%# Eval("Location") %></td>
-                                    <td><%# Eval("Description") %></td>
-                                    <td><%# Eval("ReceiptFileName") %></td>
-                                    <td><%# Eval("AudAmount") %></td>
+                                    <tr>
+                                        <td></td>
+                                        <td><%# Eval("ExpenseDate","{0:dd/MM/yyyy}") %></td>
+                                        <td><%# Eval("Location") %></td>
+                                        <td><%# Eval("Description") %></td>
+                                        <td><asp:ImageButton ID="btnReceipt" ImageUrl="~/Image/img_pdf_icon.png" runat="server" OnClick="btnReceipt_Click" CommandArgument='<%# Eval("ReceiptFileName") %>' /></td>
+                                        <td><%# Eval("AudAmount","{0:c}") %></td>                                        
                                     </tr>
                                 </ItemTemplate>
                                 <FooterTemplate>
                                 </FooterTemplate>
                             </asp:Repeater>
-                                <tr class="info">
+                            <tr class="info">
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td></td>
-                                <td></td>
+                                <td></td>                                
                                 <td><b>Expense Total:</b></td>
                                 <td><b><%# Eval("ExpenseTotal","{0:c}")%></b></td>
                             </tr>
-                                </ItemTemplate>
+                            <tr><td colspan="6"></td></tr>
+                        </ItemTemplate>
                         <FooterTemplate>
                             </table>
                         </FooterTemplate>
