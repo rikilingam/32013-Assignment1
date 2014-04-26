@@ -13,6 +13,7 @@ namespace ThreeAmigos.ExpenseManagement.BusinessLogic
     {
         private decimal budgetAmount;
         private decimal totalExpenseAmount;
+        private decimal totalExpenseAmountAccounts;
         
         ExpenseReportDAL exp;
 
@@ -24,6 +25,7 @@ namespace ThreeAmigos.ExpenseManagement.BusinessLogic
             spendTracker = new SpendTrackerDAL();
             budgetAmount = 0;
             totalExpenseAmount = 0;
+            totalExpenseAmountAccounts = 0;
         }
 
         public decimal TotalExpenseAmount
@@ -50,6 +52,7 @@ namespace ThreeAmigos.ExpenseManagement.BusinessLogic
         {
             budgetAmount = deptBudget;
             totalExpenseAmount = spendTracker.TotalExpenseAmountByDept(deptId, DateTime.Now.Month);
+            totalExpenseAmountAccounts = spendTracker.TotalExpenseAmountByDeptProcessed(deptId, DateTime.Now.Month);
         }
 
         // setups the budget tracker to track company budget
@@ -74,6 +77,29 @@ namespace ThreeAmigos.ExpenseManagement.BusinessLogic
         public bool IsBudgetExceeded(decimal amount)
         {
             if ((budgetAmount - (totalExpenseAmount + amount)) < 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+
+        //Used for Accounts. The remaining budget of department after being approved by accounts (i.e. Status = ApprovedByAccounts)
+        public decimal RemainingAmountAccounts
+        {
+            get
+            {
+                return budgetAmount - totalExpenseAmountAccounts;
+            }
+        }
+
+        //Used for Accounts. Checks if the budget will be exceeded if additional expense amount is approved
+        public bool IsBudgetExceededAccounts(decimal amount)
+        {
+            if ((budgetAmount - (totalExpenseAmountAccounts + amount)) < 0)
             {
                 return true;
             }
