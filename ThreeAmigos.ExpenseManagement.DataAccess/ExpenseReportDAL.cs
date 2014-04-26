@@ -322,7 +322,7 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
             EmployeeDAL employeeDAL = new EmployeeDAL();
             DataAccessFunctions daFunctions = new DataAccessFunctions();
 
-            string query = string.Format("SELECT H.ApprovedById AS SupervisorId, SUM(I.AudAmount) AS AmountApproved FROM ExpenseItem I LEFT OUTER JOIN ExpenseHeader H ON I.ExpenseHeaderId = H.ExpenseId WHERE H.Status ='ApprovedByAccountant' GROUP BY H.ApprovedById");
+            string query = string.Format("SELECT H.ApprovedById AS SupervisorId, SUM(I.AudAmount) AS AmountApproved FROM ExpenseItem I LEFT OUTER JOIN ExpenseHeader H ON I.ExpenseHeaderId = H.ExpenseId WHERE H.Status ='ApprovedByAccounts' GROUP BY H.ApprovedById");
             daFunctions.Command = new SqlCommand(query, daFunctions.Connection);
 
             try
