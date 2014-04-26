@@ -23,7 +23,7 @@
                         <asp:DropDownList ID="ddlSearchFilter" runat="server" CssClass="form-control">
                             <asp:ListItem Value="ApprovedBySupervisor">All Approved</asp:ListItem>
                             <asp:ListItem Value="RejectedBySupervisor">All Rejected</asp:ListItem>
-                            <asp:ListItem Value="RejectedByAccountant">Rejected By Accounts</asp:ListItem>
+                            <asp:ListItem Value="RejectedByAccounts">Rejected By Accounts</asp:ListItem>
                         </asp:DropDownList>
                         <asp:Button ID="btnSearchExpenses" runat="server" Text="Search" CssClass="btn btn-primary" OnClick="btnSearchExpenses_Click" />
                     </div>
