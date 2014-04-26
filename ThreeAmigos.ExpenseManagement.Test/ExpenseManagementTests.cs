@@ -464,6 +464,57 @@ namespace ThreeAmigos.ExpenseManagement.Test
                 throw new Exception("There was a problem running method CheckDatabaseForReportStatus: " + ex.Message);
             }
         }
+
+
+        //Tests related to BudgetTracker
+        [TestMethod]
+        public void BudgetTracker_IsBudgetExceeded_ReturnTrue()
+        {
+            BudgetTracker budget = new BudgetTracker();
+            budget.DepartmentBudget(10000, 1);            
+            bool result= budget.IsBudgetExceeded(10001);
+            Assert.IsTrue(result);           
+        }
+
+        [TestMethod]
+        public void BudgetTracker_IsBudgetExceeded_ReturnFalse()
+        {
+            BudgetTracker budget = new BudgetTracker();
+            budget.DepartmentBudget(10000, 1);
+            bool result = budget.IsBudgetExceeded(300);
+            Assert.IsFalse(result);
+
+        }
+
+
+        //Tests related to SpendTrackerDAL
+        [TestMethod]
+        public void SpendTrackerDAL_TotalExpenseAmountByDept_AreEqual()
+        {
+            SpendTrackerDAL tracker = new SpendTrackerDAL();
+            decimal expected=16164.21M;
+            decimal actual=tracker.TotalExpenseAmountByDept(3,DateTime.Now.Month);
+            Assert.AreEqual(expected,actual);
+        }
+
+        [TestMethod]
+        public void SpendTrackerDAL_TotalExpenseAmountByDeptProcessed_AreEqual()
+        {
+            SpendTrackerDAL tracker = new SpendTrackerDAL();
+            decimal expected = 16164.21M;
+            decimal actual = tracker.TotalExpenseAmountByDeptProcessed(3, DateTime.Now.Month);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void SpendTrackerDAL_TotalExpenseAmountByCompany_AreEqual()
+        {
+            SpendTrackerDAL tracker = new SpendTrackerDAL();
+            decimal expected = 16164.21M;
+            decimal actual = tracker.TotalExpenseAmountByCompany(DateTime.Now.Month);
+            Assert.AreEqual(expected, actual);
+        }
+ 
     }
 }
     
