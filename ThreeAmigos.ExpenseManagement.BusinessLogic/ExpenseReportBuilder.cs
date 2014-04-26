@@ -69,10 +69,10 @@ namespace ThreeAmigos.ExpenseManagement.BusinessLogic
         /// </summary>
         /// <param name="status"></param>
         /// <returns></returns>
-        //public List<Employee> GetExpenseReportsBySupervisor()
-        //{
-        //    return exp.GetReportsBySupervisor();
-        //}
+        public List<Employee> GetExpenseReportsBySupervisor()
+        {
+            return exp.GetExpenseReportsBySupervisor();
+        }
 
         /// <summary>
         /// Update status of expense report. Affect ExpenseHeader table
