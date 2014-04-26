@@ -17,8 +17,9 @@ namespace ThreeAmigos.ExpenseManagement.BusinessObject
         public string Role { get; set; }
         public Guid UserId { get; set; }
 
-        //the total number (amount) of expense reports approved by accounts (in case the employee is a supervisor)
-        public int AmountApproved { get; set; } 
+        //the total number and total $ of expense reports approved by accounts (in case the employee is a supervisor)
+        public int AmountApproved { get; set; }
+        public decimal ExpenseApproved { get; set; }
 
         public Employee()
         {
@@ -26,6 +27,8 @@ namespace ThreeAmigos.ExpenseManagement.BusinessObject
             FirstName = "";
             Surname = "";
             Role = "";
+            AmountApproved = 0;
+            ExpenseApproved = 0;
             Dept = new Department();
 
         }
