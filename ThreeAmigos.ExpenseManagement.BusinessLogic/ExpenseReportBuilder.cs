@@ -69,9 +69,9 @@ namespace ThreeAmigos.ExpenseManagement.BusinessLogic
         /// </summary>
         /// <param name="status"></param>
         /// <returns></returns>
-        public List<Employee> GetExpenseReportsBySupervisor()
+        public List<Employee> GetExpenseReportsBySupervisor(int month)
         {
-            return exp.GetExpenseReportsBySupervisor();
+            return exp.GetExpenseReportsBySupervisor(month);
         }
 
         /// <summary>
