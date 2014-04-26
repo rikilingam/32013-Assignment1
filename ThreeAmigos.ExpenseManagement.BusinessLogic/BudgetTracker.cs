@@ -55,7 +55,10 @@ namespace ThreeAmigos.ExpenseManagement.BusinessLogic
         // setups the budget tracker to track company budget
         public void CompanyBudget()
         {
-            budgetAmount = decimal.Parse(ConfigurationManager.AppSettings["CompanyMonthlyBudget"]);
+            bool isBudgetAmountValid = false;
+
+            isBudgetAmountValid = decimal.TryParse(ConfigurationManager.AppSettings["CompanyMonthlyBudget"], out budgetAmount);
+                        
             totalExpenseAmount = spendTracker.TotalExpenseAmountByCompany(DateTime.Now.Month);
         }
 
