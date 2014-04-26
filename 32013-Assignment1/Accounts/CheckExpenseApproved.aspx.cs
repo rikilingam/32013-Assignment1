@@ -14,8 +14,8 @@ using System.Configuration;
 
 namespace ThreeAmigos.ExpenseManagement.UserInterface.Accounts
 {
-	public partial class CheckExpenseApproved : System.Web.UI.Page
-	{
+    public partial class CheckExpenseApproved : System.Web.UI.Page
+    {
         ExpenseReportBuilder expReportBuilder = new ExpenseReportBuilder();
         Employee emp = new Employee();
         BudgetTracker comBudget = new BudgetTracker();  // company budget
@@ -49,8 +49,9 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Accounts
             {
                 usedAmount = comBudget.BudgetAmount - comBudget.RemainingAmount;
                 lblBudgetMessage.Text =
-                    string.Format("You have approved <b>{0}</b> in the company monthly budget of <b>{1}</b>.",
+                    string.Format("<b>{0}</b> have been approved. You currently have <b>{1} remaining</b> for approval in the company monthly budget of <b>{2}</b>.",
                     String.Format("{0:c}", usedAmount),
+                    String.Format("{0:c}", comBudget.RemainingAmount),
                     String.Format("{0:c}", comBudget.BudgetAmount));
             }
             else
@@ -58,11 +59,11 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Accounts
                 overAmount = 0 - comBudget.RemainingAmount;
                 usedAmount = comBudget.BudgetAmount + overAmount;
                 lblBudgetMessage.Text =
-                    string.Format("You have approved <b>{0}</b>, which is <b>{1}</b> over the company monthly budget of <b>{2}</b>.",
+                    string.Format("<b>{0}</b> have been approved, which is <b>{1} over</b> the company monthly budget of <b>{2}</b>.",
                     String.Format("{0:c}", usedAmount),
                     String.Format("{0:c}", overAmount),
                     String.Format("{0:c}", comBudget.BudgetAmount));
             }
         }
-	}
+    }
 }

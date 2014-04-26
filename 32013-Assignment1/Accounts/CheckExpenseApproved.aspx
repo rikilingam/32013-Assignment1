@@ -3,7 +3,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <p>
-     <asp:Label ID="lblBudgetMessage" runat="server" Height="22px" Width="772px"></asp:Label>
+     <asp:Label ID="lblBudgetMessage" runat="server" Height="22px" Width="972px"></asp:Label>
     </p>
     <div class="panel panel-primary">
         <div class="row">
@@ -12,7 +12,7 @@
         </div>
 
         <div class="panel-heading">
-            <h3 class="panel-title">Expenses approved by supervisor</h3>
+            <h3 class="panel-title">Total expenses approved by individual supervisor</h3>
         </div>
 
         <div class="panel-body">
