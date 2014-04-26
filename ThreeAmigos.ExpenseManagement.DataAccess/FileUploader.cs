@@ -18,20 +18,29 @@ namespace ThreeAmigos.ExpenseManagement.BusinessLogic
             destinationPath = ConfigurationManager.AppSettings["ReceiptItemFilePath"];
         }
 
+        //Upload file to file path defined in web.config
         public string Upload(FileUpload fileUpload)
         {
             string newFileName="";
 
-            if (fileUpload.HasFile)
+            try
             {
-                newFileName = GenerateNewFileName() + ".pdf";
-                
-                fileUpload.SaveAs(System.Web.HttpContext.Current.Server.MapPath(destinationPath) + newFileName);
+                if (fileUpload.HasFile)
+                {
+                    newFileName = GenerateNewFileName() + ".pdf";
+
+                    fileUpload.SaveAs(System.Web.HttpContext.Current.Server.MapPath(destinationPath) + newFileName);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("There was a problem uploading file "+ fileUpload.FileName +", check the destination path exists: " + ex.Message);
             }
 
             return newFileName;
         }
 
+        //Generate new file name to ensure there are no duplicates
         private string GenerateNewFileName()
         {
             Guid guid;
