@@ -38,7 +38,7 @@
                             <table class="table">
                         </HeaderTemplate>
                         <ItemTemplate>
-                            <tr class="success">
+                            <tr class="info">
                                 <th>Report Date: <%# Eval("CreateDate","{0:dd/MM/yyyy}") %></th>
                                 <th>Supervisor Processed Date: <%# Eval("ApprovedDate","{0:dd/MM/yyyy}") %> </th>
                                 <th>Supervisor: <%# Eval("ApprovedBy.FullName")%> </th>
@@ -70,7 +70,7 @@
                                 <FooterTemplate>
                                 </FooterTemplate>
                             </asp:Repeater>
-                            <tr class="info">
+                            <tr class="success">
                                 <td></td>
                                 <td></td>
                                 <td></td>
