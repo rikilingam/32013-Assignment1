@@ -43,17 +43,20 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Accounts
 
         private void UpdateBudgetMessage()
         {
+            decimal usedAmount = 0;
+            decimal overAmount = 0;
             if (comBudget.RemainingAmount >= 0)
             {
+                usedAmount = comBudget.BudgetAmount - comBudget.RemainingAmount;
                 lblBudgetMessage.Text =
-                    string.Format("You currently have <b>{0}</b> remaining from the company monthly budget of <b>{1}</b>.",
-                    String.Format("{0:c}", comBudget.RemainingAmount),
+                    string.Format("You have approved <b>{0}</b> in the company monthly budget of <b>{1}</b>.",
+                    String.Format("{0:c}", usedAmount),
                     String.Format("{0:c}", comBudget.BudgetAmount));
             }
             else
             {
-                decimal overAmount = 0 - comBudget.RemainingAmount;
-                decimal usedAmount = comBudget.BudgetAmount + overAmount;
+                overAmount = 0 - comBudget.RemainingAmount;
+                usedAmount = comBudget.BudgetAmount + overAmount;
                 lblBudgetMessage.Text =
                     string.Format("You have approved <b>{0}</b>, which is <b>{1}</b> over the company monthly budget of <b>{2}</b>.",
                     String.Format("{0:c}", usedAmount),

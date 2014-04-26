@@ -22,15 +22,6 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Accounts {
         protected global::System.Web.UI.WebControls.Label lblBudgetMessage;
         
         /// <summary>
-        /// lblMoneyRemaining control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblMoneyRemaining;
-        
-        /// <summary>
         /// rptExpenseReport control.
         /// </summary>
         /// <remarks>
