@@ -306,6 +306,47 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
             }
         }
 
+
+        /// <summary>
+        /// Get the total amount of expenses approved by individual supervisor, including:
+        ///    - already approved by both supervisor and accountant (i.e. Status = ApprovedByAccountant)
+        /// EXCLUDING:
+        ///    - pending for accountant approval (i.e. Status = ApprovedBySupervisor)
+        ///    - approved by supervisor BUT rejected by accountant (i.e. Status = RejectedByAccountant)
+        /// </summary>
+        /// <param name="status"></param>
+        /// <returns></returns>
+        public List<Employee> GetExpenseReportsBySupervisor()
+        {
+            List<Employee> employees = new List<Employee>();
+            EmployeeDAL employeeDAL = new EmployeeDAL();
+            DataAccessFunctions daFunctions = new DataAccessFunctions();
+
+            string query = string.Format("SELECT H.ApprovedById AS SupervisorId, SUM(I.AudAmount) AS AmountApproved FROM ExpenseItem I LEFT OUTER JOIN ExpenseHeader H ON I.ExpenseHeaderId = H.ExpenseId WHERE H.Status ='ApprovedByAccountant' GROUP BY H.ApprovedById");
+            daFunctions.Command = new SqlCommand(query, daFunctions.Connection);
+
+            try
+            {
+                daFunctions.Connection.Open();
+                SqlDataReader rdr = daFunctions.Command.ExecuteReader();
+
+                while (rdr.Read())
+                {
+                    Employee emp = new Employee();
+
+                    emp = employeeDAL.GetEmployee(rdr["SupervisorID"] as Guid? ?? default(Guid));
+                    emp.ExpenseApproved = rdr["AmountApproved"] as decimal? ?? default(decimal);
+                    employees.Add(emp);
+                }
+                daFunctions.Connection.Close();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("There was a problem retrieving expense approved by supervisor reports: " + ex.Message);
+            }
+            return employees;
+        }
+
         /// <summary>
         /// Updates to the status of the expense report for the accounts role
         /// </summary>
