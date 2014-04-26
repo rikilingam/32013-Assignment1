@@ -7,7 +7,7 @@ using System.Configuration;
 using System.IO;
 using System.Web.UI.WebControls;
 
-namespace ThreeAmigos.ExpenseManagement.BusinessLogic
+namespace ThreeAmigos.ExpenseManagement.DataAccess
 {
     public class FileUploader
     {
