@@ -94,8 +94,9 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Accounts
             arg = btn.CommandArgument.ToString().Split(',');
             int expenseId = Convert.ToInt32(arg[0]);
             decimal expenseTotal = Convert.ToDecimal(arg[1]);
+            comBudget.CompanyBudget();
 
-            if (expenseTotal > comBudget.RemainingAmount)
+            if (expenseTotal > comBudget.RemainingAmountAccounts)
             {
                 DialogResult UserReply = MessageBox.Show("Approving this expense " + expenseTotal + " will cross the total monthly budget of the company. Do you want to approve?", "Important Question", MessageBoxButtons.YesNo);
                 if (UserReply.ToString() == "Yes")
