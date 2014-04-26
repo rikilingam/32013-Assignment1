@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ThreeAmigos.ExpenseManagement.BusinessObject
 {
-    public enum ReportStatus { Submitted, RejectedBySupervisor, ApprovedBySupervisor, RejectedByAccountant, ApprovedByAccountant }
+    public enum ReportStatus { Submitted, RejectedBySupervisor, ApprovedBySupervisor, RejectedByAccounts, ApprovedByAccounts }
 
     public class ExpenseReport
     {

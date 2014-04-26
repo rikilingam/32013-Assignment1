@@ -96,7 +96,7 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Accounts
                 //DialogResult UserReply = MessageBox.Show("Approving this expense " + expenseTotal + " will cross the total monthly budget of the company. Do you want to approve?", "Important Question", MessageBoxButtons.YesNo);
                 //if (UserReply.ToString() == "Yes")
                 //{
-            expReportBuilder.AccountantActionOnExpenseReport(expenseId, emp.UserId, ReportStatus.ApprovedByAccountant.ToString());
+            expReportBuilder.AccountantActionOnExpenseReport(expenseId, emp.UserId, ReportStatus.ApprovedByAccounts.ToString());
                 //}
                 //else
                 //{
@@ -115,7 +115,7 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Accounts
         {
             ImageButton btn = (ImageButton)(sender);
             int expenseId = Convert.ToInt32(btn.CommandArgument);
-            expReportBuilder.AccountantActionOnExpenseReport(expenseId, emp.UserId, ReportStatus.RejectedByAccountant.ToString());
+            expReportBuilder.AccountantActionOnExpenseReport(expenseId, emp.UserId, ReportStatus.RejectedByAccounts.ToString());
 
             InitializeRepeater();
         }

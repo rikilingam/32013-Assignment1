@@ -361,7 +361,7 @@ namespace ThreeAmigos.ExpenseManagement.Test
             List<ExpenseReport> reports = new List<ExpenseReport>();
 
             int deptId = 3;
-            string status = ReportStatus.RejectedByAccountant.ToString();
+            string status = ReportStatus.RejectedByAccounts.ToString();
             reports = expenseReportDAL.GetReportsByDepartment(deptId, status);
             Assert.IsTrue(reports.Count > 0, "No data in expense report");
             foreach (ExpenseReport report in reports)
@@ -378,7 +378,7 @@ namespace ThreeAmigos.ExpenseManagement.Test
             List<ExpenseReport> reports = new List<ExpenseReport>();
 
             int deptId = 3;
-            string status = ReportStatus.ApprovedByAccountant.ToString();
+            string status = ReportStatus.ApprovedByAccounts.ToString();
             reports = expenseReportDAL.GetReportsByDepartment(deptId, status);
             Assert.IsTrue(reports.Count > 0, "No data in expense report");
             foreach (ExpenseReport report in reports)
