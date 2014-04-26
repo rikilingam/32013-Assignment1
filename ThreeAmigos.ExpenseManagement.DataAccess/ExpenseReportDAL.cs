@@ -322,7 +322,8 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
             EmployeeDAL employeeDAL = new EmployeeDAL();
             DataAccessFunctions daFunctions = new DataAccessFunctions();
 
-            string query = string.Format("SELECT H.ApprovedById AS SupervisorId, SUM(I.AudAmount) AS AmountApproved FROM ExpenseItem I LEFT OUTER JOIN ExpenseHeader H ON I.ExpenseHeaderId = H.ExpenseId WHERE H.Status ='ApprovedByAccounts' GROUP BY H.ApprovedById");
+            //string query = string.Format("SELECT H.ApprovedById AS SupervisorId, SUM(I.AudAmount) AS AmountApproved FROM ExpenseItem I LEFT OUTER JOIN ExpenseHeader H ON I.ExpenseHeaderId = H.ExpenseId WHERE H.Status ='ApprovedByAccounts' GROUP BY H.ApprovedById");
+            string query = string.Format("SELECT ApprovedById, COUNT(ExpenseId) AS AmountApproved FROM ExpenseHeader WHERE Status ='ApprovedByAccounts' GROUP BY ApprovedById");
             daFunctions.Command = new SqlCommand(query, daFunctions.Connection);
 
             try
@@ -334,8 +335,8 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
                 {
                     Employee emp = new Employee();
 
-                    emp = employeeDAL.GetEmployee(rdr["SupervisorID"] as Guid? ?? default(Guid));
-                    emp.ExpenseApproved = rdr["AmountApproved"] as decimal? ?? default(decimal);
+                    emp = employeeDAL.GetEmployee(rdr["ApprovedById"] as Guid? ?? default(Guid));
+                    emp.AmountApproved = rdr["AmountApproved"] as int? ?? default(int);
                     employees.Add(emp);
                 }
                 daFunctions.Connection.Close();
