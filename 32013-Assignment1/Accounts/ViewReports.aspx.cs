@@ -46,7 +46,7 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Accounts
         {
             emp = (Employee)Session["emp"];
             ExpenseReportDAL expenseReportDAL = new ExpenseReportDAL();
-            rptExpenseReport.DataSource = expenseReportDAL.GetReportsByDepartment(emp.Dept.DepartmentId, ddlSearchFilter.SelectedValue);
+            rptExpenseReport.DataSource = expenseReportDAL.GetReportsByAllDepartment(ddlSearchFilter.SelectedValue);
             rptExpenseReport.DataBind();
         }
 
