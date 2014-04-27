@@ -79,6 +79,7 @@
     <Content Include="CustomError\Error.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
     <Content Include="Image\img_approve.png" />
     <Content Include="Image\img_pdf_icon.png" />
     <Content Include="Image\img_reject.png" />
@@ -164,6 +165,7 @@
     </Compile>
     <Compile Include="Accounts\CheckExpenseApproved.aspx.cs">
       <DependentUpon>CheckExpenseApproved.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Accounts\CheckExpenseApproved.aspx.designer.cs">
       <DependentUpon>CheckExpenseApproved.aspx</DependentUpon>
@@ -177,6 +179,7 @@
     </Compile>
     <Compile Include="Accounts\ViewReports.aspx.cs">
       <DependentUpon>ViewReports.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Accounts\ViewReports.aspx.designer.cs">
       <DependentUpon>ViewReports.aspx</DependentUpon>
@@ -215,6 +218,9 @@
     </Compile>
     <Compile Include="EM_Default_MasterPage.Master.designer.cs">
       <DependentUpon>EM_Default_MasterPage.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>

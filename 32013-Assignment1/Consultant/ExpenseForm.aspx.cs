@@ -60,10 +60,10 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface
 
         protected void btnAddItem_Click(object sender, EventArgs e)
         {
+            ExpenseItem expenseItem = new ExpenseItem();
+
             try
             {
-                ExpenseItem expenseItem = new ExpenseItem();
-
                 expenseItem.ExpenseDate = Convert.ToDateTime(txtItemDate.Text);
                 expenseItem.Location = txtItemLocation.Text;
                 expenseItem.Description = txtItemDescription.Text;
@@ -89,7 +89,7 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface
             }
             catch (Exception ex)
             {
-                throw new Exception("There was a problem inserting the expense item: " + ex.Message);
+                throw new Exception("There was a problem inserting the expense item "+ expenseItem.Description+" : " + ex.Message);
             }
         }
 
