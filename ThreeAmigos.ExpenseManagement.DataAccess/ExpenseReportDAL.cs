@@ -262,6 +262,18 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
             return GetReportsFromDatabase(query);
         }
 
+        /// <summary>
+        /// Get the all expense reports for ALL departments by status
+        /// </summary>
+        /// <param name="id">Department Id</param>
+        /// <param name="status">The status of the report</param>
+        /// <returns></returns>
+        public List<ExpenseReport> GetReportsByAllDepartment(string status)
+        {
+            string query = string.Format("SELECT * FROM ExpenseHeader WHERE  Status ='{0}'", status);
+            return GetReportsFromDatabase(query);
+        }
+
 
         /// <summary>
         /// Gets all reports by status
