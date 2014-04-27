@@ -1,5 +1,11 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/EM_Default_MasterPage.Master" AutoEventWireup="true" CodeBehind="ViewReports.aspx.cs" Inherits="ThreeAmigos.ExpenseManagement.UserInterface.Accounts.ViewReports" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <script>
+            function OpenReceipt(receiptFileName) {
+                var path = '<%=ConfigurationManager.AppSettings["ReceiptItemFilePath"].ToString() %>'
+            window.open(receiptFileName);
+        }
+    </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
  <p>
@@ -44,7 +50,7 @@
                                 <th></th>
                                 <th></th>
                             </tr>
-                            <asp:Repeater ID="rptExpenseItems" DataSource='<%# Eval("ExpenseItems") %>' runat="server">
+                            <asp:Repeater ID="rptExpenseItems" DataSource='<%# Eval("ExpenseItems") %>' runat="server" OnItemDataBound="rptExpenseItems_ItemDataBound">
                                 <HeaderTemplate>
                                     <tr>
                                         <th></th>
@@ -52,20 +58,17 @@
                                         <th>Location</th>
                                         <th>Description</th>
                                         <th>Receipt</th>
-                                        <th>Amount (AUD)</th>
-                                        <th></th>
-                                        <th></th>
+                                        <th>Amount (AUD)</th>                                        
                                     </tr>
                                 </HeaderTemplate>
                                 <ItemTemplate>
-                                    <th></th>
-                                    <td><%# Eval("ExpenseDate") %></td>
-                                    <td><%# Eval("Location") %></td>
-                                    <td><%# Eval("Description") %></td>
-                                    <td><%# Eval("ReceiptFileName") %></td>
-                                    <td><%# Eval("AudAmount") %></td>
-                                    <th></th>
-                                    <th></th>
+                                    <tr>
+                                        <td></td>
+                                        <td><%# Eval("ExpenseDate","{0:dd/MM/yyyy}") %></td>
+                                        <td><%# Eval("Location") %></td>
+                                        <td><%# Eval("Description") %></td>
+                                        <td><asp:ImageButton ID="btnReceipt" ImageUrl="~/Image/img_pdf_icon.png" runat="server" OnClick="btnReceipt_Click" CommandArgument='<%# Eval("ReceiptFileName") %>' /></td>
+                                        <td><%# Eval("AudAmount","{0:c}") %></td>                                        
                                     </tr>
                                 </ItemTemplate>
                                 <FooterTemplate>
