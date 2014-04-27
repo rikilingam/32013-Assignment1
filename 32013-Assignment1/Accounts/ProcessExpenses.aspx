@@ -1,7 +1,12 @@
 ﻿<%@ Assembly Name="ThreeAmigos.ExpenseManagement.BusinessObject" %>
 <%@ Page Title="" Language="C#" MasterPageFile="~/EM_Default_MasterPage.Master" AutoEventWireup="true" CodeBehind="ProcessExpenses.aspx.cs" Inherits="ThreeAmigos.ExpenseManagement.UserInterface.Accounts.ProcessExpenses" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-
+    <script>
+        function OpenReceipt(receiptFileName) {
+            var path = '<%=ConfigurationManager.AppSettings["ReceiptItemFilePath"].ToString() %>'
+                window.open(receiptFileName);
+            }
+    </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
    <p>
@@ -9,7 +14,7 @@
     </p>
     <div class="panel panel-primary">
         <div class="panel-heading">
-            <h3 class="panel-title">Expenses awaiting approval</h3>
+            <h3 class="panel-title">Expenses awaiting for accounts approval</h3>
         </div>
 
         <div class="panel-body">

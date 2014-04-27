@@ -98,10 +98,14 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Accounts
 
             if (expenseTotal > comBudget.RemainingAmountAccounts)
             {
-                DialogResult UserReply = MessageBox.Show("Approving this expense " + expenseTotal + " will cross the total monthly budget of the company. Do you want to approve?", "Important Question", MessageBoxButtons.YesNo);
+                DialogResult UserReply = MessageBox.Show("Approving this expense " + expenseTotal + " will cross the total monthly budget of the company. Do you want to approve?", "Important Question", MessageBoxButtons.YesNoCancel);
                 if (UserReply.ToString() == "Yes")
                 {
                     expReportBuilder.AccountantActionOnExpenseReport(expenseId, emp.UserId, ReportStatus.ApprovedByAccounts.ToString());
+                }
+                else if (UserReply.ToString() == "No")
+                {
+                    expReportBuilder.AccountantActionOnExpenseReport(expenseId, emp.UserId, ReportStatus.RejectedByAccounts.ToString());
                 }
             }
             else                
