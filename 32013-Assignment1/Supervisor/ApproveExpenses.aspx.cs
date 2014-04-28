@@ -18,6 +18,7 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Supervisor
     public partial class ApproveExpenses : System.Web.UI.Page
     {
         ExpenseReportBuilder expReportBuilder = new ExpenseReportBuilder();
+        ExpenseReportDAL expDAL = new ExpenseReportDAL();
         Employee emp = new Employee();
         BudgetTracker budget = new BudgetTracker();
 
@@ -48,7 +49,7 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Supervisor
             }
 
             UpdateBudgetMessage();
-            rptExpenseReport.DataSource = expReportBuilder.GetReportsBySupervisor(emp.Dept.DepartmentId, ReportStatus.Submitted.ToString());
+            rptExpenseReport.DataSource=expDAL.GetReportsByDepartment(emp.Dept.DepartmentId,ReportStatus.Submitted.ToString());
             rptExpenseReport.DataBind();
         }
 
