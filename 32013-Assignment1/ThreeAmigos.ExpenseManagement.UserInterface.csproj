@@ -78,6 +78,7 @@
     <Content Include="CustomError\Error.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
     <Content Include="Image\img_approve.png" />
     <Content Include="Image\img_pdf_icon.png" />
     <Content Include="Image\img_reject.png" />
@@ -209,6 +210,9 @@
     </Compile>
     <Compile Include="EM_Default_MasterPage.Master.designer.cs">
       <DependentUpon>EM_Default_MasterPage.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>

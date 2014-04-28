@@ -7,38 +7,34 @@ using System.Configuration;
 
 namespace ThreeAmigos.ExpenseManagement.BusinessLogic
 {
-    enum Currency { AUD, CNY, EUR }
+    //enum Currency { AUD, CNY, EUR }
 
     public static class CurrencyConverter
     {
         public static decimal ConvertToAUD(string currency, decimal amount)
         {
-            decimal rate = 0;
-            bool isRateValid = false;
-
-            if (currency == Currency.AUD.ToString())
+            if (currency == "AUD")
             {
                 return amount;
             }
-            else if (currency == Currency.CNY.ToString())
+            else
             {
-                isRateValid = decimal.TryParse(ConfigurationManager.AppSettings["CNY"], out rate);
-                
-                if (isRateValid = true && rate > 0)
-                {
-                    return amount * rate;
-                }
-                else return rate;
+                return amount * GetExchangeRate(currency);
             }
-            else if (currency == Currency.EUR.ToString())
-            {
-                isRateValid = decimal.TryParse(ConfigurationManager.AppSettings["EUR"], out rate);
+        }
 
-                if (isRateValid = true && rate > 0)
-                {
-                    return amount * rate;
-                }
-                else return 0;
+        /// <summary>
+        /// Get the exchange rate from the webconfig
+        /// </summary>
+        /// <param name="currency">Currency to get</param>
+        /// <returns>The exchange rate</returns>
+        private static decimal GetExchangeRate(string currency)
+        {
+            decimal rate = 0;
+
+            if (decimal.TryParse(ConfigurationManager.AppSettings[currency], out rate) && rate > 0)
+            {
+                return rate;
             }
             else
             {
