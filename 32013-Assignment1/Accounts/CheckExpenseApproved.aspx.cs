@@ -18,6 +18,7 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Accounts
     {
         ExpenseReportBuilder expReportBuilder = new ExpenseReportBuilder();
         Employee emp = new Employee();
+        SpendTrackerDAL spend = new SpendTrackerDAL();  // spend tracker
         BudgetTracker comBudget = new BudgetTracker();  // company budget
         BudgetTracker deptBudget = new BudgetTracker(); // department budget
 
@@ -36,8 +37,7 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Accounts
             Session["comBudget"] = comBudget;
             UpdateBudgetMessage();
 
-            rptExpenseReport.DataSource =
-                expReportBuilder.GetExpenseReportsBySupervisor(DateTime.Now.Month);
+            rptExpenseReport.DataSource = spend.GetSpendBySupervisors(DateTime.Now.Month);
             rptExpenseReport.DataBind();
         }
 
