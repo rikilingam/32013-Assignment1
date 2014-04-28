@@ -9,8 +9,7 @@ using ThreeAmigos.ExpenseManagement.BusinessLogic;
 using ThreeAmigos.ExpenseManagement.DataAccess;
 using ThreeAmigos.ExpenseManagement.BusinessObject;
 using System.Web.Security;
-using System.IO;
-using System.Globalization;
+
 
 namespace ThreeAmigos.ExpenseManagement.UserInterface
 {
@@ -31,7 +30,8 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface
                 reportBuilder = (ExpenseReportBuilder)Session["expenseReportBuilder"];
             }
         }
-
+        
+        
         private void InitializeExpenseReport()
         {
             reportBuilder = new ExpenseReportBuilder();
@@ -53,44 +53,40 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface
         }
 
 
+        //displays the expense item modal
         protected void btnAddExpenseItem_Click(object sender, EventArgs e)
         {
             ClientScript.RegisterStartupScript(this.GetType(), "ExpenseItemModal", "ShowExpenseItemModal();", true);
         }
 
+        //add items to the expense report
         protected void btnAddItem_Click(object sender, EventArgs e)
         {
-            try
+            ExpenseItem expenseItem = new ExpenseItem();
+
+            expenseItem.ExpenseDate = Convert.ToDateTime(txtItemDate.Text);
+            expenseItem.Location = txtItemLocation.Text;
+            expenseItem.Description = txtItemDescription.Text;
+            expenseItem.Amount = Convert.ToDecimal(txtItemAmount.Text);
+            expenseItem.Currency = ddlItemCurrency.SelectedValue;
+            expenseItem.AudAmount = CurrencyConverter.ConvertToAUD(expenseItem.Currency, expenseItem.Amount);
+
+            if (fileReceipt.HasFile)
             {
-                ExpenseItem expenseItem = new ExpenseItem();
+                FileUploader fileUploader = new FileUploader();
+                expenseItem.ReceiptFileName = fileUploader.Upload(fileReceipt);
 
-                expenseItem.ExpenseDate = Convert.ToDateTime(txtItemDate.Text);
-                expenseItem.Location = txtItemLocation.Text;
-                expenseItem.Description = txtItemDescription.Text;
-                expenseItem.Amount = Convert.ToDecimal(txtItemAmount.Text);
-                expenseItem.Currency = ddlItemCurrency.SelectedValue;
-                expenseItem.AudAmount = CurrencyConverter.ConvertToAUD(expenseItem.Currency, expenseItem.Amount);
-
-                if (fileReceipt.HasFile)
-                {
-                    FileUploader fileUploader = new FileUploader();
-                    expenseItem.ReceiptFileName = fileUploader.Upload(fileReceipt);
-
-                }
-
-                reportBuilder.AddExpenseItem(expenseItem);
-
-                Session["expenseReportBuilder"] = reportBuilder;
-
-                gvExpenseItems.DataSource = reportBuilder.expenseReport.ExpenseItems;
-                gvExpenseItems.DataBind();
-
-                ClearItemForm();
             }
-            catch (Exception ex)
-            {
-                throw new Exception("There was a problem inserting the expense item: " + ex.Message);
-            }
+
+            reportBuilder.AddExpenseItem(expenseItem);
+
+            Session["expenseReportBuilder"] = reportBuilder;
+
+            gvExpenseItems.DataSource = reportBuilder.expenseReport.ExpenseItems;
+            gvExpenseItems.DataBind();
+
+            ClearItemForm();
+
         }
 
         protected void btnItemClose_Click(object sender, EventArgs e)
@@ -98,8 +94,9 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface
             ClearItemForm();
         }
 
+        
         protected void btnSubmitExpense_Click(object sender, EventArgs e)
-        {            
+        {
 
             if (reportBuilder.expenseReport.ExpenseItems.Count > 0)
             {
@@ -114,6 +111,7 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface
 
         }
 
+        // clears the expense item form
         private void ClearItemForm()
         {
             txtItemDate.Text = "";
@@ -124,6 +122,7 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface
             lblErrorMsg.Text = "";
         }
 
+        //Executes javascript to open receipt in new window
         protected void lnkReceipt_Click(object sender, EventArgs e)
         {
 
@@ -137,13 +136,13 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface
 
         }
 
+        //Checks if a receipt exists and displays the receipt button
         protected void gvExpenseItems_RowDataBound(object sender, GridViewRowEventArgs e)
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
                 ImageButton btn = (ImageButton)e.Row.FindControl("btnReceipt");
-
-                // hides the receipt button if the expense item does not contain a receipt file name
+                                
                 if (string.IsNullOrEmpty(btn.CommandArgument.ToString()))
                 {
                     btn.Visible = false;

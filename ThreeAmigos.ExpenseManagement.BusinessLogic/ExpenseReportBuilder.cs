@@ -14,12 +14,12 @@ namespace ThreeAmigos.ExpenseManagement.BusinessLogic
     public class ExpenseReportBuilder
     {
         public ExpenseReport expenseReport;
-        ExpenseReportDAL exp = new ExpenseReportDAL();
-        SpendTrackerDAL spend = new SpendTrackerDAL();
+        ExpenseReportDAL expDAL;
 
         public ExpenseReportBuilder()
         {
             expenseReport = new ExpenseReport();
+            expDAL = new ExpenseReportDAL();
         }
 
         /// <summary>
@@ -37,24 +37,40 @@ namespace ThreeAmigos.ExpenseManagement.BusinessLogic
         /// </summary>
         public void SubmitExpenseReport()
         {
-            expenseReport.Status = ReportStatus.Submitted;
-            ExpenseReportDAL expenseReportDAL = new ExpenseReportDAL();
-            expenseReportDAL.ProcessExpense(expenseReport);
+            expenseReport.Status = ReportStatus.Submitted;            
+            expDAL.ProcessExpense(expenseReport);
         }
 
 
         //BELOW METHODS ARE USED FOR SUPERVISORS FUNCTIONS
-        public List<ExpenseReport> GetReportsBySupervisor(int id,string status)
-        {
-            return exp.GetReportsByDepartment(id,status);
-        }
+      
       
         public void SupervisorActionOnExpenseReport(int expenseid, Guid empId,string status)
         {
-            exp.SupervisorActionOnExpenseReport(expenseid, empId,status);
+            expDAL.SupervisorActionOnExpenseReport(expenseid, empId,status);
         }
 
         //BELOW METHODS ARE USED FOR ACCOUNTANT
+        /// <summary>
+        /// Get list of expense report. Used for displaying for accountant approval
+        /// </summary>
+        /// <param name="status"></param>
+        /// <returns></returns>
+        public List<ExpenseReport> GetReportsByAccountant(string status)
+        {
+            return expDAL.GetReportsByStatus(status);
+        }
+
+        /// <summary>
+        /// Get list of amounts of expenses approved by each individual supervisor 
+        /// </summary>
+        /// <param name="status"></param>
+        /// <returns></returns>
+        public List<Employee> GetExpenseReportsBySupervisor(int month)
+        {
+            return expDAL.GetExpenseReportsBySupervisor(month);
+        }
+
         /// <summary>
         /// Update status of expense report. Affect ExpenseHeader table
         /// </summary>
@@ -63,7 +79,7 @@ namespace ThreeAmigos.ExpenseManagement.BusinessLogic
         /// <param name="status"></param>
         public void AccountantActionOnExpenseReport(int expenseid, Guid empId, string status)
         {
-            exp.AccountantActionOnExpenseReport(expenseid, empId, status);
+            expDAL.AccountantActionOnExpenseReport(expenseid, empId, status);
         }
     }
 }

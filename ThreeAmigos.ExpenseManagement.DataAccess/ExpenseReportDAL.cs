@@ -45,19 +45,20 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
             DataAccessFunctions daFunctions = new DataAccessFunctions();                        
             daFunctions.Command.CommandType = CommandType.StoredProcedure;
 
+            daFunctions.Command.CommandText = "AddExpenseHeader";
+            daFunctions.Command.CommandType = CommandType.StoredProcedure;
+
+            //Parameters for the expense header
+            daFunctions.Command.Parameters.AddWithValue("@CreatedById", createdById);
+            daFunctions.Command.Parameters.AddWithValue("@CreateDate", createDate);
+            daFunctions.Command.Parameters.AddWithValue("@DepartmentId", departmentId);
+            daFunctions.Command.Parameters.AddWithValue("@Status", status);
+
+            // Will return the value of expense Id
+            daFunctions.Command.Parameters.Add("@Id", SqlDbType.Int);
+
             try
             {
-                daFunctions.Command.CommandText = "AddExpenseHeader";
-                daFunctions.Command.CommandType = CommandType.StoredProcedure;
-
-                //Parameters for the expense header
-                daFunctions.Command.Parameters.AddWithValue("@CreatedById", createdById);
-                daFunctions.Command.Parameters.AddWithValue("@CreateDate", createDate);
-                daFunctions.Command.Parameters.AddWithValue("@DepartmentId", departmentId);
-                daFunctions.Command.Parameters.AddWithValue("@Status", status);
-
-                // Will return the value of expense Id
-                daFunctions.Command.Parameters.Add("@Id", SqlDbType.Int);
                 daFunctions.Command.Parameters["@Id"].Direction = ParameterDirection.Output;
 
                 daFunctions.Connection.Open();
@@ -68,7 +69,7 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
             }
             catch (Exception ex)
             {
-                throw new Exception("Problem inserting the expense header in database: " + ex.Message);
+                throw new Exception("Problem inserting the expense header in database: " + ex.Message);                
             }
             finally
             {
@@ -165,13 +166,17 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
                     report.ExpenseTotal = expenseTotal;
                     expenseReports.Add(report);
                 }
-
-                daFunctions.Connection.Close();
+                
             }
             catch (Exception ex)
             {
                 throw new Exception("There was a problem retrieving expense reports: " + ex.Message);
             }
+            finally
+            {
+                daFunctions.Connection.Close();
+            }
+
 
             return expenseReports;
 
