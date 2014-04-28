@@ -20,9 +20,9 @@ namespace ThreeAmigos.ExpenseManagement.Test
         public static void SetUp(TestContext context)
         {
             // This path needs to be changed to root path of the Visual Studio solution
-            //  string path = "C:\\Users\\rikil\\Source\\Repos\\32013-Assignment1";
+            string path = "C:\\Users\\rikil\\Source\\Repos\\32013-Assignment1";
             //string path = "C:\\Users\\Bikrem\\Documents\\Visual Studio 2012\\Projects\\.Net Assignment-1\\32013-Assignment1";
-            string path = "C:\\Users\\JohnLe\\Source\\Repos\\32013-Assignment1";
+            //string path = "C:\\Users\\JohnLe\\Source\\Repos\\32013-Assignment1";
 
             AppDomain.CurrentDomain.SetData("DataDirectory", path);
         }
@@ -76,13 +76,25 @@ namespace ThreeAmigos.ExpenseManagement.Test
         }
 
         [TestMethod]
+        public void ConvertCurrency_CheckConfigurationForRates_RatesAreValid()
+        {
+            bool isValid = false;
+            decimal rate = 0;
+            
+            isValid = decimal.TryParse(ConfigurationManager.AppSettings["CNY"], out rate);
+            Assert.IsTrue(isValid, "CNY is not valid");
+
+            isValid = decimal.TryParse(ConfigurationManager.AppSettings["EUR"], out rate);
+            Assert.IsTrue(isValid, "EUR is not valid");
+        }
+
+        [TestMethod]
         public void ConvertCurrency_ConvertCNYToAUD_AreEqual()
         {
             decimal testAUDAmount = Convert.ToDecimal( 100 * 0.17430);
 
             Assert.IsNotNull(ConfigurationManager.AppSettings["CNY"], "Currency CNY is NULL");
             Assert.AreEqual(testAUDAmount, CurrencyConverter.ConvertToAUD("CNY", 100), "Conversion to CNY Failed");
-
         }
 
         [TestMethod]
@@ -541,10 +553,18 @@ namespace ThreeAmigos.ExpenseManagement.Test
         {
             BudgetTracker budget = new BudgetTracker();
             budget.DepartmentBudget(10000, 1);
-            bool result = budget.IsBudgetExceeded(0);
+            bool result = budget.IsBudgetExceeded(2000);
             Assert.IsFalse(result);
-
         }
+
+        [TestMethod]
+        public void BudgetTracker_CompanyBudget_IsValid()
+        {
+            BudgetTracker budget = new BudgetTracker();
+            budget.CompanyBudget();
+            Assert.IsTrue(budget.BudgetAmount==30000);
+        }
+
 
 
         //Tests related to SpendTrackerDAL
