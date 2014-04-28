@@ -154,7 +154,7 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
                     decimal expenseTotal;
 
                     report.ExpenseId = rdr["ExpenseId"] as int? ?? default(int);
-                    report.DepartmentId = rdr["DepartmentId"] as int? ?? default(int);
+                    //report.DepartmentId = rdr["DepartmentId"] as int? ?? default(int);
                     report.CreateDate = (DateTime)rdr["CreateDate"];
                     report.ExpenseToDept = departmentDAL.GetDepartmentProfile(rdr["DepartmentId"] as int? ?? default(int));
                     report.Status = (ReportStatus)Enum.Parse(typeof(ReportStatus), (string)rdr["Status"]);
