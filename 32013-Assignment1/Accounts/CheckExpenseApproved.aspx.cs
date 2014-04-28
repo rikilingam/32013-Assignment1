@@ -65,5 +65,11 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Accounts
                     String.Format("{0:c}", comBudget.BudgetAmount));
             }
         }
+
+        protected void rptExpenseReport_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+
+        }
+
     }
 }

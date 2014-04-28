@@ -18,7 +18,7 @@
         <div class="panel-body">
             <div class="container-fluid">
                 <div class="row">
-                    <asp:Repeater ID="rptExpenseReport" runat="server">
+                    <asp:Repeater ID="rptExpenseReport" runat="server" OnItemDataBound ="rptExpenseReport_ItemDataBound">
                         <HeaderTemplate>
                             <table class="table">
                         </HeaderTemplate>
