@@ -18,6 +18,7 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Accounts
     public partial class ProcessExpenses : System.Web.UI.Page
     {
         ExpenseReportBuilder expReportBuilder = new ExpenseReportBuilder();
+        ExpenseReportDAL expDAL = new ExpenseReportDAL();
         Employee emp = new Employee();
         BudgetTracker comBudget = new BudgetTracker();  // company budget
         BudgetTracker deptBudget = new BudgetTracker(); // department budget
@@ -37,7 +38,7 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Accounts
             Session["comBudget"] = comBudget;
             UpdateBudgetMessage();
             rptExpenseReport.DataSource = 
-            expReportBuilder.GetReportsByAccountant(ReportStatus.ApprovedBySupervisor.ToString());
+                expDAL.GetReportsByAllDepartment(ReportStatus.ApprovedBySupervisor.ToString());
             rptExpenseReport.DataBind();
         }
 
