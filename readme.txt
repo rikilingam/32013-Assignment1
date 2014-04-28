@@ -64,3 +64,8 @@ b.	Budget limits
 
 5. ---Currency Conversion---
 	Currency rates are stored in the web.config as the value of the currency in AUD
+
+6. ---Receipts---
+	Receipts can be added to each expense item, however, the attachment must be a PDF file. In addition, the file size must be less than 4MB
+	which is the default IIS limit, if file greater than 4Mb is uploaded the system will throw an exception, this is because the file size cannot be determined server side unless the
+	file has been uploaded in memory.

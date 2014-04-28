@@ -179,7 +179,7 @@
                         <div class="col-md-6 col-md-offset-1">
                             <div class="form-group">
                                 <label for="fileReceipt" class="control-label">Receipt</label>
-                                (PDF files only)
+                                (PDF only and Max file size 4Mb)
                                 <asp:RegularExpressionValidator ID="revReceipt" runat="server" ErrorMessage="Invalid file type" ControlToValidate="fileReceipt" ValidationExpression="^.+\.((PDF)|(pdf)|(Pdf)|(PDf)|(pDF)|(pdF))$" ValidationGroup="vgExpenseItem" Text="*"></asp:RegularExpressionValidator>
                                 <asp:FileUpload ID="fileReceipt" runat="server" CssClass="form-control"></asp:FileUpload>
 
