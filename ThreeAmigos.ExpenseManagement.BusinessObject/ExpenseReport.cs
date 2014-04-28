@@ -11,7 +11,6 @@ namespace ThreeAmigos.ExpenseManagement.BusinessObject
     public class ExpenseReport
     {
         public int ExpenseId { get; set; }
-        public int DepartmentId { get; set; }
         public Department ExpenseToDept { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime ApprovedDate { get; set; }
