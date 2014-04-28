@@ -63,15 +63,11 @@ namespace ThreeAmigos.ExpenseManagement.Test
         [TestMethod]
         public void EmployeeDAL_IsGetEmployeeEqualToTestEmployee_IsEqual()
         {
-            Guid id = new Guid("78560DD3-F95E-4011-B40D-A7B56ED17F24");
+            Guid id = new Guid("78560dd3-f95e-4011-b40d-a7b56ed17f24");
             Employee employee = new Employee();
-
             EmployeeDAL employeeDAL = new EmployeeDAL();
-
             employee = employeeDAL.GetEmployee(id);
-
             bool IsEqual = TestEmployeeComparer(employee);
-
             Assert.IsTrue(IsEqual, "Employee from database is not equal to test employee");
         }
 
@@ -156,11 +152,8 @@ namespace ThreeAmigos.ExpenseManagement.Test
             using (TransactionScope testTransaction = new TransactionScope())
             {
                 expenseReportDAL.ProcessExpense(expenseReport);
-
                 Assert.IsTrue(CheckDatabaseForExpenseId(expenseReport.ExpenseId), "Expense Id was not found in database");
-
                 testTransaction.Dispose();
-
             }
         }
 
@@ -262,11 +255,11 @@ namespace ThreeAmigos.ExpenseManagement.Test
         private bool TestEmployeeComparer(Employee employee)
         {
             Employee testEmployee = new Employee();
-            testEmployee.UserId = new Guid("78560DD3-F95E-4011-B40D-A7B56ED17F24");
+            testEmployee.UserId = new Guid("78560dd3-f95e-4011-b40d-a7b56ed17f24");
             testEmployee.FirstName = "Vikki";
             testEmployee.Surname = "Car";
-            testEmployee.Dept.DepartmentId = 2;
-            testEmployee.Dept.DepartmentName = "Logistics Services";
+            testEmployee.Dept.DepartmentId = 1;
+            testEmployee.Dept.DepartmentName = "State Services";
             testEmployee.Role = "Consultant";
 
             if (testEmployee.UserId == employee.UserId && testEmployee.FirstName == employee.FirstName
@@ -319,18 +312,53 @@ namespace ThreeAmigos.ExpenseManagement.Test
         [TestMethod]
         public void ExpenseReportDAL_GetReportBySupervisor_StatusIsSubmitted_IsTrue()
         {
+           
+            using (TransactionScope testTransaction = new TransactionScope())
+            {
+                ExpenseReportDAL expenseReportDAL = new ExpenseReportDAL();
+                ExpenseReport expenseReport = new ExpenseReport();
+                ExpenseItem item = new ExpenseItem();
+                List<ExpenseReport> reports = new List<ExpenseReport>();
+                int deptId = 1;
+                string status = ReportStatus.Submitted.ToString();
+
+                expenseReport.CreateDate = DateTime.Now;
+                expenseReport.CreatedBy.UserId = new Guid("18b783f1-cb97-4e03-bb54-d3c41637b69c");
+                expenseReport.ExpenseToDept.DepartmentId = 1;
+                expenseReport.CreatedBy.Dept.DepartmentId = 1;
+                expenseReport.Status = ReportStatus.Submitted;
+
+                item.ExpenseDate = DateTime.Now;
+                item.Location = "Sydney";
+                item.Description = "AirTicket";
+                item.Amount = 5000;
+                item.Currency = "AUD";
+                item.AudAmount = item.Amount;
+
+                expenseReport.ExpenseItems.Add(item);
+                expenseReportDAL.ProcessExpense(expenseReport);
+                Assert.IsTrue(CheckDatabaseForExpenseId(expenseReport.ExpenseId), "Expense Id was not found in database");
+                reports = expenseReportDAL.GetReportsByDepartment(deptId, status);
+                Assert.IsTrue(reports.Count > 0, "No data in expense report");
+                testTransaction.Dispose();
+            }
+        }
+
+        [TestMethod]
+        public void ExpenseReportDAL_GetReportBySupervisor_StatusIsApprovedBySupervisor_IsTrue()
+        {
             ExpenseReportDAL expenseReportDAL = new ExpenseReportDAL();
             ExpenseReport expenseReport = new ExpenseReport();
             ExpenseItem item = new ExpenseItem();
-           
             List<ExpenseReport> reports = new List<ExpenseReport>();
-            int deptId = 2;
-            string status = ReportStatus.Submitted.ToString();
+            int deptId = 1;
+            string status = ReportStatus.ApprovedBySupervisor.ToString();
 
             expenseReport.CreateDate = DateTime.Now;
-            expenseReport.CreatedBy.UserId = new Guid("e6d5086f-f659-4715-afd5-6bde74f17e05");
-            expenseReport.CreatedBy.Dept.DepartmentId = 2;
-            expenseReport.Status = ReportStatus.Submitted;
+            expenseReport.CreatedBy.UserId = new Guid("18b783f1-cb97-4e03-bb54-d3c41637b69c");
+            expenseReport.ExpenseToDept.DepartmentId = 1;
+            expenseReport.CreatedBy.Dept.DepartmentId = 1;
+            expenseReport.Status = ReportStatus.ApprovedBySupervisor ;
 
             item.ExpenseDate = DateTime.Now;
             item.Location = "Sydney";
@@ -346,94 +374,25 @@ namespace ThreeAmigos.ExpenseManagement.Test
                 Assert.IsTrue(CheckDatabaseForExpenseId(expenseReport.ExpenseId), "Expense Id was not found in database");
                 reports = expenseReportDAL.GetReportsByDepartment(deptId, status);
                 Assert.IsTrue(reports.Count > 0, "No data in expense report");
-                foreach (ExpenseReport report in reports)
-                {
-                    Assert.IsTrue(report.ExpenseItems.Count > 0, "No item in expense report");
-                }
                 testTransaction.Dispose();
             }
-            
-            
-          //  ExpenseReportDAL expenseReportDAL = new ExpenseReportDAL();
-           // List<ExpenseReport> reports = new List<ExpenseReport>();
-
-            
-          
-            //reports = expenseReportDAL.GetReportsByDepartment(deptId, status);
-            //Assert.IsTrue(reports.Count > 0, "No data in expense report");
-            //foreach (ExpenseReport report in reports)
-            //{
-            //    Assert.IsTrue(report.ExpenseItems.Count > 0, "No item in expense report");
-            //}
-
-        }
-
-        [TestMethod]
-        public void ExpenseReportDAL_GetReportBySupervisor_StatusIsApprovedBySupervisor_IsTrue()
-        {
-
-
-            ExpenseReportDAL expenseReportDAL = new ExpenseReportDAL();
-            ExpenseReport expenseReport = new ExpenseReport();
-            ExpenseItem item = new ExpenseItem();
-            List<ExpenseReport> reports = new List<ExpenseReport>();
-            int deptId = 2;
-            string status = ReportStatus.ApprovedBySupervisor.ToString();
-
-            expenseReport.CreateDate = DateTime.Now;
-            expenseReport.CreatedBy.UserId = new Guid("e6d5086f-f659-4715-afd5-6bde74f17e05");
-            expenseReport.CreatedBy.Dept.DepartmentId = 2;
-            expenseReport.Status = ReportStatus.ApprovedBySupervisor ;
-
-            item.ExpenseDate = DateTime.Now;
-            item.Location = "Sydney";
-            item.Description = "AirTicket";
-            item.Amount = 5000;
-            item.Currency = "AUD";
-            item.AudAmount = item.Amount;
-
-            expenseReport.ExpenseItems.Add(item);
-            using (TransactionScope testTransaction = new TransactionScope())
-            {
-                expenseReportDAL.ProcessExpense(expenseReport);
-                //   Assert.IsTrue(CheckDatabaseForExpenseId(expenseReport.ExpenseId), "Expense Id was not found in database");
-                reports = expenseReportDAL.GetReportsByDepartment(deptId, status);
-                Assert.IsTrue(reports.Count > 0, "No data in expense report");
-                foreach (ExpenseReport report in reports)
-                {
-                    Assert.IsTrue(report.ExpenseItems.Count > 0, "No item in expense report");
-                }
-                testTransaction.Dispose();
-            }
-            //ExpenseReportDAL expenseReportDAL = new ExpenseReportDAL();
-            //List<ExpenseReport> reports = new List<ExpenseReport>();
-
-            //int deptId = 3;
-            //string status = ReportStatus.ApprovedBySupervisor.ToString();
-            //reports = expenseReportDAL.GetReportsByDepartment(deptId, status);
-            //Assert.IsTrue(reports.Count > 0, "No data in expense report");
-            //foreach (ExpenseReport report in reports)
-            //{
-            //    Assert.IsTrue(report.ExpenseItems.Count > 0, "No item in expense report");
-            //}
-
         }
 
         [TestMethod]
         public void ExpenseReportDAL_GetReportBySupervisor_StatusIsRejectedBySupervisor_IsTrue()
         {
-
             ExpenseReportDAL expenseReportDAL = new ExpenseReportDAL();
             ExpenseReport expenseReport = new ExpenseReport();
             ExpenseItem item = new ExpenseItem();
 
             List<ExpenseReport> reports = new List<ExpenseReport>();
-            int deptId = 2;
-            string status = ReportStatus.Submitted.ToString();
+            int deptId = 1;
+            string status = ReportStatus.RejectedBySupervisor.ToString();
 
             expenseReport.CreateDate = DateTime.Now;
-            expenseReport.CreatedBy.UserId = new Guid("e6d5086f-f659-4715-afd5-6bde74f17e05");
-            expenseReport.CreatedBy.Dept.DepartmentId = 2;
+            expenseReport.CreatedBy.UserId = new Guid("18b783f1-cb97-4e03-bb54-d3c41637b69c");
+            expenseReport.ExpenseToDept.DepartmentId = 1;
+            expenseReport.CreatedBy.Dept.DepartmentId = 1;
             expenseReport.Status = ReportStatus.RejectedBySupervisor;
 
             item.ExpenseDate = DateTime.Now;
@@ -455,18 +414,6 @@ namespace ThreeAmigos.ExpenseManagement.Test
                 }
                 testTransaction.Dispose();
             }
-            //ExpenseReportDAL expenseReportDAL = new ExpenseReportDAL();
-            //List<ExpenseReport> reports = new List<ExpenseReport>();
-
-            //int deptId = 3;
-            //string status = ReportStatus.RejectedBySupervisor.ToString();
-            //reports = expenseReportDAL.GetReportsByDepartment(deptId, status);
-            //Assert.IsTrue(reports.Count > 0, "No data in expense report");
-            //foreach (ExpenseReport report in reports)
-            //{
-            //    Assert.IsTrue(report.ExpenseItems.Count > 0, "No item in expense report");
-            //}
-
         }
 
         [TestMethod]
@@ -477,12 +424,13 @@ namespace ThreeAmigos.ExpenseManagement.Test
             ExpenseItem item = new ExpenseItem();
 
             List<ExpenseReport> reports = new List<ExpenseReport>();
-            int deptId = 2;
+            int deptId = 1;
             string status = ReportStatus.RejectedByAccounts.ToString();
 
             expenseReport.CreateDate = DateTime.Now;
-            expenseReport.CreatedBy.UserId = new Guid("e6d5086f-f659-4715-afd5-6bde74f17e05");
-            expenseReport.CreatedBy.Dept.DepartmentId = 2;
+            expenseReport.CreatedBy.UserId = new Guid("18b783f1-cb97-4e03-bb54-d3c41637b69c");
+            expenseReport.ExpenseToDept.DepartmentId = 1;
+            expenseReport.CreatedBy.Dept.DepartmentId = 1;
             expenseReport.Status = ReportStatus.RejectedByAccounts;
 
             item.ExpenseDate = DateTime.Now;
@@ -498,24 +446,8 @@ namespace ThreeAmigos.ExpenseManagement.Test
                 expenseReportDAL.ProcessExpense(expenseReport);
                 reports = expenseReportDAL.GetReportsByDepartment(deptId, status);
                 Assert.IsTrue(reports.Count > 0, "No data in expense report");
-                foreach (ExpenseReport report in reports)
-                {
-                    Assert.IsTrue(report.ExpenseItems.Count > 0, "No item in expense report");
-                }
                 testTransaction.Dispose();
             }
-            //ExpenseReportDAL expenseReportDAL = new ExpenseReportDAL();
-            //List<ExpenseReport> reports = new List<ExpenseReport>();
-
-            //int deptId = 3;
-            //string status = ReportStatus.RejectedByAccounts.ToString();
-            //reports = expenseReportDAL.GetReportsByDepartment(deptId, status);
-            //Assert.IsTrue(reports.Count > 0, "No data in expense report");
-            //foreach (ExpenseReport report in reports)
-            //{
-            //    Assert.IsTrue(report.ExpenseItems.Count > 0, "No item in expense report");
-            //}
-
         }
 
         [TestMethod]
@@ -527,11 +459,12 @@ namespace ThreeAmigos.ExpenseManagement.Test
 
             List<ExpenseReport> reports = new List<ExpenseReport>();
             int deptId = 1;
-            string status = ReportStatus.RejectedByAccounts.ToString();
+            string status = ReportStatus.ApprovedByAccounts.ToString();
 
             expenseReport.CreateDate = DateTime.Now;
             expenseReport.CreatedBy.UserId = new Guid("78560dd3-f95e-4011-b40d-a7b56ed17f24");
-            expenseReport.DepartmentId = 1;
+            expenseReport.ExpenseToDept.DepartmentId = 1;
+            expenseReport.CreatedBy.Dept.DepartmentId = 1;
             expenseReport.Status = ReportStatus.ApprovedByAccounts;
 
             item.ExpenseDate = DateTime.Now;
@@ -547,25 +480,9 @@ namespace ThreeAmigos.ExpenseManagement.Test
                 expenseReportDAL.ProcessExpense(expenseReport);
                 reports = expenseReportDAL.GetReportsByDepartment(deptId, status);
                 Assert.IsTrue(reports.Count > 0, "No data in expense report");
-                foreach (ExpenseReport report in reports)
-                {
-                    Assert.IsTrue(report.ExpenseItems.Count > 0, "No item in expense report");
-                }
                 testTransaction.Dispose();
             }
-            //ExpenseReportDAL expenseReportDAL = new ExpenseReportDAL();
-            //List<ExpenseReport> reports = new List<ExpenseReport>();
-
-            //int deptId = 3;
-            //string status = ReportStatus.ApprovedByAccounts.ToString();
-            //reports = expenseReportDAL.GetReportsByDepartment(deptId, status);
-            //Assert.IsTrue(reports.Count > 0, "No data in expense report");
-            //foreach (ExpenseReport report in reports)
-            //{
-            //    Assert.IsTrue(report.ExpenseItems.Count > 0, "No item in expense report");
-            //}
-
-        }
+         }
         
         [TestMethod]
         public void ExpenseReportDAL_SupervisorActionOnExpenseReport_Approve_ActionSuccess()
@@ -575,8 +492,8 @@ namespace ThreeAmigos.ExpenseManagement.Test
             ExpenseItem item = new ExpenseItem();
 
             expenseReport.CreateDate = DateTime.Now;
-            expenseReport.CreatedBy.UserId = new Guid("e6d5086f-f659-4715-afd5-6bde74f17e05");
-            expenseReport.CreatedBy.Dept.DepartmentId = 2;
+            expenseReport.CreatedBy.UserId = new Guid("18b783f1-cb97-4e03-bb54-d3c41637b69c");
+            expenseReport.CreatedBy.Dept.DepartmentId = 1;
             expenseReport.Status = ReportStatus.Submitted;
 
             item.ExpenseDate = DateTime.Now;
@@ -588,7 +505,7 @@ namespace ThreeAmigos.ExpenseManagement.Test
 
             expenseReport.ExpenseItems.Add(item);
             string status = "ApprovedBySupervisor";
-            Guid approvedBy = new Guid("651c58ff-c87a-4721-9f13-33caef1a12fe");
+            Guid approvedBy = new Guid("832e2e47-e82c-40be-9c39-8587274468fe");
             using (TransactionScope testTransaction = new TransactionScope())
             {
                 expenseReportDAL.ProcessExpense(expenseReport);
@@ -606,8 +523,8 @@ namespace ThreeAmigos.ExpenseManagement.Test
             ExpenseItem item = new ExpenseItem();
 
             expenseReport.CreateDate = DateTime.Now;
-            expenseReport.CreatedBy.UserId = new Guid("e6d5086f-f659-4715-afd5-6bde74f17e05");
-            expenseReport.CreatedBy.Dept.DepartmentId = 2;
+            expenseReport.CreatedBy.UserId = new Guid("18b783f1-cb97-4e03-bb54-d3c41637b69c");
+            expenseReport.CreatedBy.Dept.DepartmentId = 1;
             expenseReport.Status = ReportStatus.Submitted;
 
             item.ExpenseDate = DateTime.Now;
@@ -619,7 +536,7 @@ namespace ThreeAmigos.ExpenseManagement.Test
 
             expenseReport.ExpenseItems.Add(item);
             string status = "RejectedBySupervisor";
-            Guid approvedBy = new Guid("651c58ff-c87a-4721-9f13-33caef1a12fe");
+            Guid approvedBy = new Guid("832e2e47-e82c-40be-9c39-8587274468fe");
             using (TransactionScope testTransaction = new TransactionScope())
             {
                 expenseReportDAL.ProcessExpense(expenseReport);
