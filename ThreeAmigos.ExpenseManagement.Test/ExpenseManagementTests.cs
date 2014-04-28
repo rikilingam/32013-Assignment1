@@ -21,7 +21,8 @@ namespace ThreeAmigos.ExpenseManagement.Test
         {
             // This path needs to be changed to root path of the Visual Studio solution
             //  string path = "C:\\Users\\rikil\\Source\\Repos\\32013-Assignment1";
-            string path = "C:\\Users\\Bikrem\\Documents\\Visual Studio 2012\\Projects\\.Net Assignment-1\\32013-Assignment1";
+            //string path = "C:\\Users\\Bikrem\\Documents\\Visual Studio 2012\\Projects\\.Net Assignment-1\\32013-Assignment1";
+            string path = "C:\\Users\\JohnLe\\Source\\Repos\\32013-Assignment1";
 
             AppDomain.CurrentDomain.SetData("DataDirectory", path);
         }
@@ -77,7 +78,7 @@ namespace ThreeAmigos.ExpenseManagement.Test
         [TestMethod]
         public void ConvertCurrency_ConvertCNYToAUD_AreEqual()
         {
-            double testAUDAmount = 100 * 0.17430;
+            decimal testAUDAmount = Convert.ToDecimal( 100 * 0.17430);
 
             Assert.IsNotNull(ConfigurationManager.AppSettings["CNY"], "Currency CNY is NULL");
             Assert.AreEqual(testAUDAmount, CurrencyConverter.ConvertToAUD("CNY", 100), "Conversion to CNY Failed");
@@ -87,7 +88,7 @@ namespace ThreeAmigos.ExpenseManagement.Test
         [TestMethod]
         public void ConvertCurrency_ConvertEURToAUD_AreEqual()
         {
-            double testAUDAmount = 100 * 1.49146;
+            decimal testAUDAmount = Convert.ToDecimal( 100 * 1.49146);
 
             Assert.IsNotNull(ConfigurationManager.AppSettings["EUR"], "Currency EUR is NULL in AppConfig");
             Assert.AreEqual(testAUDAmount, CurrencyConverter.ConvertToAUD("EUR", 100), "Conversion to EUR Failed");
