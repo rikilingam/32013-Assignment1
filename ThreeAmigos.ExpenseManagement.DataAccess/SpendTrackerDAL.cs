@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data;
+using System.Data.SqlClient;
+using System.Configuration;
 using ThreeAmigos.ExpenseManagement.BusinessObject;
-
 
 namespace ThreeAmigos.ExpenseManagement.DataAccess
 {
@@ -64,5 +66,49 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
 
             return totalExpense;
         }
+
+        /// <summary>
+        /// Get the total amount of expenses approved by individual supervisor, including:
+        ///    - already approved by both supervisor and accountant (i.e. Status = ApprovedByAccountant)
+        /// EXCLUDING:
+        ///    - pending for accountant approval (i.e. Status = ApprovedBySupervisor)
+        ///    - approved by supervisor BUT rejected by accountant (i.e. Status = RejectedByAccountant)
+        /// </summary>
+        /// <param name="status"></param>
+        /// <returns></returns>
+        public List<Employee> GetSpendBySupervisors(int month)
+        {
+            List<Employee> employees = new List<Employee>();
+            EmployeeDAL employeeDAL = new EmployeeDAL();
+            DataAccessFunctions daFunctions = new DataAccessFunctions();
+
+            string query = string.Format("SELECT H.ApprovedById AS SupervisorId, COUNT(H.ExpenseId) AS AmountApproved, SUM(I.AudAmount) AS ExpenseApproved FROM ExpenseItem I LEFT OUTER JOIN ExpenseHeader H ON I.ExpenseHeaderId = H.ExpenseId WHERE H.Status ='ApprovedByAccounts' AND DATEPART(month,ProcessedDate)={0} GROUP BY H.ApprovedById", month);
+            //string query = string.Format("SELECT ApprovedById, COUNT(ExpenseId) AS AmountApproved FROM ExpenseHeader WHERE Status ='ApprovedByAccounts' GROUP BY ApprovedById");
+            daFunctions.Command = new SqlCommand(query, daFunctions.Connection);
+
+            try
+            {
+                daFunctions.Connection.Open();
+                SqlDataReader rdr = daFunctions.Command.ExecuteReader();
+
+                while (rdr.Read())
+                {
+                    Employee emp = new Employee();
+
+                    emp = employeeDAL.GetEmployee(rdr["SupervisorId"] as Guid? ?? default(Guid));
+                    emp.AmountApproved = rdr["AmountApproved"] as int? ?? default(int);
+                    emp.ExpenseApproved = rdr["ExpenseApproved"] as decimal? ?? default(decimal);
+                    employees.Add(emp);
+                }
+                daFunctions.Connection.Close();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("There was a problem retrieving expense approved by supervisor reports: " + ex.Message);
+            }
+            return employees;
+        }
+
+
     }
 }
