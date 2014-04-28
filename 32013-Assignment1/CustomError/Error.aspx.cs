@@ -11,7 +11,7 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.CustomError
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            string genericMessage = "";
+            //string genericMessage = "";
             string unhandledError = "The error which occurred was not handled by by the application, please contact support.";
 
             Exception ex = Server.GetLastError();
