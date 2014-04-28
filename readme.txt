@@ -16,8 +16,11 @@ README - Expense Management Application (Assignment 1)
 
 
 2. ---Test configuration---
-	For the tests to run successfully, the test project needs to know the path of the database. The path is defined in the TestInitialization section of the ExpenseMangementTests class located within Tests project. 
+a.	For the tests to run successfully, the test project needs to know the path of the database. The path is defined in the TestInitialization section of the ExpenseMangementTests class located within Tests project. 
 	Change the "path" variable to the root path of the project i.e."C:\\Users\\riki\\Source\\Repos\\32013-Assignment1";
+
+b.	When running tests if tests fail with error "MSDTC on server <servername> is unavailable then the Distributed Transaction Coordinator service will need to be start on the computer
+	running the tests. The services console is available from Start > Control Panel > Administrative Tools > Services
 
 
 3. ---User Accounts---
