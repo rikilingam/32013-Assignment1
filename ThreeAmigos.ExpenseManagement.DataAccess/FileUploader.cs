@@ -33,8 +33,8 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
                 }
             }
             catch (Exception ex)
-            {
-                throw new Exception("There was a problem uploading file "+ fileUpload.FileName +", check the destination path exists: " + ex.Message);
+            {               
+                throw new Exception("There was a problem uploading file "+ fileUpload.FileName +": " + ex.Message);
             }
 
             return newFileName;
