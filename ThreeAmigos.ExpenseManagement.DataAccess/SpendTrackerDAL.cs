@@ -83,7 +83,6 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
             DataAccessFunctions daFunctions = new DataAccessFunctions();
 
             string query = string.Format("SELECT H.ApprovedById AS SupervisorId, COUNT(H.ExpenseId) AS AmountApproved, SUM(I.AudAmount) AS ExpenseApproved FROM ExpenseItem I LEFT OUTER JOIN ExpenseHeader H ON I.ExpenseHeaderId = H.ExpenseId WHERE H.Status ='ApprovedByAccounts' AND DATEPART(month,ProcessedDate)={0} GROUP BY H.ApprovedById", month);
-            //string query = string.Format("SELECT ApprovedById, COUNT(ExpenseId) AS AmountApproved FROM ExpenseHeader WHERE Status ='ApprovedByAccounts' GROUP BY ApprovedById");
             daFunctions.Command = new SqlCommand(query, daFunctions.Connection);
 
             try
