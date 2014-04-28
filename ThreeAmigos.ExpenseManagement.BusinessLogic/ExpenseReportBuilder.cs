@@ -43,10 +43,7 @@ namespace ThreeAmigos.ExpenseManagement.BusinessLogic
 
 
         //BELOW METHODS ARE USED FOR SUPERVISORS FUNCTIONS
-        public List<ExpenseReport> GetReportsBySupervisor(int id, string status)
-        {
-            return expDAL.GetReportsByDepartment(id, status);
-        }
+      
       
         public void SupervisorActionOnExpenseReport(int expenseid, Guid empId,string status)
         {
