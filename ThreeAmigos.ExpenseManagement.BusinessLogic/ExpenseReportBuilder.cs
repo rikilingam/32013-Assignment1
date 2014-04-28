@@ -15,6 +15,7 @@ namespace ThreeAmigos.ExpenseManagement.BusinessLogic
     {
         public ExpenseReport expenseReport;
         ExpenseReportDAL exp = new ExpenseReportDAL();
+        SpendTrackerDAL spend = new SpendTrackerDAL();
 
         public ExpenseReportBuilder()
         {
@@ -54,26 +55,6 @@ namespace ThreeAmigos.ExpenseManagement.BusinessLogic
         }
 
         //BELOW METHODS ARE USED FOR ACCOUNTANT
-        /// <summary>
-        /// Get list of expense report. Used for displaying for accountant approval
-        /// </summary>
-        /// <param name="status"></param>
-        /// <returns></returns>
-        public List<ExpenseReport> GetReportsByAccountant(string status)
-        {
-            return exp.GetReportsByStatus(status);
-        }
-
-        /// <summary>
-        /// Get list of amounts of expenses approved by each individual supervisor 
-        /// </summary>
-        /// <param name="status"></param>
-        /// <returns></returns>
-        public List<Employee> GetExpenseReportsBySupervisor(int month)
-        {
-            return exp.GetExpenseReportsBySupervisor(month);
-        }
-
         /// <summary>
         /// Update status of expense report. Affect ExpenseHeader table
         /// </summary>
