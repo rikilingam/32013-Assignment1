@@ -24,7 +24,7 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface
                 InitializeExpenseReport();
 
             }
-            else
+            else if(Session["expenseReportBuilder"]!=null)
             {
                 reportBuilder = new ExpenseReportBuilder();
                 reportBuilder = (ExpenseReportBuilder)Session["expenseReportBuilder"];

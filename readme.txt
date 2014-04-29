@@ -1,9 +1,10 @@
+Subject .Net Enterprise S2014
 Group Name: Three Amigos
 
 Group Members:
 Rikiliesh LINGAM 11332691
-Bikrem SING 11477825 
-Quan Thanh LE
+Bikrem SINGH 11477825 
+Quan Thanh LE 11483928
 
 --------------------------------------------------------------
 README - Expense Management Application (Assignment 1)
@@ -57,18 +58,19 @@ I. 	The company budget is configured in the web.config and is currently set to $
 II. 	The expense amount does not reflect against the budget unless the budget has been approved by the accounts department
 
 b. 	Department Budget
-I.	Budgets for each department is stored in the database in table Department.
+I.	Budgets for each department is stored in the database in the Department table.
 II.	The department budget is the sumt of expenses that have been approved by the accounts department plus expenses approved by the department supervisor/s.
 
 
 b.	Budget limits
-	When a department reaches their monthly limit a pop will be displayed requesting confirmation from the supervisor before updating the status of the expense report. However, when an accounts person approves
-	expense reports, reports will have the footer highlighted in red if the expense will result in the department going over their monthly budget.
+	When a department reaches their monthly limit a pop will be displayed requesting confirmation from the supervisor before updating the status of the expense report. 
+	However, when an accounts person approves expense reports, reports will have the footer highlighted in red if the expense will result in the department going over
+	their monthly budget.
 
 5. ---Currency Conversion---
 	Currency rates are stored in the web.config as the value of the currency in AUD
 
 6. ---Receipts---
 	Receipts can be added to each expense item, however, the attachment must be a PDF file. In addition, the file size must be less than 4MB
-	which is the default IIS limit, if file greater than 4Mb is uploaded the system will throw an exception, this is because the file size cannot be determined server side unless the
-	file has been uploaded in memory.
+	which is the default IIS limit, if file a greater than 4Mb is uploaded the system will throw an exception, this is because the file size cannot be determined
+	server side unless the file has been uploaded in memory.
