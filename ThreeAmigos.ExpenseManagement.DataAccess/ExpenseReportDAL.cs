@@ -245,7 +245,7 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
 
             if (status == "Pending")
             {
-                query = string.Format("SELECT * FROM ExpenseHeader WHERE CreatedById='{0}' and Status in ('{1}','{2}')", id, ReportStatus.ApprovedBySupervisor, ReportStatus.Submitted);
+                query = string.Format("SELECT * FROM ExpenseHeader WHERE CreatedById='{0}' and Status = '{1}'", id, ReportStatus.ApprovedBySupervisor);
             }
             else
             {
