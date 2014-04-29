@@ -61,6 +61,7 @@
     <Content Include="Accounts\CheckBalance.aspx" />
     <Content Include="Accounts\CheckExpenseApproved.aspx" />
     <Content Include="Accounts\ProcessExpenses.aspx" />
+    <Content Include="Accounts\ViewReports.aspx" />
     <Content Include="App_Data\ExpenseManager.mdf" />
     <Content Include="App_Data\ExpenseManager_log.ldf">
       <DependentUpon>ExpenseManager.mdf</DependentUpon>
@@ -175,6 +176,12 @@
     </Compile>
     <Compile Include="Accounts\ProcessExpenses.aspx.designer.cs">
       <DependentUpon>ProcessExpenses.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Accounts\ViewReports.aspx.cs">
+      <DependentUpon>ViewReports.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Accounts\ViewReports.aspx.designer.cs">
+      <DependentUpon>ViewReports.aspx</DependentUpon>
     </Compile>
     <Compile Include="Consultant\ExpenseForm.aspx.cs">
       <DependentUpon>ExpenseForm.aspx</DependentUpon>
