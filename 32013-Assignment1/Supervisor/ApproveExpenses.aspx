@@ -3,16 +3,26 @@
 
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <script type="text/javascript">
+        function ShowBudgetWarningModal() {
+            $('#BudgetWarningModal').modal('show');
+        }
+
+        function HideBudgetWarningModal() {
+            $('#BudgetWarningModal').modal('hide');
+        }
+
+    </script>
     <script>
         function OpenReceipt(receiptFileName) {
             var path = '<%=ConfigurationManager.AppSettings["ReceiptItemFilePath"].ToString() %>'
-                window.open(receiptFileName);
-            }
+            window.open(receiptFileName);
+        }
     </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <p>
-        <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
+        <asp:Label ID="lblBudgetMessage" runat="server" Text="Label"></asp:Label>
     </p>
     <div class="panel panel-primary">
         <div class="panel-heading">
@@ -54,7 +64,8 @@
                                     <td><%# Eval("ExpenseDate","{0:dd/MM/yyyy}") %></td>
                                     <td><%# Eval("Location") %></td>
                                     <td><%# Eval("Description") %></td>
-                                    <td><asp:ImageButton ID="btnReceipt" ImageUrl="~/Image/img_pdf_icon.png" runat="server" OnClick="btnReceipt_Click" CommandArgument='<%# Eval("ReceiptFileName") %>' /></td>
+                                    <td>
+                                        <asp:ImageButton ID="btnReceipt" ImageUrl="~/Image/img_pdf_icon.png" runat="server" OnClick="btnReceipt_Click" CommandArgument='<%# Eval("ReceiptFileName") %>' /></td>
                                     <td><%# Eval("AudAmount","{0:c}") %></td>
                                     <td></td>
                                     </tr>
@@ -93,5 +104,28 @@
         </div>
     </div>
 
+    <!-- pop modal to to display confirmation when budget limit has been exceeded -->
+    <div class="modal fade bs-example-modal-sm" id="BudgetWarningModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <table class="table">
+                    <tr>
+                        <th colspan="2">Budget Warning</th>
+                    </tr>
+                    <tr><td colspan="2"><asp:Label ID="lblBudgetWarning" runat="server" Text=""></asp:Label></td></tr>
+                    <tr><td><asp:Button ID="btnConfirmApprove" runat="server" CssClass="btn btn-success" Text="Approve" OnClick="btnConfirmApprove_Click" /></td>
+                        <td><asp:Button ID="btnConfirmReject" runat="server" CssClass="btn btn-warning" Text="Reject" OnClick="btnConfirmReject_Click" /></td>
+                    </tr>
+                </table>
+                <p>
+                    
+                    
+                </p>
+                
+                <asp:HiddenField ID="hdnExpenseId" runat="server" />
+                
+            </div>
+        </div>
+    </div>
 
 </asp:Content>
