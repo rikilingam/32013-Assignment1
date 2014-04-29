@@ -103,25 +103,12 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Supervisor
                 budget = (BudgetTracker)Session["budget"];
             }
 
-
-            //if ((budget.RemainingAmount - expenseTotal) < 0)
             if(budget.IsBudgetExceeded(expenseTotal))
             {
-                //DialogResult UserReply = MessageBox.Show("Approving this expense " + expenseTotal + " will cross the total monthly budget...You want to approve?", "Important Question", MessageBoxButtons.YesNo);
                 lblBudgetWarning.Text = "Approving this expense for " + String.Format("{0:c}", expenseTotal) + " will result in the monthly department budget being exceeded, do you want to approve?";
                 hdnExpenseId.Value = expenseId.ToString();
                 ClientScript.RegisterStartupScript(this.GetType(), "BudgetWarningModal", "ShowBudgetWarningModal();", true);
-
-                //if (UserReply.ToString() == "Yes")
-                //{
-                //    expReportBuilder.SupervisorActionOnExpenseReport(expenseId, emp.UserId, ReportStatus.ApprovedBySupervisor.ToString());
-
-                //}
-                //else
-                //{
-                //    expReportBuilder.SupervisorActionOnExpenseReport(expenseId, emp.UserId, ReportStatus.RejectedBySupervisor.ToString());
-                //}
-            }
+             }
             else
             {
                 expReportBuilder.SupervisorActionOnExpenseReport(expenseId, emp.UserId, ReportStatus.ApprovedBySupervisor.ToString());
