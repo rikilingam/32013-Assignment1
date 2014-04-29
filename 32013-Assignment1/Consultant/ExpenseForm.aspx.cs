@@ -24,14 +24,14 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface
                 InitializeExpenseReport();
 
             }
-            else if(Session["expenseReportBuilder"]!=null)
+            else if (Session["expenseReportBuilder"] != null)
             {
                 reportBuilder = new ExpenseReportBuilder();
                 reportBuilder = (ExpenseReportBuilder)Session["expenseReportBuilder"];
             }
         }
-        
-        
+
+
         private void InitializeExpenseReport()
         {
             reportBuilder = new ExpenseReportBuilder();
@@ -63,6 +63,7 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface
         protected void btnAddItem_Click(object sender, EventArgs e)
         {
             ExpenseItem expenseItem = new ExpenseItem();
+            FileUploader fileUploader = new FileUploader();
 
             expenseItem.ExpenseDate = Convert.ToDateTime(txtItemDate.Text);
             expenseItem.Location = txtItemLocation.Text;
@@ -70,13 +71,7 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface
             expenseItem.Amount = Convert.ToDecimal(txtItemAmount.Text);
             expenseItem.Currency = ddlItemCurrency.SelectedValue;
             expenseItem.AudAmount = CurrencyConverter.ConvertToAUD(expenseItem.Currency, expenseItem.Amount);
-
-            if (fileReceipt.HasFile)
-            {
-                FileUploader fileUploader = new FileUploader();
-                expenseItem.ReceiptFileName = fileUploader.Upload(fileReceipt);
-
-            }
+            expenseItem.ReceiptFileName = fileUploader.Upload(fileReceipt);
 
             reportBuilder.AddExpenseItem(expenseItem);
 
@@ -94,7 +89,7 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface
             ClearItemForm();
         }
 
-        
+
         protected void btnSubmitExpense_Click(object sender, EventArgs e)
         {
 
@@ -142,12 +137,14 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
                 ImageButton btn = (ImageButton)e.Row.FindControl("btnReceipt");
-                                
+
                 if (string.IsNullOrEmpty(btn.CommandArgument.ToString()))
                 {
                     btn.Visible = false;
                 }
             }
         }
+
+
     }
 }

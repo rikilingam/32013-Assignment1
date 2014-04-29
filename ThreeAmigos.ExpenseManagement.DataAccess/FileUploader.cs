@@ -21,23 +21,42 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
         //Upload file to file path defined in web.config
         public string Upload(FileUpload fileUpload)
         {
-            string newFileName="";
+            string newFileName = "";
 
-            try
+            if (IsFileValid(fileUpload))
             {
-                if (fileUpload.HasFile)
-                {
-                    newFileName = GenerateNewFileName() + ".pdf";
+                newFileName = GenerateNewFileName() + ".pdf";
 
+                try
+                {
                     fileUpload.SaveAs(System.Web.HttpContext.Current.Server.MapPath(destinationPath) + newFileName);
                 }
-            }
-            catch (Exception ex)
-            {               
-                throw new Exception("There was a problem uploading file "+ fileUpload.FileName +": " + ex.Message);
+                catch (Exception ex)
+                {
+                    throw new Exception("The file upload path is not available : " + ex.Message);
+                }
+
             }
 
             return newFileName;
+        }
+
+        
+        private bool IsFileValid(FileUpload file)
+        {
+            bool isValid = false;
+            try
+            {
+                if (file.HasFile && file.PostedFile.ContentLength < 400000)
+                    isValid = true;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("There was a problem uploading file " + file.FileName + ": " + ex.Message);
+            }
+
+            return isValid;
         }
 
         //Generate new file name to ensure there are no duplicates

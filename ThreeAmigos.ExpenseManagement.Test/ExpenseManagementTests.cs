@@ -20,8 +20,8 @@ namespace ThreeAmigos.ExpenseManagement.Test
         public static void SetUp(TestContext context)
         {
             // This path needs to be changed to root path of the Visual Studio solution
-          //  string path = "C:\\Users\\rikil\\Source\\Repos\\32013-Assignment1";
-            string path = "C:\\Users\\Bikrem\\Documents\\Visual Studio 2012\\Projects\\.Net Assignment-1\\32013-Assignment1";
+             string path = "C:\\Users\\riki\\Source\\Repos\\32013-Assignment1";
+            //string path = "C:\\Users\\Bikrem\\Documents\\Visual Studio 2012\\Projects\\.Net Assignment-1\\32013-Assignment1";
             //string path = "C:\\Users\\JohnLe\\Source\\Repos\\32013-Assignment1";
 
             AppDomain.CurrentDomain.SetData("DataDirectory", path);

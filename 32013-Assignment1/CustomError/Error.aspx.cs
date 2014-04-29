@@ -13,9 +13,11 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.CustomError
         {
             //string genericMessage = "";
             string unhandledError = "The error which occurred was not handled by the application, please contact support.";
-            
+
+            string errorMessage;
+
             Exception ex = Server.GetLastError();
-            
+
             if (ex != null)
             {
                 while (ex.InnerException != null)
@@ -24,13 +26,26 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.CustomError
 
                 }
 
-                lblErrorMessage.Text = ex.Message;      
+                errorMessage = ex.Message;
+
+
+                if (ex.Message == "Maximum request length exceeded.")
+                {
+                    errorMessage = "The file upload failed as the size exceeded the system maximum limit of 4Mb.";
+                }
+                else
+                {
+                    errorMessage = ex.Message;
+                }
             }
+
             else
             {
-                lblErrorMessage.Text = unhandledError;
+                errorMessage = unhandledError;
             }
-            
+
+            lblErrorMessage.Text = errorMessage;
+
 
             // Clear the error from the server.
             Server.ClearError();
