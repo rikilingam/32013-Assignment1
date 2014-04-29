@@ -29,7 +29,7 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
             }
         }
 
-        
+
         /// <summary>
         /// Inserts the expense header into the database
         /// </summary>
@@ -42,7 +42,7 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
         {
             int expenseId = -1; // store the returned value of the expenseId post insert of new record
 
-            DataAccessFunctions daFunctions = new DataAccessFunctions();                        
+            DataAccessFunctions daFunctions = new DataAccessFunctions();
             daFunctions.Command.CommandType = CommandType.StoredProcedure;
 
             daFunctions.Command.CommandText = "AddExpenseHeader";
@@ -69,7 +69,7 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
             }
             catch (Exception ex)
             {
-                throw new Exception("Problem inserting the expense header in database: " + ex.Message);                
+                throw new Exception("Problem inserting the expense header in database: " + ex.Message);
             }
             finally
             {
@@ -96,7 +96,7 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
             DataAccessFunctions daFunctions = new DataAccessFunctions();
             daFunctions.Command.CommandType = CommandType.StoredProcedure;
             daFunctions.Command.CommandText = "AddExpenseItem";
-            
+
             //parameters for the expense items
             daFunctions.Command.Parameters.AddWithValue("@ExpenseHeaderId", expenseId);
 
@@ -111,7 +111,7 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
             try
             {
                 daFunctions.Connection.Open();
-                daFunctions.Command.ExecuteNonQuery();                
+                daFunctions.Command.ExecuteNonQuery();
             }
             catch (Exception ex)
             {
@@ -166,7 +166,7 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
                     report.ExpenseTotal = expenseTotal;
                     expenseReports.Add(report);
                 }
-                
+
             }
             catch (Exception ex)
             {
@@ -243,14 +243,7 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
         {
             string query;
 
-            if (status == "Pending")
-            {
-                query = string.Format("SELECT * FROM ExpenseHeader WHERE CreatedById='{0}' and Status in ('{1}','{2}')", id, ReportStatus.ApprovedBySupervisor, ReportStatus.Submitted);
-            }
-            else
-            {
-                query = string.Format("SELECT * FROM ExpenseHeader WHERE CreatedById='{0}' and Status LIKE '{1}'", id, status);
-            }            
+            query = string.Format("SELECT * FROM ExpenseHeader WHERE CreatedById='{0}' and Status LIKE '{1}'", id, status);
 
             return GetReportsFromDatabase(query);
         }
@@ -339,7 +332,7 @@ namespace ThreeAmigos.ExpenseManagement.DataAccess
             EmployeeDAL employeeDAL = new EmployeeDAL();
             DataAccessFunctions daFunctions = new DataAccessFunctions();
 
-            string query = string.Format("SELECT H.ApprovedById AS SupervisorId, COUNT(H.ExpenseId) AS AmountApproved, SUM(I.AudAmount) AS ExpenseApproved FROM ExpenseItem I LEFT OUTER JOIN ExpenseHeader H ON I.ExpenseHeaderId = H.ExpenseId WHERE H.Status ='ApprovedByAccounts' AND DATEPART(month,ProcessedDate)={0} GROUP BY H.ApprovedById", month );
+            string query = string.Format("SELECT H.ApprovedById AS SupervisorId, COUNT(H.ExpenseId) AS AmountApproved, SUM(I.AudAmount) AS ExpenseApproved FROM ExpenseItem I LEFT OUTER JOIN ExpenseHeader H ON I.ExpenseHeaderId = H.ExpenseId WHERE H.Status ='ApprovedByAccounts' AND DATEPART(month,ProcessedDate)={0} GROUP BY H.ApprovedById", month);
             //string query = string.Format("SELECT ApprovedById, COUNT(ExpenseId) AS AmountApproved FROM ExpenseHeader WHERE Status ='ApprovedByAccounts' GROUP BY ApprovedById");
             daFunctions.Command = new SqlCommand(query, daFunctions.Connection);
 
