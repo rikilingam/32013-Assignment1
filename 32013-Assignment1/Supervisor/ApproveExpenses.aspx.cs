@@ -104,7 +104,8 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Supervisor
             }
 
 
-            if ((budget.RemainingAmount - expenseTotal) < 0)
+            //if ((budget.RemainingAmount - expenseTotal) < 0)
+            if(budget.IsBudgetExceeded(expenseTotal))
             {
                 //DialogResult UserReply = MessageBox.Show("Approving this expense " + expenseTotal + " will cross the total monthly budget...You want to approve?", "Important Question", MessageBoxButtons.YesNo);
                 lblBudgetWarning.Text = "Approving this expense for " + String.Format("{0:c}", expenseTotal) + " will result in the monthly department budget being exceeded, do you want to approve?";

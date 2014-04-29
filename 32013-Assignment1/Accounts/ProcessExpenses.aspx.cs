@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.Security;
-using System.Windows.Forms;
+//using System.Windows.Forms;
 using ThreeAmigos.ExpenseManagement.BusinessLogic;
 using ThreeAmigos.ExpenseManagement.BusinessObject;
 using ThreeAmigos.ExpenseManagement.DataAccess;
@@ -31,13 +31,13 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Accounts
                 InitializeRepeater();
             }
         }
-       
+
         protected void InitializeRepeater()
         {
             comBudget.CompanyBudget();
             Session["comBudget"] = comBudget;
             UpdateBudgetMessage();
-            rptExpenseReport.DataSource = 
+            rptExpenseReport.DataSource =
                 expDAL.GetReportsByAllDepartment(ReportStatus.ApprovedBySupervisor.ToString());
             rptExpenseReport.DataBind();
         }
@@ -46,7 +46,7 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Accounts
         {
             decimal usedAmount = 0;
             decimal overAmount = 0;
-            if (comBudget.RemainingAmount >= 0) 
+            if (comBudget.RemainingAmount >= 0)
             {
                 usedAmount = comBudget.BudgetAmount - comBudget.RemainingAmount;
                 lblBudgetMessage.Text =
@@ -88,6 +88,7 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Accounts
             ClientScript.RegisterStartupScript(this.GetType(), "OpenReceipt", "OpenReceipt('" + path + receiptFileName + "');", true);
         }
 
+        //Approve expense if expense exceeded show warning
         protected void btnApprove_Click(object sender, ImageClickEventArgs e)
         {
             ImageButton btn = (ImageButton)(sender);
@@ -97,19 +98,26 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Accounts
             decimal expenseTotal = Convert.ToDecimal(arg[1]);
             comBudget.CompanyBudget();
 
-            if (expenseTotal > comBudget.RemainingAmountAccounts)
+            //if (expenseTotal > comBudget.RemainingAmountAccounts)
+            if (comBudget.IsBudgetExceeded(expenseTotal))
             {
-                DialogResult UserReply = MessageBox.Show("Approving this expense " + expenseTotal + " will cross the total monthly budget of the company. Do you want to approve?", "Important Question", MessageBoxButtons.YesNoCancel);
-                if (UserReply.ToString() == "Yes")
-                {
-                    expReportBuilder.AccountantActionOnExpenseReport(expenseId, emp.UserId, ReportStatus.ApprovedByAccounts.ToString());
-                }
-                else if (UserReply.ToString() == "No")
-                {
-                    expReportBuilder.AccountantActionOnExpenseReport(expenseId, emp.UserId, ReportStatus.RejectedByAccounts.ToString());
-                }
+                //DialogResult UserReply = MessageBox.Show("Approving this expense " + expenseTotal + " will cross the total monthly budget of the company. Do you want to approve?", "Important Question", MessageBoxButtons.YesNoCancel);
+
+                //if (UserReply.ToString() == "Yes")
+                //{
+                //    expReportBuilder.AccountantActionOnExpenseReport(expenseId, emp.UserId, ReportStatus.ApprovedByAccounts.ToString());
+                //}
+                //else if (UserReply.ToString() == "No")
+                //{
+                //    expReportBuilder.AccountantActionOnExpenseReport(expenseId, emp.UserId, ReportStatus.RejectedByAccounts.ToString());
+                //}
+
+                lblBudgetWarning.Text = "Approving this expense for " + String.Format("{0:c}", expenseTotal) + " will result in the monthly company budget being exceeded, do you want to approve?";
+                hdnExpenseId.Value = expenseId.ToString();
+                ClientScript.RegisterStartupScript(this.GetType(), "BudgetWarningModal", "ShowBudgetWarningModal();", true);
+
             }
-            else                
+            else
             {
                 expReportBuilder.AccountantActionOnExpenseReport(expenseId, emp.UserId, ReportStatus.ApprovedByAccounts.ToString());
             }
@@ -117,6 +125,7 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Accounts
             InitializeRepeater();
         }
 
+        //Reject expense when budget has not been exceeded
         protected void btnReject_Click(object sender, ImageClickEventArgs e)
         {
             ImageButton btn = (ImageButton)(sender);
@@ -125,7 +134,42 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Accounts
 
             InitializeRepeater();
         }
-    
+
+        //Approve expense when budget will be exceeded
+        protected void btnConfirmApprove_Click(object sender, EventArgs e)
+        {
+            int expenseId = -1;
+            if (IsExpenseIdValid(hdnExpenseId.Value, out expenseId))
+            {
+                expReportBuilder.AccountantActionOnExpenseReport(expenseId, emp.UserId, ReportStatus.ApprovedByAccounts.ToString());
+                
+            }
+
+            InitializeRepeater();
+        }
+
+        //Reject expense when budget will be exeeded
+        protected void btnConfirmReject_Click(object sender, EventArgs e)
+        {
+            int expenseId = -1;
+            if (IsExpenseIdValid(hdnExpenseId.Value, out expenseId))
+            {
+                expReportBuilder.AccountantActionOnExpenseReport(expenseId, emp.UserId, ReportStatus.RejectedByAccounts.ToString());
+            }
+
+            InitializeRepeater();
+        }
+
+        //check that the expense id is valid
+        protected bool IsExpenseIdValid(string id, out int expenseId)
+        {
+
+            if (Int32.TryParse(id, out expenseId) && expenseId > 0)
+                return true;
+            else
+                return false;
+        }
+
         /// <summary>
         /// Highlight the footer of expense report if the amount will result in the department budget being exceeded
         /// </summary>
@@ -135,7 +179,7 @@ namespace ThreeAmigos.ExpenseManagement.UserInterface.Accounts
         protected string HighlightOverBudget(decimal amount, Department dept)
         {
             BudgetTracker deptBudget = new BudgetTracker();
-            deptBudget.DepartmentBudget(dept.MonthlyBudget,dept.DepartmentId);
+            deptBudget.DepartmentBudget(dept.MonthlyBudget, dept.DepartmentId);
 
             if (deptBudget.IsBudgetExceededAccounts(amount))
                 return "background-color:#f2dede; color:red";

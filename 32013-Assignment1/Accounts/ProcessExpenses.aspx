@@ -1,6 +1,16 @@
 ﻿<%@ Assembly Name="ThreeAmigos.ExpenseManagement.BusinessObject" %>
 <%@ Page Title="" Language="C#" MasterPageFile="~/EM_Default_MasterPage.Master" AutoEventWireup="true" CodeBehind="ProcessExpenses.aspx.cs" Inherits="ThreeAmigos.ExpenseManagement.UserInterface.Accounts.ProcessExpenses" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+        <script type="text/javascript">
+            function ShowBudgetWarningModal() {
+                $('#BudgetWarningModal').modal('show');
+            }
+
+            function HideBudgetWarningModal() {
+                $('#BudgetWarningModal').modal('hide');
+            }
+
+    </script>
     <script>
         function OpenReceipt(receiptFileName) {
             var path = '<%=ConfigurationManager.AppSettings["ReceiptItemFilePath"].ToString() %>'
@@ -85,6 +95,30 @@
                     </asp:Repeater>
 
                 </div>
+            </div>
+        </div>
+    </div>
+
+        <!-- pop modal to to display confirmation when budget limit has been exceeded -->
+    <div class="modal fade bs-example-modal-sm" id="BudgetWarningModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <table class="table">
+                    <tr>
+                        <th colspan="2">Budget Warning</th>
+                    </tr>
+                    <tr><td colspan="2"><asp:Label ID="lblBudgetWarning" runat="server" Text=""></asp:Label></td></tr>
+                    <tr><td><asp:Button ID="btnConfirmApprove" runat="server" CssClass="btn btn-success" Text="Approve" OnClick="btnConfirmApprove_Click" /></td>
+                        <td><asp:Button ID="btnConfirmReject" runat="server" CssClass="btn btn-warning" Text="Reject" OnClick="btnConfirmReject_Click" /></td>
+                    </tr>
+                </table>
+                <p>
+                    
+                    
+                </p>
+                
+                <asp:HiddenField ID="hdnExpenseId" runat="server" />
+                
             </div>
         </div>
     </div>
